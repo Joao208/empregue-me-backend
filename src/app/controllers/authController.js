@@ -5,9 +5,6 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 const mailer = require('../../modules/mailer')
-const multer = require("multer");
-const multerConfig = require("../../config/multer");
-
 
 const authConfig = require('../../config/auth.json')
 
@@ -38,7 +35,6 @@ router.post('/userregister',async (req, res) => {
       email,
       password,
       location,
-      url
     });
 
     user.password = undefined
