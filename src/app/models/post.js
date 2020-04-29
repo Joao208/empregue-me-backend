@@ -11,15 +11,7 @@ const s3 = new aws.S3();
 const TextSchema = new mongoose.Schema({
   Text:String
 })
-
-const ImageSchema = new mongoose.Schema({
-  name: String,
-  size: Number,
-  key: String,
-});
-
 const PostSchema = new mongoose.Schema({
-  Image: ImageSchema,
   Text: TextSchema,
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -30,23 +22,20 @@ const PostSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  url: String,
-
+  avatar: String,
 
 })
 
-ImageSchema.pre("save", function () {
-  if (!this.url) {
-    this.url = `${process.env.APP_URL}/files/${this.key}`;
-  }
-});
+PostSchema.virtual('avatar_url').get(function() {
+  return `${process.env.APP_URL}/files/${this.Avatar}`
+})
 
-ImageSchema.pre("remove", function () {
+PostSchema.pre("remove", function () {
   if ('local' === "s3") {
     return s3
       .deleteObject({
         Bucket: 'serverem',
-        Key: this.key
+        avatar: this.avatar
       })
       .promise()
       .then(response => {
@@ -57,7 +46,7 @@ ImageSchema.pre("remove", function () {
       });
   } else {
     return promisify(fs.unlink)(
-      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.key)
+      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.avatar)
     );
   }
 });

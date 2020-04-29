@@ -44,24 +44,19 @@ const ProfileSchema = new mongoose.Schema({
   },
   premiun:Boolean,
   Text:TextSchema,
-    name: String,
-    size: Number,
-    key: String,  
-    url:String
+  avatar:String
 })
 
-ProfileSchema.pre("save", function () {
-  if (!this.url) {
-    this.url = `${process.env.APP_URL}/files/${this.key}`;
-  }
-});
+ProfileSchema.virtual('avatar_url').get(function() {
+  return `${process.env.APP_URL}/files/${this.Avatar}`
+})
 
 ProfileSchema.pre("remove", function () {
   if ('local' === "s3") {
     return s3
       .deleteObject({
         Bucket: 'serverem',
-        Key: this.key
+        avatar: this.avatar
       })
       .promise()
       .then(response => {
@@ -72,7 +67,7 @@ ProfileSchema.pre("remove", function () {
       });
   } else {
     return promisify(fs.unlink)(
-      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.key)
+      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.avatar)
     );
   }
 });

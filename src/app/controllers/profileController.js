@@ -16,7 +16,7 @@ router.use(authMiddleware)
 router.post("/curriculum", multer(multerConfig).single("file"), async (req, res) => {
   try {
     const Text = req.body
-    const {Image,location:url} = req.file
+    const {Image,location:url = ""} = req.file
     const user = req.userId
 
     const curriculum = await Curriculum.create({
@@ -40,20 +40,13 @@ router.post('/profile', multer(multerConfig).single("file"), async (req, res) =>
   try {
     const user = req.userId
     const Text= req.body
-    const {
-      name,
-      size,
-      key,
-      location:url} = req.file
+    const {location:avatar = ""} = req.file
 
 
     const profile = await Profile.create({
       user,
       Text, 
-      name,
-      size,
-      key,
-      url
+      avatar
     })
 
     return res.send(profile)

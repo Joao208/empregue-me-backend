@@ -13,9 +13,9 @@ const storageTypes = {
       crypto.randomBytes(16, (err, hash) => {
         if (err) cb(err);
 
-        file.key = `${hash.toString("hex")}-${file.originalname}`;
+        file.avatar = `${hash.toString("hex")}-${file.originalname}`;
 
-        cb(null, file.key);
+        cb(null, file.avatar);
       });
     }
   }),
@@ -24,7 +24,7 @@ const storageTypes = {
     bucket:'serverem',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: "public-read",
-    key: (req, file, cb) => {
+    avatar: (req, file, cb) => {
       crypto.randomBytes(16, (err, hash) => {
         if (err) cb(err);
 

@@ -25,14 +25,13 @@ router.get("/posts", async (req, res) => {
 router.post("/posts", multer(multerConfig).single("file"), async (req, res) => {
   try {
     const Text = req.body
-    const {Image, location:url} = req.file
+    const {location:avatar} = req.file
     const user = req.userId
 
     const post = await Post.create({
       Text,
-      Image,
       user,
-      url
+      avatar
     })
 
     return res.json(post)
