@@ -11,6 +11,7 @@ const Coments = require('../models/coments')
 const Vacancies = require('../models/vacancies')
 const authMiddleware = require('../middlewares/auth')
 const Booking = require('../models/booking')
+const User = require('../models/user')
 
 const router = Router();
 
@@ -51,6 +52,13 @@ router.delete("/posts/:id", async (req, res) => {
 
   return res.send();
 });
+
+router.get("/user", async (req, res) => {
+  const user = await User.findById(req.userId);
+
+  return res.send(user);
+});
+
 
 router.get("/add", async (req, res) => {
   const adds = await Add.find().populate('bussines');
