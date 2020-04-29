@@ -2,25 +2,16 @@ const mongoose = require('../../database')
 const bcrypt = require('bcryptjs')
 const PointSchema = require('./utils/PointSchema');
 
-
-const InputSchema = new mongoose.Schema({
-    name:{
-        type:String,
-        require:true,
-    },
-
-})
-
 const UserSchema = new mongoose.Schema({
     email:{
         type:String,
         unique:true,
-        required:true,
+        require:true,
         lowercase:true,
     },
     password:{
         type:String,
-        required:true,
+        require:true,
         select:false,
     },
     passwordResetToken:{
@@ -35,14 +26,11 @@ const UserSchema = new mongoose.Schema({
         type:Date,
         default:Date.now
     },
-    inputs:InputSchema,
+    name:String,
     location: {
-      type: PointSchema,
-      index: '2dsphere'
-    },
-    url: String,
-
-  
+        type: PointSchema,
+        index: '2dsphere'
+      },
 })
 
 UserSchema.pre('save', async function(next){

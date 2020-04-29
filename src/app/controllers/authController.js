@@ -17,7 +17,8 @@ function generateToken(params = {}) {
 }
 
 router.post('/userregister',async (req, res) => {
-  const {input,email,password,latitude, longitude} = req.body
+
+  const {name,email,password,latitude, longitude} = req.body
 
   try {
     if (await User.findOne({
@@ -26,15 +27,15 @@ router.post('/userregister',async (req, res) => {
       return res.status(400).send({
         error: 'User already exists'
       })
-      const location = {
-        type: 'Point',
-        coordinates: [longitude, latitude]
-      }
+    const location = {
+      type: 'Point',
+      coordinates: [longitude, latitude]
+    }
     const user = await User.create({
-      input,
       email,
       password,
       location,
+      name 
     });
 
     user.password = undefined

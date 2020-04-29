@@ -2,47 +2,15 @@ const mongoose = require('../../database')
 const bcrypt = require('bcryptjs')
 const PointSchema = require('./utils/PointSchema');
 
-  
 const CnpjIShcema = new mongoose.Schema({
-    atividade_principal:{
-        type:Array,
-        required:true,
-
-    },
-    complemento:{
-        type:String,
-        required:true,
-
-    },
-    telefone:{
-        type:String,
-        required:true,
-
-    },
-    situacao:{
-        type:String,
-        required:true,
-
-    },
-    logradouro:{
-        type:String,
-        required:true,
-
-    },
-    numero:{
-        type:String,
-        required:true,
-
-    },
-    cep:{
-        type:String,
-        required:true,
-
-    },
-    nome:{
-        type:String
-    },
-
+    atividade_principal:Array,
+    complemento:String,
+    telefone:String,
+    situacao:String,
+    logradouro:String,
+    numero:String,
+    cep:String,
+    nome:String
 
 })
 
@@ -78,11 +46,6 @@ const BussinesSchema = new mongoose.Schema({
       type: PointSchema,
       index: '2dsphere'
     },
-    url: String,
-
-
-
-
 })
 BussinesSchema.pre('save', async function(next){
     const hash = await bcrypt.hash(this.password,10)
@@ -90,7 +53,6 @@ BussinesSchema.pre('save', async function(next){
     
     next()
 })
-
 
 const Bussines = mongoose.model('Bussines', BussinesSchema)
 
