@@ -36,25 +36,24 @@ router.post("/curriculum", multer(multerConfig).single("file"), async (req, res)
   } 
 }); 
 
-router.post('/profile', async (req, res) => {
+router.post('/profile', multer(multerConfig).single("file"), async (req, res) => {
   try {
     const user = req.userId
+    const Text= req.body
     const {
-      FacebookUrl,
-      about
-    } = req.body
+      name,
+      size,
+      key,
+      location:url} = req.file
 
-     if (await Profile.findOne({
-         user
-      }))
-    return res.status(400).send({
-        error: 'Profile already created'
-      })
 
     const profile = await Profile.create({
       user,
-      FacebookUrl,
-      about
+      Text, 
+      name,
+      size,
+      key,
+      url
     })
 
     return res.send(profile)
@@ -95,5 +94,14 @@ router.get("/profile/:id", async (req, res) => {
     })
   }
 })
+
+router.delete("/profile/:id", async (req, res) => {
+  const profile = await Profile.findById(req.params.id);
+
+  await profile.remove();
+
+  return res.send();
+});
+
 
 module.exports = app => app.use(router)
