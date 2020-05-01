@@ -8,6 +8,10 @@ const Curriculum = require('../models/curriculum')
 const authMiddleware = require('../middlewares/auth')
 const multer = require("multer")
 const multerConfig = require("../../config/multer")
+const User = require('../models/user')
+const Nexmo = require('nexmo')
+const crypto = require('crypto')
+
 
 const router = Router();
 
@@ -16,7 +20,10 @@ router.use(authMiddleware)
 router.post("/curriculum", multer(multerConfig).single("file"), async (req, res) => {
   try {
     const Text = req.body
-    const {Image,location:url = ""} = req.file
+    const {
+      Image,
+      location: url = ""
+    } = req.file
     const user = req.userId
 
     const curriculum = await Curriculum.create({
@@ -33,43 +40,75 @@ router.post("/curriculum", multer(multerConfig).single("file"), async (req, res)
     return res.status(400).send({
       error: 'Error in creating new curriculum'
     })
-  } 
-}); 
+  }
+});
 
 router.post('/profile', multer(multerConfig).single("file"), async (req, res) => {
   try {
-    const user = req.userId
-    const Text= req.body
-    const {location:avatar = ""} = req.file
 
-
-    const profile = await Profile.create({
-      user,
-      Text, 
-      avatar
+    const user = await User.findOne({
+      _id: req.userId
     })
 
-    return res.send(profile)
+    if (!user)
+      return res.status(400).send({
+        error: 'User not found'
+      })
 
-  } catch (e) {
-    console.log(e)
-    return res.status(400).send({
-      error: 'Error in create a new profile'
+    const {
+      location: avatar
+    } = req.file
+
+    const {
+      FacebookUrl,
+      InstagramUrl,
+      TwitterUrl,
+      YouTubeUrl,
+      GithubUrl,
+      bio,
+    } = req.body
+
+    await Profile.create({
+      user
+    })
+
+    await User.findByIdAndUpdate(user.id, {
+      '$set': {
+        avatar,
+        FacebookUrl,
+        InstagramUrl,
+        TwitterUrl,
+        YouTubeUrl,
+        GithubUrl,
+        bio,
+      }
+    })
+
+    return res.send(user)
+
+  } catch (err) {
+    console.log(err)
+    res.status(400).send({
+      error: 'Error on updte profile, try again'
     })
   }
 })
 
-router.get("/profile/:id", async (req, res) => {
+router.get("/profileview", async (req, res) => {
   try {
-    const user = req.params.id
-    const post = await Post.find({user:user}).populate('post')
-    const curriculum = await Curriculum.find({user:user}).populate('curriculum')
-
+    const user = (req.userId)
+    const post = await Post.find({
+      user: user
+    }).populate('post')
     const profile = await Profile.find({
       user: user
-    }).populate('user')
+    }).populate('user').populate('profile')
+    const curriculum = await Curriculum.find({
+      user: user
+    }).populate('curriculum')
 
     const profileuser = ({
+      user,
       post,
       profile,
       curriculum,
@@ -95,6 +134,5 @@ router.delete("/profile/:id", async (req, res) => {
 
   return res.send();
 });
-
 
 module.exports = app => app.use(router)

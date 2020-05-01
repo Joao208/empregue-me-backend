@@ -12,7 +12,7 @@ const router = express.Router()
 
 function generateToken(params = {}) {
   return jwt.sign(params, authConfig.secret, {
-    expiresIn: 86400
+    expiresIn: 864000
   })
 }
 
@@ -146,7 +146,7 @@ router.post('/forgot_password', async (req, res) => {
         error: 'User not found'
       })
 
-    const token = crypto.randomBytes(20).toString('hex')
+    const token = crypto.randomBytes(6).toString('hex')
 
     const now = new Date();
     now.setHours(now.getHours() + 1)

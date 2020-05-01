@@ -54,7 +54,8 @@ router.delete("/posts/:id", async (req, res) => {
 });
 
 router.get("/user", async (req, res) => {
-  const user = await User.findById(req.userId);
+  const userid = req.userId
+  const user = await User.find({_id:userid});
 
   return res.send(user);
 });
