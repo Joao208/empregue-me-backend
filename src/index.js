@@ -5,6 +5,7 @@ const path = require('path')
 const socketio = require('socket.io');
 const http = require('http');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express()
 
@@ -32,6 +33,7 @@ app.use(cors())
 
 require("dotenv").config();
 
+app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true

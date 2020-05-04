@@ -28,6 +28,7 @@
     "express-promise-router": "^3.0.3",
     "fs": "^0.0.1-security",
     "googleapis": "^38.0.0",
+    "html-pdf": "^2.2.0",
     "http": "0.0.1-security",
     "image-downloader": "^3.4.2",
     "joi": "^14.3.1",

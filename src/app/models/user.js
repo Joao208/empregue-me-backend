@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
     YouTubeUrl:String,
     GithubUrl:String,
     bio:String,
-    phone:String,
+    phone:Number,
     phonetoken:String,
     phonetokenexpiress:Date,
     avatar:String,
