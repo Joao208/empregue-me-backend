@@ -109,7 +109,7 @@ router.post("/curriculum", multer(multerConfig).single("file"), async (req, res)
   }
 });
 
-router.post('/profile', multer(multerConfig).single("file"), async (req, res) => {
+router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) => {
   try {
 
     const user = await User.findOne({
