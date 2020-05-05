@@ -27,7 +27,6 @@ const VacanciesSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Bussines'
   },
-  image: ImageSchema,
   text: TextSchema,
   avatar:String
 
