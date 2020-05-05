@@ -103,17 +103,16 @@ router.get("/vacancies", async (req, res) => {
   return res.json(vacancies);
 });
 
-router.post("/vacancies", multer(multerConfig).single("file"), async (req, res) => {
+router.post("/vacancies", multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const text = req.body
-    const {image,location:url} = req.file
+    const {location:avatar = ""} = req.file
     const bussines = req.userId
 
     const vacancies = await Vacancies.create({
       text,
-      image,
       bussines,
-      url
+      avatar
     })
     return res.json(vacancies);
   } catch (e) {

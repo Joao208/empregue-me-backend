@@ -8,12 +8,6 @@ const {
 
 const s3 = new aws.S3();
 
-const ImageSchema = new mongoose.Schema({
-  name: String,
-  size: Number,
-  key: String,
-})
-
 const TextSchema = new mongoose.Schema({
   description:String,
   salary:Number,
@@ -35,22 +29,20 @@ const VacanciesSchema = new mongoose.Schema({
   },
   image: ImageSchema,
   text: TextSchema,
-  url: String,
+  avatar:String
 
 });
 
-ImageSchema.pre("save", function () {
-  if (!this.url) {
-    this.url = `${process.env.APP_URL}/files/${this.key}`;
-  }
-});
+VacanciesSchema.virtual('avatar_url').get(function() {
+  return `${process.env.APP_URL}/files/${this.Avatar}`
+})
 
-ImageSchema.pre("remove", function () {
+VacanciesSchema.pre("remove", function () {
   if ('local' === "s3") {
     return s3
       .deleteObject({
         Bucket: 'serverem',
-        Key: this.key
+        avatar: this.avatar
       })
       .promise()
       .then(response => {
@@ -61,9 +53,10 @@ ImageSchema.pre("remove", function () {
       });
   } else {
     return promisify(fs.unlink)(
-      path.resolve(__dirname, "..", "..","..","tmp", "uploads", this.key)
+      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.avatar)
     );
   }
 });
+
 
 module.exports = mongoose.model("Vacancies", VacanciesSchema);
