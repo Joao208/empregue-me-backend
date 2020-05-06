@@ -26,7 +26,9 @@ router.get("/posts", async (req, res) => {
 router.post("/posts", multer(multerConfig).single("file"), async (req, res) => {
   try {
     const Text = req.body
-    const {location:avatar = ""} = req.file
+    const {
+      location: avatar = ""
+    } = req.file
     const user = req.userId
 
     const post = await Post.create({
@@ -55,7 +57,9 @@ router.delete("/posts/:id", async (req, res) => {
 
 router.get("/user", async (req, res) => {
   const userid = req.userId
-  const user = await User.find({_id:userid});
+  const user = await User.find({
+    _id: userid
+  });
 
   return res.send(user);
 });
@@ -70,7 +74,10 @@ router.get("/add", async (req, res) => {
 router.post("/add", multer(multerConfig).single("file"), async (req, res) => {
   try {
     const text = req.body
-    const {image,location:url} = req.file
+    const {
+      image,
+      location: url
+    } = req.file
     const bussines = req.userId
 
     const add = await Add.create({
@@ -106,7 +113,9 @@ router.get("/vacancies", async (req, res) => {
 router.post("/vacancies", multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const text = req.body
-    const {location:avatar = ""} = req.file
+    const {
+      location: avatar = ""
+    } = req.file
     const bussines = req.userId
 
     const vacancies = await Vacancies.create({
@@ -123,7 +132,13 @@ router.post("/vacancies", multer(multerConfig).single("avatar"), async (req, res
     })
   }
 });
+router.get("/vacancie/:id", async (req, res) => {
+const jobs = await Vacancies.findById(req.params.id)
 
+await jobs.populate('bussines').execPopulate()
+
+return res.send(jobs)
+})
 router.delete("/vacancies/:id", async (req, res) => {
   const vacancies = await Vacancies.findById(req.params.id);
 
@@ -215,7 +230,10 @@ router.get("/postsbussines", async (req, res) => {
 router.post("/postsbussines", multer(multerConfig).single("file"), async (req, res) => {
   try {
     const Text = req.body
-    const {Image,location:url} = req.file
+    const {
+      Image,
+      location: url
+    } = req.file
     const bussines = req.userId
 
     const post = await Post.create({

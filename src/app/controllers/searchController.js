@@ -23,9 +23,9 @@ module.exports = {
 
   async store(req, res) {
     try {
-      const name = req.body
+      const title = req.body
 
-      const vacancies = await Vacancies.find(name)
+      const vacancies = await Vacancies.find(title)
 
       return res.json(vacancies)
 
