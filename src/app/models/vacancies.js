@@ -13,6 +13,8 @@ const TextSchema = new mongoose.Schema({
   salary:Number,
   uf:String,
   city:String,
+  cargo:String,
+  employment:String,
   title:String,
 })
 

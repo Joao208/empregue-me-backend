@@ -5,9 +5,6 @@ const ProfileBSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  AvatarUrl: String,
-  ThumbUrl: String,
-  Description: String,
   bussines: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Bussines',

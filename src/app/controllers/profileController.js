@@ -12,8 +12,12 @@ const User = require('../models/user')
 const Nexmo = require('nexmo')
 const crypto = require('crypto')
 const pdf = require('html-pdf')
-
-const router = Router();
+const Bussines = require('../models/bussines')
+const Add = require('../models/add')
+const PostB = require('../models/postbussines')
+const Vacancies = require('../models/vacancies')
+const ProfileB = require('../models/profilebussines')
+const router = Router()
 
 router.use(authMiddleware)
 
@@ -159,6 +163,120 @@ router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) 
     })
   }
 })
+router.post('/profilebussines', multer(multerConfig).single("avatar"), async (req, res) => {
+  try {
+
+    const bussines = await Bussines.findOne({
+      _id: req.userId
+    })
+
+    if (!bussines)
+      return res.status(400).send({
+        error: 'Bussines not found'
+      })
+
+    const {
+      location: avatar = ""
+    } = req.file
+
+    const {
+      bio,
+      site,
+    } = req.body
+
+    await ProfileB.create({
+      bussines
+    })
+
+    await Bussines.findByIdAndUpdate(bussines.id, {
+      '$set': {
+        avatar,
+        bio,
+        site,
+      }
+    })
+
+    return res.send(bussines)
+
+  } catch (err) {
+    console.log(err)
+    res.status(400).send({
+      error: 'Error on updte profile, try again'
+    })
+  }
+})
+router.get("/profilebussinesv", async (req, res) => {
+  try {
+    const bussines = (req.userId)
+    const post = await PostB.find({
+      bussines: bussines
+    }).populate('post').populate('bussines')
+    const profile = await ProfileB.find({
+      bussines: bussines
+    }).populate('bussines').populate('profile')
+    const add = await Add.find({
+      bussines : bussines
+    }).populate('add')
+    const vacancies = await Vacancies.find({
+      bussines:bussines
+    }).populate('vacancies')
+
+    const profileuser = ({
+      bussines,
+      post,
+      profile,
+      add,
+      vacancies
+    })
+
+    if (profile === null)
+      return res.send('User does not have a profile')
+
+    return res.send(profileuser)
+
+  } catch (e) {
+    console.log(e)
+    return res.status(400).send({
+      error: 'Error in find user profile'
+    })
+  }
+})
+router.get("/profilebussinesv/:id", async (req, res) => {
+  try {
+    const bussines = (req.params.id)
+    const post = await PostB.find({
+      bussines: bussines
+    }).populate('post').populate('user')
+    const profile = await ProfileB.find({
+      bussines: bussines
+    }).populate('user').populate('profile')
+    const add = await Add.find({
+      bussines : bussines
+    }).populate('curriculum')
+    const vacancies = await Vacancies.find({
+      bussines:bussines
+    }).populate('vacancies')
+
+    const profileuser = ({
+      bussines,
+      post,
+      profile,
+      add,
+      vacancies
+    })
+
+    if (profile === null)
+      return res.send('User does not have a profile')
+
+    return res.send(profileuser)
+
+  } catch (e) {
+    console.log(e)
+    return res.status(400).send({
+      error: 'Error in find user profile'
+    })
+  }
+})
 
 router.get("/profileview", async (req, res) => {
   try {
@@ -181,6 +299,37 @@ router.get("/profileview", async (req, res) => {
     })
 
 
+    if (profile === null)
+      return res.send('User does not have a profile')
+
+    return res.send(profileuser)
+
+  } catch (e) {
+    console.log(e)
+    return res.status(400).send({
+      error: 'Error in find user profile'
+    })
+  }
+})
+router.get("/profileview/:id", async (req, res) => {
+  try {
+    const user = (req.params.id)
+    const post = await Post.find({
+      user: user
+    }).populate('post').populate('user')
+    const profile = await Profile.find({
+      user: user
+    }).populate('user').populate('profile')
+    const curriculum = await Curriculum.find({
+      user: user
+    }).populate('curriculum')
+
+    const profileuser = ({
+      user,
+      post,
+      profile,
+      curriculum,
+    })
     if (profile === null)
       return res.send('User does not have a profile')
 
