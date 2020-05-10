@@ -115,9 +115,11 @@ router.post("/curriculum", multer(multerConfig).single("file"), async (req, res)
 
 router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) => {
   try {
-
     const user = await User.findOne({
       _id: req.userId
+    })
+    const profile = await Profile.findOne({
+      user: user
     })
 
     if (!user)
@@ -138,22 +140,35 @@ router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) 
       bio,
     } = req.body
 
-    await Profile.create({
-      user
-    })
+    if (profile === null) {
+      await Profile.create({
+        user
+      })
 
-    await User.findByIdAndUpdate(user.id, {
-      '$set': {
-        avatar,
-        FacebookUrl,
-        InstagramUrl,
-        TwitterUrl,
-        YouTubeUrl,
-        GithubUrl,
-        bio,
-      }
-    })
-
+      await User.findByIdAndUpdate(user.id, {
+        '$set': {
+          avatar,
+          FacebookUrl,
+          InstagramUrl,
+          TwitterUrl,
+          YouTubeUrl,
+          GithubUrl,
+          bio,
+        }
+      })
+    } else {
+      await User.findByIdAndUpdate(user.id, {
+        '$set': {
+          avatar,
+          FacebookUrl,
+          InstagramUrl,
+          TwitterUrl,
+          YouTubeUrl,
+          GithubUrl,
+          bio,
+        }
+      })
+    }
     return res.send(user)
 
   } catch (err) {
@@ -165,11 +180,12 @@ router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) 
 })
 router.post('/profilebussines', multer(multerConfig).single("avatar"), async (req, res) => {
   try {
-
     const bussines = await Bussines.findOne({
       _id: req.userId
     })
-
+    const profile = await ProfileB.findOne({
+      bussines: bussines
+    })
     if (!bussines)
       return res.status(400).send({
         error: 'Bussines not found'
@@ -184,18 +200,28 @@ router.post('/profilebussines', multer(multerConfig).single("avatar"), async (re
       site,
     } = req.body
 
-    await ProfileB.create({
-      bussines
-    })
+    if (profile === null) {
+      await ProfileB.create({
+        bussines
+      })
 
-    await Bussines.findByIdAndUpdate(bussines.id, {
-      '$set': {
-        avatar,
-        bio,
-        site,
-      }
-    })
+      await Bussines.findByIdAndUpdate(bussines.id, {
+        '$set': {
+          avatar,
+          bio,
+          site,
+        }
+      })
+    } else {
+      await Bussines.findByIdAndUpdate(bussines.id, {
+        '$set': {
+          avatar,
+          bio,
+          site,
+        }
+      })
 
+    }
     return res.send(bussines)
 
   } catch (err) {
@@ -215,10 +241,10 @@ router.get("/profilebussinesv", async (req, res) => {
       bussines: bussines
     }).populate('bussines').populate('profile')
     const add = await Add.find({
-      bussines : bussines
+      bussines: bussines
     }).populate('add')
     const vacancies = await Vacancies.find({
-      bussines:bussines
+      bussines: bussines
     }).populate('vacancies')
 
     const profileuser = ({
@@ -246,15 +272,15 @@ router.get("/profilebussinesv/:id", async (req, res) => {
     const bussines = (req.params.id)
     const post = await PostB.find({
       bussines: bussines
-    }).populate('post').populate('user')
+    }).populate('post').populate('bussines')
     const profile = await ProfileB.find({
       bussines: bussines
-    }).populate('user').populate('profile')
+    }).populate('bussines').populate('profile')
     const add = await Add.find({
-      bussines : bussines
-    }).populate('curriculum')
+      bussines: bussines
+    }).populate('add')
     const vacancies = await Vacancies.find({
-      bussines:bussines
+      bussines: bussines
     }).populate('vacancies')
 
     const profileuser = ({
