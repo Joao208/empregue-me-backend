@@ -18,12 +18,28 @@ const router = Router();
 router.use(authMiddleware)
 
 router.get("/posts", async (req, res) => {
-  const posts = await Post.find().populate('user');
+  const user = await User.findById(req.userId)
+  const {
+    following
+  } = user
+  const posts = await Post.find({
+      user: {
+        $in: [user.id, ...following]
+      }
+    }).populate('user').limit(30)
+    .sort('-createdAt')
 
-  return res.json(posts);
+  const comments = await Coments.find({
+    post: posts
+  }).populate('post').count()
+
+  return res.json({
+    posts,
+    comments
+  });
 });
 
-router.post("/posts", multer(multerConfig).single("file"), async (req, res) => {
+router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const Text = req.body
     const {
@@ -66,9 +82,24 @@ router.get("/user", async (req, res) => {
 
 
 router.get("/add", async (req, res) => {
-  const adds = await Add.find().populate('bussines');
+  const user = await User.findById(req.userId)
+  const {
+    following
+  } = user
+  const adds = await Add.find({
+      user: {
+        $in: [user.id, ...following]
+      }
+    }).populate('bussines').limit(3)
+    .sort('-createdAt')
+  const comments = await Coments.find({
+    add: adds
+  }).populate('add').count()
 
-  return res.json(adds);
+  return res.json({
+    adds,
+    comments
+  });
 });
 
 router.post("/add", multer(multerConfig).single("file"), async (req, res) => {
@@ -133,11 +164,11 @@ router.post("/vacancies", multer(multerConfig).single("avatar"), async (req, res
   }
 });
 router.get("/vacancie/:id", async (req, res) => {
-const jobs = await Vacancies.findById(req.params.id)
+  const jobs = await Vacancies.findById(req.params.id)
 
-await jobs.populate('bussines').execPopulate()
+  await jobs.populate('bussines').execPopulate()
 
-return res.send(jobs)
+  return res.send(jobs)
 })
 router.delete("/vacancies/:id", async (req, res) => {
   const vacancies = await Vacancies.findById(req.params.id);
@@ -171,28 +202,6 @@ router.post("/coment/:id", async (req, res) => {
     console.log(e)
   }
 })
-
-router.get("/coments/:id", async (req, res) => {
-  try {
-    const post = req.params.id
-    const add = req.params.id
-    const postb = req.params.id
-
-    const coments = await Coments.find({
-      post: post,
-      add: add,
-      postb: postb
-    })
-
-    return res.json(coments);
-  } catch (e) {
-    console.log(e)
-    return res.status(400).send({
-      error: "Error in get coments"
-    })
-  }
-})
-
 router.post("/vacancies/:id/booking", async (req, res) => {
   try {
     const user = req.userId
@@ -222,9 +231,25 @@ router.post("/vacancies/:id/booking", async (req, res) => {
 })
 
 router.get("/postsbussines", async (req, res) => {
-  const posts = await PostB.find().populate('bussines');
+  const user = await User.findById(req.userId)
+  const {
+    following
+  } = user
+  const posts = await PostB.find({
+      user: {
+        $in: [user.id, ...following]
+      }
+    }).populate('user').limit(30)
+    .sort('-createdAt')
 
-  return res.json(posts);
+  const comments = await Coments.find({
+    post: posts
+  }).populate('post').count()
+
+  return res.json({
+    posts,
+    comments
+  });
 });
 
 router.post("/postsbussines", multer(multerConfig).single("file"), async (req, res) => {

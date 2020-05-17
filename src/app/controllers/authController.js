@@ -16,9 +16,15 @@ function generateToken(params = {}) {
   })
 }
 
-router.post('/userregister',async (req, res) => {
+router.post('/userregister', async (req, res) => {
 
-  const {name,email,password,latitude, longitude} = req.body
+  const {
+    name,
+    email,
+    password,
+    latitude,
+    longitude
+  } = req.body
 
   try {
     if (await User.findOne({
@@ -35,7 +41,7 @@ router.post('/userregister',async (req, res) => {
       email,
       password,
       location,
-      name 
+      name
     });
 
     user.password = undefined
@@ -58,38 +64,38 @@ router.post('/userregister',async (req, res) => {
 })
 
 router.post('/authenticate', async (req, res) => {
-try{
+  try {
 
-  const {
-    email,
-    password
-  } = req.body;
+    const {
+      email,
+      password
+    } = req.body;
 
-  const user = await User.findOne({
-    email
-  }).select('+password')
+    const user = await User.findOne({
+      email
+    }).select('+password')
 
-  if (!user)
-    return res.status(400).send({
-      error: 'User does not exist'
+    if (!user)
+      return res.status(400).send({
+        error: 'User does not exist'
+      })
+
+    if (!await bcrypt.compare(password, user.password))
+      return res.status(400).send({
+        error: 'Senha invalida'
+      })
+
+    user.password = undefined
+
+    res.send({
+      user,
+      token: generateToken({
+        id: user.id
+      })
     })
-
-  if (!await bcrypt.compare(password, user.password))
-    return res.status(400).send({
-      error: 'Senha invalida'
-    })
-
-  user.password = undefined
-
-  res.send({
-    user,
-    token: generateToken({
-      id: user.id
-    })
-  })
-} catch(error) {
-  console.log(err)
-}
+  } catch (error) {
+    console.log(err)
+  }
 })
 
 router.post('/bussinesauthenticate', async (req, res) => {
@@ -126,7 +132,11 @@ router.post('/bussinesauthenticate', async (req, res) => {
 router.get('/userregister', async (req, res) => {
   const user = await User.find();
 
-  return res.json(user);
+  return res.json({
+    user,
+    followersCount: user.followers.length,
+    followingCount: user.following.length
+  });
 }, )
 
 

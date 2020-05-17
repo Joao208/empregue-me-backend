@@ -21,7 +21,7 @@ const router = Router()
 
 router.use(authMiddleware)
 
-router.post("/curriculum", multer(multerConfig).single("file"), async (req, res) => {
+router.post("/curriculum", multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const {
       name,
@@ -90,11 +90,9 @@ router.post("/curriculum", multer(multerConfig).single("file"), async (req, res)
     
     <p><label>Curso</label>${qualifications}</p>
     </div>
-
-		
     `
 
-    await pdf.create(conteudo, {}).toFile(`./${user}.pdf`, (err, response) => {
+    const curriculumPdf = await pdf.create(conteudo, {}).toFile(`./${user}.pdf`, (err, response) => {
       if (err) {
         console.log(err)
       } else {
@@ -248,6 +246,8 @@ router.get("/profilebussinesv", async (req, res) => {
     }).populate('vacancies')
 
     const profileuser = ({
+      followersCount: bussines.followers.length,
+      followingCount: bussines.following.length,
       bussines,
       post,
       profile,
@@ -288,7 +288,9 @@ router.get("/profilebussinesv/:id", async (req, res) => {
       post,
       profile,
       add,
-      vacancies
+      vacancies,
+      followersCount: bussines.followers.length,
+      followingCount: bussines.following.length
     })
 
     if (profile === null)
@@ -306,7 +308,7 @@ router.get("/profilebussinesv/:id", async (req, res) => {
 
 router.get("/profileview", async (req, res) => {
   try {
-    const user = (req.userId)
+    const user = await User.findById(req.userId)
     const post = await Post.find({
       user: user
     }).populate('post').populate('user')
@@ -317,18 +319,17 @@ router.get("/profileview", async (req, res) => {
       user: user
     }).populate('curriculum')
 
-    const profileuser = ({
+    if (profile === null)
+    return res.send('User does not have a profile')
+
+    return res.json({
       user,
+      curriculum,
       post,
       profile,
-      curriculum,
+      followersCount: user.followers.length,
+      followingCount: user.following.length
     })
-
-
-    if (profile === null)
-      return res.send('User does not have a profile')
-
-    return res.send(profileuser)
 
   } catch (e) {
     console.log(e)
@@ -339,7 +340,7 @@ router.get("/profileview", async (req, res) => {
 })
 router.get("/profileview/:id", async (req, res) => {
   try {
-    const user = (req.params.id)
+    const user = await User.findById(req.params.id)
     const post = await Post.find({
       user: user
     }).populate('post').populate('user')
@@ -355,6 +356,8 @@ router.get("/profileview/:id", async (req, res) => {
       post,
       profile,
       curriculum,
+      followersCount: user.followers.length,
+      followingCount: user.following.length
     })
     if (profile === null)
       return res.send('User does not have a profile')

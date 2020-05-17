@@ -1,39 +1,17 @@
 const mongoose = require('../../database')
 const bcrypt = require('bcryptjs')
-const PointSchema = require('./utils/PointSchema');
 
-const CnpjIShcema = new mongoose.Schema({
-    atividade_principal:Array,
-    complemento:String,
-    telefone:String,
-    situacao:String,
-    logradouro:String,
-    numero:String,
-    cep:String,
-    nome:String
-
-})
-
-const BussinesSchema = new mongoose.Schema({
-    cnpj:{
-        type:Number,
-    },
+const SchoolSchema = new mongoose.Schema({
     email:{
         type:String,
         unique:true,
-        required:true,
+        require:true,
         lowercase:true,
-        },
+    },
     password:{
         type:String,
-        required:true,
+        require:true,
         select:false,
-    },
-    followers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
-    following: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
-    createdAd:{
-        type:Date,
-        default:Date.now
     },
     passwordResetToken:{
         type:String,
@@ -43,26 +21,30 @@ const BussinesSchema = new mongoose.Schema({
         type:Date,
         select:false
     },
-    cnpjI:CnpjIShcema,
-    location: {
-      type: PointSchema,
-      index: '2dsphere'
+    createdAd:{
+        type:Date,
+        default:Date.now
     },
-    avatar:String,
+    name:String,
     bio:String,
-    site:String
+    phone:Number,
+    phonetoken:String,
+    phonetokenexpiress:Date,
+    avatar:String
 })
 
-BussinesSchema.pre('save', async function hashPassword (next) {
+
+SchoolSchema.pre('save', async function hashPassword (next) {
   if (!this.isModified('password')) return next()
 
   this.password = await bcrypt.hash(this.password, 8)
 })
-BussinesSchema.virtual('avatar_url').get(function() {
+
+SchoolSchema.virtual('avatar_url').get(function() {
     return `${process.env.APP_URL}/files/${this.Avatar}`
   })
   
-BussinesSchema.pre("remove", function () {
+  SchoolSchema.pre("remove", function () {
     if ('local' === "s3") {
       return s3
         .deleteObject({
@@ -83,8 +65,7 @@ BussinesSchema.pre("remove", function () {
     }
   });
   
+  
+const School = mongoose.model('School', SchoolSchema)
 
-
-const Bussines = mongoose.model('Bussines', BussinesSchema)
-
-module.exports = Bussines
+module.exports = School

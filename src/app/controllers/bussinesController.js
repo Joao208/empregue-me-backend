@@ -8,7 +8,11 @@ module.exports = {
   async index(request, response) {
     const bussines = await Bussines.find();
 
-    return response.json(bussines);
+    return response.json({
+      bussines,
+      followersCount: bussines.followers.length,
+      followingCount: bussines.following.length
+    });
   },
 
   async store(request, response) {
@@ -16,13 +20,13 @@ module.exports = {
       return jwt.sign(params, authConfig.secret, {
         expiresIn: 86400
       })
-    }    
+    }
     const {
       email,
       cnpj,
       password,
       createdAd,
-      latitude, 
+      latitude,
       longitude
     } = request.body;
 
@@ -60,8 +64,8 @@ module.exports = {
           id: bussines.id
         })
       })
-  
-  
+
+
     } catch (err) {
       console.log(err)
       return response.status(400).send({

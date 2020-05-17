@@ -22,7 +22,8 @@ const PostSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  avatar: String,
+  likes: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+  avatar:String,
 
 })
 

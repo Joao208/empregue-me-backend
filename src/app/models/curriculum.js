@@ -1,11 +1,6 @@
 const mongoose = require('../../database')
 
-const TextSchema = new mongoose.Schema({
-
-})
-
 const CurriculumSchema = new mongoose.Schema({
-  Text: TextSchema,
   createdAd: {
     type: Date,
     default: Date.now

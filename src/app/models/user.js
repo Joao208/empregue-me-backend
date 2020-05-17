@@ -26,6 +26,8 @@ const UserSchema = new mongoose.Schema({
         type:Date,
         default:Date.now
     },
+    followers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+    following: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     name:String,
     FacebookUrl:String,
     InstagramUrl:String,
@@ -43,11 +45,11 @@ const UserSchema = new mongoose.Schema({
       },
 })
 
-UserSchema.pre('save', async function(next){
-    const hash = await bcrypt.hash(this.password,10)
-    this.password = hash
-    
-    next()
+
+UserSchema.pre('save', async function hashPassword (next) {
+  if (!this.isModified('password')) return next()
+
+  this.password = await bcrypt.hash(this.password, 8)
 })
 
 UserSchema.virtual('avatar_url').get(function() {

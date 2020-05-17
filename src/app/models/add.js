@@ -30,6 +30,7 @@ const AddSchema = new mongoose.Schema({
     ref: 'Bussines'
   },
   text: TextSchema,
+  likes: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
   image: ImageSchema,
   url: String,
 
