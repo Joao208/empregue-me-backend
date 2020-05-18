@@ -311,7 +311,7 @@ router.get("/profileview", async (req, res) => {
     const user = await User.findById(req.userId)
     const post = await Post.find({
       user: user
-    }).populate('post')
+    }).populate('post').populate('user')
     const profile = await Profile.find({
       user: user
     }).populate('user').populate('profile')
