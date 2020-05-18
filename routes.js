@@ -11,6 +11,8 @@ const addLikeController = require('./src/app/controllers/addLikeController')
 const postbLikeController = require('./src/app/controllers/postbLikeController')
 const followersController = require('./src/app/controllers/followController')
 const followersbController = require('./src/app/controllers/followbController')
+const sujestionController = require('./src/app/controllers/sujestionController')
+
 
 const routes = Router();
 
@@ -29,6 +31,7 @@ routes.post('/follow/:id', followersController.create)
 routes.delete('/unfollow/:id', followersController.destroy)
 routes.post('/follow/:id', followersbController.create)
 routes.delete('/unfollow/:id', followersbController.destroy)
+routes.get('/sujestion', sujestionController.index)
 
 
 module.exports = routes;

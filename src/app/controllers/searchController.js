@@ -8,10 +8,13 @@ module.exports = {
   async index(req, res) {
     try {
       const name = req.body
+      console.log(name)
+      const users = await User.find({ name: { $regex: `${name}`, $options: "i" } }, function(err, docs) {
+        console.log("Partial Search Begins");
+        console.log(docs);
+        })
 
-      const users = await User.find(name)
-
-      return res.json(users)
+        return res.json(users)
 
     } catch (e) {
       console.log(e)
@@ -24,8 +27,11 @@ module.exports = {
   async store(req, res) {
     try {
       const title = req.body
-
-      const vacancies = await Vacancies.find(title)
+      console.log(title)
+      const vacancies = await Vacancies.find({ title: { $regex: `${title}`, $options: "i" } }, function(err, docs) {
+        console.log("Partial Search Begins")
+        console.log(docs)
+        })
 
       return res.json(vacancies)
 
@@ -41,7 +47,10 @@ module.exports = {
     try {
       const nome = req.body
 
-      const bussines = await Bussines.find(nome)
+      const bussines = await Bussines.find({ nome: { $regex: nome, $options: "i" } }, function(err, docs) {
+        console.log("Partial Search Begins");
+        console.log(docs);
+        })
 
       return res.json(bussines)
 
