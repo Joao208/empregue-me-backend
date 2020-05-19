@@ -5,7 +5,7 @@ module.exports = {
     const {
       longitude,
       latitude
-    } = request.body
+    } = request.query
 
     const devs = await Dev.find({
       location: {
