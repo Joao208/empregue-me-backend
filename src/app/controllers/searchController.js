@@ -7,7 +7,7 @@ module.exports = {
   // Filtrar por tecnologias
   async index(req, res) {
     try {
-      const name = req.body
+      const name = req.params
       console.log(name)
       const users = await User.find({ name: { $regex: `${name}`, $options: "i" } }, function(err, docs) {
         console.log("Partial Search Begins");

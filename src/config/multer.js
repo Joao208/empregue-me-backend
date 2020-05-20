@@ -39,15 +39,14 @@ const storageTypes = {
 module.exports = {
   dest: path.resolve(__dirname, "..", "..", "tmp", "uploads"),
   storage: storageTypes['s3'],
-  limits: {
-    fileSize: 2 * 1024 * 1024
-  },
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
       "image/jpeg",
       "image/pjpeg",
       "image/png",
-      "image/gif"
+      "image/gif",
+      "video/mp4",
+      "document/pdf"
     ];
 
     if (allowedMimes.includes(file.mimetype)) {

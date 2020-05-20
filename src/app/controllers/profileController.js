@@ -481,8 +481,25 @@ router.post('/confirmphone', async (req, res) => {
     })
   }
 })
+router.get('/sujestions',async(req, res) => {
+  const {longitude,latitude} = req.query
 
-
+  const users = await User.find({
+      location: {
+          $near: {
+              $geometry: {
+                  type: 'Point',
+                  coordinates: [longitude, latitude]
+              },
+              $maxDistance: 10000
+          }
+      }
+  }).limit(5)
+  
+  console.log(`> /search: ${users.length} results`)
+  
+  res.json(users)
+})
 
 
 module.exports = app => app.use(router)
