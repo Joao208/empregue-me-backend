@@ -3,11 +3,11 @@ const path = require('path')
 const hbs = require('nodemailer-express-handlebars')
 
 var transport = nodemailer.createTransport({
-  host: "smtp.mailtrap.io",
-  port: 2525,
+  host: "smtp.sendgrid.net",
+  port: 25,
   auth: {
-    user: "7a2592f00563af",
-    pass: "0e6ef08a938fa8"
+    user: "APIChave",
+    pass: "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"
   }
 });
   const handlebarOptions = {

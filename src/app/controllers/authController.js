@@ -169,21 +169,91 @@ router.post('/forgot_password', async (req, res) => {
     })
 
 
-    mailer.sendMail({
-      to: email,
-      from: 'augustoj311@gmail.com',
-      template: 'auth/forgot_password',
-      context: {
-        token
+    const sgMail = require('@sendgrid/mail');
+    sgMail.setApiKey('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');
+    const msg = {
+      to: 'augustoj311@gmail.com',
+      from: email,
+      subject: 'Empregue.me a melhor plataforma de contratação',
+      text: 'Empregue.me',
+      html: `
+      <!DOCTYPE html>
+      <html lang="pt-br">
+      <head>
+        <title>Reset password Empregue.me</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+      
+        <style>
+      
+        .btn{
+        height:40px;
+        border-radius:10px;
+        width:120px;
+        color:black;
+        background-color:yellow;
+        font-size:10;
+        font-weight: 700;
+        align-items: center;
+        justify-content:center
+        }
+        .h1{
+        text-align: center;
+        }
+        .p{
+          text-align:center;
+        }
+        a{
+          align-items:center;
+          justify-content:center
+        }
+        .copyright{
+          margin-top:39px
+        }
+        .jumbotron{
+          align-items:center;
+          justify-content:center
+        }
+        div{
+          align-items:center;
+          text-align:center;
+          justify-content:center
+        }
+      img{
+        width:50%;
+        right:50%;
+        margin-left:25%;
       }
-    }, (err) => {
-      if (err)
-        return res.status(400).send({
-          error: 'Cannot send forgot password email'
-        })
-      console.log(err)
-      return res.send()
-    })
+        </style>
+      
+      <div class="jumbotron text-center" style="margin-bottom:0">
+        <h1 class="h1">Seu token:${token}</h1>
+        <p class="p">Não o compartilhe com ninguém</p> 
+       <a href="https://light-empregue-me.herokuapp.com/reset-password"><button type="button" class="btn btn-warning">Resetar senha</button> </a>
+      </div>
+      <img src="https://cdlempregos.cdl-sc.org.br/projeto-site/img/texto_principal.png" alt="Emprego logo">
+      
+                <div class="copyright">
+                  &copy; Copyright <strong>Empregue.me</strong>. All Rights Reserved
+                </div>
+                <div class="credits">
+                  Designed by <a href="https://lostech.site/">Lost Tech</a>
+                </div>
+      </div>
+      
+      </body>
+      </html>
+      `,
+    };
+sgMail.send(msg).then(() => {
+    console.log('Message sent')
+}).catch((error) => {
+    console.log(error.response.body)
+    // console.log(error.response.body.errors[0].message)
+})
+  return res.send()
   } catch (err) {
     console.log(err)
     res.status(400).send({

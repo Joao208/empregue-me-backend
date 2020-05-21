@@ -7,3 +7,5 @@ tmp/uploads/*
 
 # Environment variables, never commit this file
 .env
+"sendgrid.env" 
+"sendgrid.env" 
