@@ -15,11 +15,11 @@ const TextSchema = new mongoose.Schema({
   city:String,
   cargo:String,
   employment:String,
-  title:String,
 })
 
 const VacanciesSchema = new mongoose.Schema({
   approved: Boolean, 
+  title:String,
   createdAt: {
     type: Date,
     default: Date.now

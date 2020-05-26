@@ -342,7 +342,7 @@ router.get("/profileview/:id", async (req, res) => {
     }).sort('-createdAt').populate('post').populate('user')
     const profile = await Profile.find({
       user: user
-    }).set .populate('user').populate('profile')
+    }).populate('user').populate('profile')
     const curriculum = await Curriculum.find({
       user: user
     }).populate('curriculum')

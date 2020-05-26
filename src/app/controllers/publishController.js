@@ -327,4 +327,15 @@ router.post('/likes/:id', async (req,res) => {
 
 })
 
+router.get("/feed", async (req,res) => {
+  const user = await User.find(req.userId)
+  const posts = await Post.find({
+    user: {
+      $in: [user.id, ...following]
+    }
+  }).populate('user').limit(30)
+  .sort('-createdAt')
+  const adds = Add.find({}).limit(4).sort('-createdAt')
+})
+
 module.exports = app => app.use(router)
