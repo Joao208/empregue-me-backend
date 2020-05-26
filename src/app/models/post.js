@@ -23,7 +23,22 @@ const PostSchema = new mongoose.Schema({
     default: Date.now
   },
   likes: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+  comments: [
+    {
+      body: { type: String, default: "", maxlength: 280 },
+      user: { type: mongoose.Schema.ObjectId, ref: "User" },
+      commenterName: { type: String, default: "" },
+      commenterPicture: { type: String, default: "" },
+      createdAt: { type: Date, default: Date.now }
+    }
+  ],  
+  likeCount:{
+    type:Number,
+    default:0
+  },
   avatar:String,
+  type:String,
+  isVideo:Boolean
 
 })
 

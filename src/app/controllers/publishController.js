@@ -4,10 +4,9 @@ const {
 const multer = require("multer")
 const multerConfig = require("../../config/multer")
 const Post = require("../models/post")
+const Coment = require("../models/coments")
 const PostB = require("../models/postbussines")
 const Add = require('../models/add')
-// const Liked = require('./src/app/models/liked')
-const Coments = require('../models/coments')
 const Vacancies = require('../models/vacancies')
 const authMiddleware = require('../middlewares/auth')
 const Booking = require('../models/booking')
@@ -43,16 +42,18 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
   try {
     const Text = req.body
     const {
-      location: avatar = ""
+      location: avatar = "",
+      mimetype
     } = req.file
     const user = req.userId
 
-    const post = await Post.create({
+     const post = await Post.create({
       Text,
       user,
-      avatar
+      avatar,
+      type:mimetype,
     })
-
+           
     return res.json(post)
 
   } catch (e) {
@@ -179,28 +180,31 @@ router.delete("/vacancies/:id", async (req, res) => {
 });
 
 router.post("/coment/:id", async (req, res) => {
-  const post = req.params.id
-  const add = req.params.id
-  const postb = req.params.id
-  const Text = req.body
-  const user = req.userId
-
   try {
-    const coments = await Coments.create({
+    const post = await Post.findOne({_id:req.params.id})
+    const user = req.userId
+    const text = req.body
+
+    if (!post) {
+      return res.status(400).json({ error: 'Post não exist' })
+    }
+
+    const coments = await Coment.create({
+      user,
       post,
-      add,
-      postb,
-      Text,
-      user
+      text
     })
+    const userpost = post.user
+    console.log(userpost)
+    await post.populate('user').execPopulate()
+    await coments.populate('user').populate('post').execPopulate()
 
-    await coments.populate('post').populate('add').populate('postb').execPopulate()
-
-    return res.send(coments)
+    return res.json(coments)
 
   } catch (e) {
     console.log(e)
-  }
+    return res.status(400).send({error:'erro in create coment'})
+    }
 })
 router.post("/vacancies/:id/booking", async (req, res) => {
   try {
@@ -284,6 +288,43 @@ router.delete("/postsbussines/:id", async (req, res) => {
   await post.remove();
 
   return res.send();
-});
+})
+
+router.post('/likes/:id', async (req,res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+
+    if (!post) return res.status(400).send({
+      error: "post not found."
+    });
+
+    if (post.user === req.userId) return res.status(400).send({
+      error: "Unable to update post."
+    })
+
+    const postAlreadyLiked = post.likes.some(like => like == req.userId)
+
+    if (postAlreadyLiked) {
+      post.likes = post.likes.filter(like => like != req.userId)
+      post.set({likeCount: post.likeCount + 1})
+    } else {
+      post.likes.push(req.userId)
+      post.set({likeCount: post.likeCount - 1})
+    }
+
+    post.save()
+
+    const PostuserSocket = req.connectedUsers[post .user]
+
+    if (PostuserSocket) {
+      req.io.to(PostuserSocket).emit('like', post)
+    }
+
+    res.status(200).send(post)
+  } catch (err) {
+    return res.status(400).send({error:'Couldnt like this'})
+  }
+
+})
 
 module.exports = app => app.use(router)

@@ -177,7 +177,6 @@ router.post('/forgot_password', async (req, res) => {
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
       html: `
-      <!DOCTYPE html>
       <html lang="pt-br">
       <head>
         <title>Reset password Empregue.me</title>
