@@ -518,7 +518,7 @@ router.post("/follow/:id", async (req, res) => {
     await user.save()
 
     /** following */
-    const me = await User.findOne(req.userId)
+    const me = await User.findById(req.userId)
 
     me.following.push(req.userId)
     await me.save()
@@ -562,7 +562,7 @@ router.delete("/unfollow/:id",  async (req, res) => {
     user.followers.splice(following, 1)
     await user.save()
 
-    const me = await User.findOne(req.userId)
+    const me = await User.findById(req.userId)
     console.log(me)
     me.following.splice(me.following.indexOf(user.id), 1)
     await me.save()
