@@ -227,7 +227,7 @@ router.post('/profilebussines', multer(multerConfig).single("avatar"), async (re
 })
 router.get("/profilebussinesv", async (req, res) => {
   try {
-    const bussines = (req.userId)
+    const bussines = Bussines.findById(req.userId)
     const post = await PostB.find({
       bussines: bussines
     }).populate('post').populate('bussines')
