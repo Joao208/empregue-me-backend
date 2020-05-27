@@ -10,7 +10,6 @@ const CnpjIShcema = new mongoose.Schema({
     logradouro:String,
     numero:String,
     cep:String,
-    nome:String
 
 })
 
@@ -48,6 +47,7 @@ const BussinesSchema = new mongoose.Schema({
       type: PointSchema,
       index: '2dsphere'
     },
+    nome:String,
     avatar:String,
     bio:String,
     site:String

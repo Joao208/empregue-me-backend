@@ -196,7 +196,7 @@ router.post('/profilebussines', multer(multerConfig).single("avatar"), async (re
 
     if (profile === null) {
       await ProfileB.create({
-        bussines
+        bussines,
       })
 
       await Bussines.findByIdAndUpdate(bussines.id, {

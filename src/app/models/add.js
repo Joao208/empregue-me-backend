@@ -31,6 +31,10 @@ const AddSchema = new mongoose.Schema({
   },
   text: TextSchema,
   likes: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+  likeCount:{
+    type:Number,
+    default:0
+  },
   image: ImageSchema,
   url: String,
 

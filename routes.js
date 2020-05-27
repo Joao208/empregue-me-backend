@@ -10,7 +10,7 @@ const PremiunController = require('./src/app/controllers/PremiunControllers');
 
 const routes = Router();
 
-routes.get('/searchusers/:name', SearchController.index);
+routes.get('/search/:name', SearchController.index);
 routes.get('/searchvacancies/:title', SearchController.store);
 routes.get('/searchbussines', SearchController.buss);
 routes.get('/bussinesregister', bussinesController.index);

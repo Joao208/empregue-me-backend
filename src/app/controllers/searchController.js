@@ -6,10 +6,16 @@ module.exports = {
   async index(req, res) {
     try {
       const {name} = req.params
-      console.log(name)
-      const users = await User.find({name:{$regex: name, $options:"i"}}).sort('-createdAt')
 
-        return res.json(users)
+      const users = await User.find({name:{$regex: name, $options:"i"}}).sort('-createdAt')
+      const vacancies = await Vacancies.find({title:{$regex:name, $options:"i"}}).sort('-createdAt')
+      const bussines = await Bussines.find({ nome: { $regex: name, $options: "i" } }).sort('-createdAt')
+
+        return res.json({
+          users,
+          vacancies,
+          bussines
+        })
 
     } catch (e) {
       console.log(e)
@@ -23,10 +29,7 @@ module.exports = {
     try {
       const {title} = req.params
       console.log(title)
-      const vacancies = await Vacancies.find({ title: { $regex: title, $options: "i" } }, function(err, docs) {
-        console.log("Partial Search Begins")
-        console.log(docs)
-        }).sort('-createdAt')
+      const vacancies = await Vacancies.find({title:{ $regex: title, $options: "i" } }).sort('-createdAt')
 
       return res.json(vacancies)
 

@@ -44,8 +44,7 @@ module.exports = {
         })
       const apiResponse = await axios.get(`https://www.sintegraws.com.br/api/v1/execute-api.php?token=190BE125-8564-4DCD-8083-D680733A480F&cnpj=${cnpj}&plugin=RF`);
 
-      const cnpjI = apiResponse.data;
-
+      const {cnpjI,nome} = apiResponse.data;
 
       const bussines = await Bussines.create({
         cnpj,
@@ -53,7 +52,8 @@ module.exports = {
         password,
         createdAd,
         cnpjI,
-        location
+        location,
+        nome
       });
 
       bussines.password = undefined

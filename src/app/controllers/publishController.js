@@ -9,6 +9,7 @@ const PostB = require("../models/postbussines")
 const Add = require('../models/add')
 const Vacancies = require('../models/vacancies')
 const authMiddleware = require('../middlewares/auth')
+const Bussines = require('../models/bussines')
 const Booking = require('../models/booking')
 const User = require('../models/user')
 
@@ -75,6 +76,15 @@ router.delete("/posts/:id", async (req, res) => {
 router.get("/user", async (req, res) => {
   const userid = req.userId
   const user = await User.find({
+    _id: userid
+  });
+
+  return res.send(user);
+});
+
+router.get("/mybussines", async (req, res) => {
+  const userid = req.userId
+  const user = await Bussines.find({
     _id: userid
   });
 
@@ -306,10 +316,10 @@ router.post('/likes/:id', async (req,res) => {
 
     if (postAlreadyLiked) {
       post.likes = post.likes.filter(like => like != req.userId)
-      post.set({likeCount: post.likeCount + 1})
+      post.set({likeCount: post.likeCount - 1})
     } else {
       post.likes.push(req.userId)
-      post.set({likeCount: post.likeCount - 1})
+      post.set({likeCount: post.likeCount + 1})
     }
 
     post.save()
@@ -327,6 +337,44 @@ router.post('/likes/:id', async (req,res) => {
 
 })
 
+router.post('/likesadd/:id', async (req,res) => {
+  try {
+    const post = await Add.findById(req.params.id)
+
+    if (!post) return res.status(400).send({
+      error: "post not found."
+    });
+
+    if (post.user === req.userId) return res.status(400).send({
+      error: "Unable to update post."
+    })
+
+    const postAlreadyLiked = post.likes.some(like => like == req.userId)
+
+    if (postAlreadyLiked) {
+      post.likes = post.likes.filter(like => like != req.userId)
+      post.set({likeCount: post.likeCount - 1})
+    } else {
+      post.likes.push(req.userId)
+      post.set({likeCount: post.likeCount + 1})
+    }
+
+    post.save()
+
+    const PostuserSocket = req.connectedUsers[post .user]
+
+    if (PostuserSocket) {
+      req.io.to(PostuserSocket).emit('like', post)
+    }
+
+    res.status(200).send(post)
+  } catch (err) {
+    return res.status(400).send({error:'Couldnt like this'})
+  }
+
+})
+
+
 router.get("/feed", async (req,res) => {
   const user = await User.find(req.userId)
   const posts = await Post.find({
@@ -336,6 +384,11 @@ router.get("/feed", async (req,res) => {
   }).populate('user').limit(30)
   .sort('-createdAt')
   const adds = Add.find({}).limit(4).sort('-createdAt')
+
+  return res.send({
+    posts,
+    adds
+  })
 })
 
 module.exports = app => app.use(router)

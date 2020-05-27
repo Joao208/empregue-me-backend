@@ -23,6 +23,10 @@ const PostSchema = new mongoose.Schema({
     default: Date.now
   },
   likes: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+  likeCount:{
+    type:Number,
+    default:0
+  },
   comments: [
     {
       body: { type: String, default: "", maxlength: 280 },
@@ -32,10 +36,6 @@ const PostSchema = new mongoose.Schema({
       createdAt: { type: Date, default: Date.now }
     }
   ],  
-  likeCount:{
-    type:Number,
-    default:0
-  },
   avatar:String,
   type:String,
   isVideo:Boolean
