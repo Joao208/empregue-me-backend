@@ -30,7 +30,11 @@ const PostbSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  likes: [{ type: mongoose.Schema.ObjectId, ref: 'Bussines' }],
+  likes: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+  likeCount:{
+    type:Number,
+    default:0
+  },
   url: String,
 
 

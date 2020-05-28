@@ -20,6 +20,12 @@ const ProfileBSchema = new mongoose.Schema({
     ref: 'Vacancies',
     require: true
   },
+  posts: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Postb',
+    require: true
+  },
+
 
 })
 

@@ -376,7 +376,7 @@ router.post('/likesadd/:id', async (req,res) => {
 
 
 router.get("/feed", async (req,res) => {
-  const user = await User.find(req.userId)
+  const user = await User.findById(req.userId)
   const posts = await Post.find({
     user: {
       $in: [user.id, ...following]
