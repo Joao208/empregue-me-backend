@@ -9,20 +9,25 @@ const {
 const s3 = new aws.S3();
 
 const TextSchema = new mongoose.Schema({
-  Text:String
+  Description:String,
+  Value:{
+    type:Number,
+    max:50,
+    min:15,
+  },
+  Title:String
 })
 const PostSchema = new mongoose.Schema({
   Text: TextSchema,
   school: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'School',
-    require: true
   },
   createdAt: {
     type: Date,
     default: Date.now
   },
-  avatar:String,
+  avatar:[String],
 
 })
 

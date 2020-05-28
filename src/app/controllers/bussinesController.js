@@ -25,7 +25,7 @@ module.exports = {
       email,
       cnpj,
       password,
-      createdAd,
+      createdAt,
       latitude,
       longitude
     } = request.body;
@@ -50,7 +50,7 @@ module.exports = {
         cnpj,
         email,
         password,
-        createdAd,
+        createdAt,
         cnpjI,
         location,
         nome

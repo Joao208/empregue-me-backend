@@ -3,6 +3,7 @@ const {
 } = require('express')
 const multer = require("multer")
 const multerConfig = require("../../config/multer")
+const multerClass = require("../../config/multerclass")
 const Post = require("../models/post")
 const Coment = require("../models/coments")
 const PostB = require("../models/postbussines")
@@ -12,7 +13,7 @@ const authMiddleware = require('../middlewares/auth')
 const Bussines = require('../models/bussines')
 const Booking = require('../models/booking')
 const User = require('../models/user')
-
+const Class = require('../models/classrom')
 const router = Router();
 
 router.use(authMiddleware)
@@ -47,7 +48,8 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
       mimetype
     } = req.file
     const user = req.userId
-
+  
+    
      const post = await Post.create({
       Text,
       user,
@@ -55,6 +57,13 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
       type:mimetype,
     })
            
+    if(post.type === 'video/mp4'){
+      post.isVideo = true
+      await post.save()
+    }else{
+      post.isVideo = false
+      await post.save()
+    }
     return res.json(post)
 
   } catch (e) {
@@ -377,6 +386,7 @@ router.post('/likesadd/:id', async (req,res) => {
 
 router.get("/feed", async (req,res) => {
   const user = await User.findById(req.userId)
+  console.log(user)
   const posts = await Post.find({
     user: {
       $in: [user.id, ...following]
@@ -389,6 +399,25 @@ router.get("/feed", async (req,res) => {
     posts,
     adds
   })
+})
+
+router.post("/classroom", multer(multerConfig).array("avatar"), async (req,res) => {
+  try{
+  const school = req.userId
+  const {location:avatar} = await req.files
+  const {Text} = req.body
+
+  const classd = await Class.create({
+    avatar,
+    Text,
+    school
+  })
+  
+  res.send(classd)
+
+  }catch(e){
+    res.send(e)
+  }
 })
 
 module.exports = app => app.use(router)

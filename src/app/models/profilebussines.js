@@ -1,7 +1,7 @@
 const mongoose = require('../../database')
 
 const ProfileBSchema = new mongoose.Schema({
-  createdAd: {
+  createdAt: {
     type: Date,
     default: Date.now
   },

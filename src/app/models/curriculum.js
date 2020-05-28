@@ -1,7 +1,7 @@
 const mongoose = require('../../database')
 
 const CurriculumSchema = new mongoose.Schema({
-  createdAd: {
+  createdAt: {
     type: Date,
     default: Date.now
   },

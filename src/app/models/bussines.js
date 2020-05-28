@@ -30,7 +30,7 @@ const BussinesSchema = new mongoose.Schema({
     },
     followers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
-    createdAd:{
+    createdAt:{
         type:Date,
         default:Date.now
     },

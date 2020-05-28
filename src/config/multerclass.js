@@ -41,10 +41,6 @@ module.exports = {
   storage: storageTypes['s3'],
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
-      "image/jpeg",
-      "image/pjpeg",
-      "image/png",
-      "image/gif",
       "video/mp4",
     ];
 

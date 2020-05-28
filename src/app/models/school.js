@@ -21,15 +21,12 @@ const SchoolSchema = new mongoose.Schema({
         type:Date,
         select:false
     },
-    createdAd:{
+    createdAt:{
         type:Date,
         default:Date.now
     },
     name:String,
     bio:String,
-    phone:Number,
-    phonetoken:String,
-    phonetokenexpiress:Date,
     avatar:String
 })
 
