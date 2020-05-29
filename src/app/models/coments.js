@@ -6,11 +6,8 @@ const ComentSchema = new mongoose.Schema({
       type: String
     }
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    require: true
-  },
+  username:String,
+  avatar:String,
   createdAt: {
     type: Date,
     default: Date.now
@@ -19,7 +16,6 @@ const ComentSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Post'
   },
-
 })
 
 module.exports = mongoose.model("Coment", ComentSchema);

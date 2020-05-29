@@ -17,7 +17,7 @@ const TextSchema = new mongoose.Schema({
   },
   Title:String
 })
-const PostSchema = new mongoose.Schema({
+const ClassRoomSchema = new mongoose.Schema({
   Text: TextSchema,
   school: {
     type: mongoose.Schema.Types.ObjectId,
@@ -31,11 +31,11 @@ const PostSchema = new mongoose.Schema({
 
 })
 
-PostSchema.virtual('avatar_url').get(function() {
+ClassRoomSchema.virtual('avatar_url').get(function() {
   return `${process.env.APP_URL}/files/${this.Avatar}`
 })
 
-PostSchema.pre("remove", function () {
+ClassRoomSchema.pre("remove", function () {
   if ('local' === "s3") {
     return s3
       .deleteObject({
@@ -56,4 +56,4 @@ PostSchema.pre("remove", function () {
   }
 });
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("ClassRoom", ClassRoomSchema);

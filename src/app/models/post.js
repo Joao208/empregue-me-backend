@@ -27,15 +27,11 @@ const PostSchema = new mongoose.Schema({
     type:Number,
     default:0
   },
-  comments: [
-    {
-      body: { type: String, default: "", maxlength: 280 },
-      user: { type: mongoose.Schema.ObjectId, ref: "User" },
-      commenterName: { type: String, default: "" },
-      commenterPicture: { type: String, default: "" },
-      createdAt: { type: Date, default: Date.now }
-    }
-  ],  
+  comments: [{ type: mongoose.Schema.ObjectId, ref: "Coment" }],
+  commentCount:{
+    type:Number,
+    default:0
+  },
   avatar:String,
   type:String,
   isVideo:Boolean
