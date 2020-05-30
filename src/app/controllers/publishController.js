@@ -181,7 +181,7 @@ router.post("/coment/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
     const user = await User.findById(req.userId)
-    const text = req.body
+    const Text = req.body
 
     if (!post) {
       return res.status(400).json({
@@ -198,7 +198,7 @@ router.post("/coment/:id", async (req, res) => {
     const coments = await Coment.create({
       user,
       post,
-      text,
+      Text,
       avatar,
       username
     })
@@ -217,7 +217,6 @@ router.post("/coment/:id", async (req, res) => {
       })
     }
 
-    console.log(coments.id)
 
     post.save()
 

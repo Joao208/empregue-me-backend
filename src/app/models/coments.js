@@ -1,13 +1,16 @@
 const mongoose = require("mongoose");
 
-const ComentSchema = new mongoose.Schema({
-  text: {
-    type: {
-      type: String
-    }
+const textSchema = new mongoose.Schema({
+  text:{
+    type:String
   },
-  username:String,
-  avatar:String,
+  textd: Number
+})
+
+const ComentSchema = new mongoose.Schema({
+  Text: textSchema,
+  username: String,
+  avatar: String,
   createdAt: {
     type: Date,
     default: Date.now
