@@ -208,12 +208,12 @@ router.post("/coment/:id", async (req, res) => {
     if (postAlreadyLiked) {
       post.comments = post.comments.filter(coment => coment != coments.id)
       post.set({
-        commentCount: post.comments.lenght
+        commentCount: post.likeCount - 1
       })
     } else {
       post.comments.push(coments.id)
       post.set({
-        commentCount: post.comments.lenght
+        commentCount: post.likeCount + 1
       })
     }
 
@@ -341,12 +341,12 @@ router.post('/likes/:id', async (req, res) => {
     if (postAlreadyLiked) {
       post.likes = post.likes.filter(like => like != req.userId)
       post.set({
-        likeCount: post.likes.lenght
+        likeCount: post.likeCount - 1
       })
     } else {
       post.likes.push(req.userId)
       post.set({
-        likeCount: post.likes.lenght
+        likeCount: post.likeCount + 1
       })
     }
 
@@ -413,6 +413,7 @@ router.post('/likesadd/:id', async (req, res) => {
 
 router.get("/feed", async (req, res) => {
   const user = await User.findById(req.userId)
+  const following = user
   console.log(user)
   const posts = await Post.find({
       user: {
