@@ -290,22 +290,29 @@ router.get("/postsbussines", async (req, res) => {
   });
 });
 
-router.post("/postsbussines", multer(multerConfig).single("file"), async (req, res) => {
+router.post("/bussines/posts", multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const Text = req.body
     const {
-      Image,
-      location: url
+      location: avatar = "",
+      mimetype
     } = req.file
     const bussines = req.userId
 
-    const post = await Post.create({
+    const post = await PostB.create({
       Text,
-      Image,
       bussines,
-      url
+      avatar,
+      type: mimetype,
     })
 
+    if (post.type === 'video/mp4') {
+      post.isVideo = true
+      await post.save()
+    } else {
+      post.isVideo = false
+      await post.save()
+    }
     return res.json(post)
 
   } catch (e) {
@@ -315,7 +322,6 @@ router.post("/postsbussines", multer(multerConfig).single("file"), async (req, r
     })
   }
 });
-
 router.delete("/postsbussines/:id", async (req, res) => {
   const post = await PostB.findById(req.params.id);
 
@@ -413,20 +419,29 @@ router.post('/likesadd/:id', async (req, res) => {
 
 router.get("/feed", async (req, res) => {
   const user = await User.findById(req.userId)
-  const following = user
-  console.log(user)
+  const {following} = user
+  const {followingbussines} = user
+
   const posts = await Post.find({
       user: {
         $in: [user.id, ...following]
       }
-    }).populate('user').limit(30)
+    }).populate('user').populate('comments').limit(30)
     .sort('-createdAt')
-  const adds = Add.find({}).limit(4).sort('-createdAt')
+  const adds = await Add.find({}).limit(4).sort('-createdAt').populate('bussines').populate('comments')
+  const postbussines = await PostB.find({
+    bussines:{
+      $in:[user.id, ...followingbussines]
+    } 
+  }).populate('bussines').populate('comments').sort('-createdAt').limit(30)
 
-  return res.send({
+  const feed = ({
     posts,
-    adds
+    adds,
+    postbussines
   })
+
+  return res.send(feed)
 })
 
 router.post("/classroom", multer(multerClass).array("avatar"), async (req, res) => {

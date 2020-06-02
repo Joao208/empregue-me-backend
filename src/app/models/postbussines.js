@@ -35,14 +35,20 @@ const PostbSchema = new mongoose.Schema({
     type:Number,
     default:0
   },
-  url: String,
-
+  avatar: String,
+  comments: [{ type: mongoose.Schema.ObjectId, ref: "ComentB" }],
+  commentCount:{
+    type:Number,
+    default:0
+  },
+  type:String,
+  isVideo:Boolean
 
 })
 
 ImageSchema.pre("save", function () {
-  if (!this.url) {
-    this.url = `${process.env.APP_URL}/files/${this.key}`;
+  if (!this.avatar) {
+    this.avatar = `${process.env.APP_avatar}/files/${this.key}`;
   }
 });
 

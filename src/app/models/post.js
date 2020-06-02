@@ -27,12 +27,12 @@ const PostSchema = new mongoose.Schema({
     type:Number,
     default:0
   },
+  avatar:String,
   comments: [{ type: mongoose.Schema.ObjectId, ref: "Coment" }],
   commentCount:{
     type:Number,
     default:0
   },
-  avatar:String,
   type:String,
   isVideo:Boolean
 

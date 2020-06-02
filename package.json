@@ -51,7 +51,6 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "faker": "^4.1.0",

@@ -28,6 +28,8 @@ const UserSchema = new mongoose.Schema({
     },
     followers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+    followersbussines: [{ type: mongoose.Schema.ObjectId, ref: 'Bussines' }],
+    followingbussines: [{ type: mongoose.Schema.ObjectId, ref: 'Bussines' }],
     name:String,
     FacebookUrl:String,
     InstagramUrl:String,
