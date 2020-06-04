@@ -17,6 +17,7 @@ const User = require('../models/user')
 const Class = require('../models/classrom')
 const Check = require('../models/check')
 const router = Router();
+const Algorithmia = require("algorithmia");
 
 router.use(authMiddleware)
 
@@ -30,8 +31,13 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
     } = req.file
     const user = req.userId
 
-
-    const post = await Post.create({
+    const input = avatar
+    Algorithmia.client("simAbTd4ppvYZLapmdaUXK6ZEC41")
+      .algo("sfw/NudityDetection/1.1.6?timeout=300") // timeout is optional
+      .pipe(input)
+      .then(async function(response) {
+      if(response.result.nude === 'false'){
+      const post = await Post.create({
       Text,
       user,
       avatar,
@@ -46,6 +52,10 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
       await post.save()
     }
     return res.json(post)
+      }else{
+        res.status(400).send({error: 'It´s contem nudity'})
+      }
+      })    
 
   } catch (e) {
     console.log(e)
@@ -103,23 +113,41 @@ router.get("/add", async (req, res) => {
   });
 });
 
-router.post("/add", multer(multerConfig).single("file"), async (req, res) => {
+router.post("/add", multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const text = req.body
     const {
-      image,
-      location: url
+      mimetype,
+      location: avatar
     } = req.file
     const bussines = req.userId
+    const input = avatar
+    Algorithmia.client("simAbTd4ppvYZLapmdaUXK6ZEC41")
+      .algo("sfw/NudityDetection/1.1.6?timeout=300") // timeout is optional
+      .pipe(input)
+      .then(async function(response) {
+      if(response.result.nude === 'false'){
+      const add = await Add.create({
+        text,
+        bussines,
+        avatar,
+        type:mimetype,
 
-    const add = await Add.create({
-      text,
-      image,
-      bussines,
-      url
-    });
+      })
+      if (add.type === 'video/mp4') {
+      add.isVideo = true
+      await add.save()
+      } else {
+      add.isVideo = false
+      await add.save()
+      }
+      return res.json(add);
+      
+      }else{
+        res.status(400).send({error: 'It´s contem nudity'})
+      }
+      }) 
 
-    return res.json(add);
   } catch (e) {
     console.log(e)
     return res.status(400).send({
@@ -182,6 +210,69 @@ router.delete("/vacancies/:id", async (req, res) => {
 router.post("/coment/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
+    const user = await User.findById(req.userId)
+    const Text = req.body
+
+    if (!post) {
+      return res.status(400).json({
+        error: 'Post não exist'
+      })
+    }
+    if (post.user === req.userId) return res.status(400).send({
+      error: "Unable to update post."
+    })
+
+    const username = user.name
+    const avatar = user.avatar
+
+    const coments = await Coment.create({
+      user,
+      post,
+      Text,
+      avatar,
+      username
+    })
+
+    const postAlreadyLiked = post.comments.some(coment => coment == coments.id)
+
+    if (postAlreadyLiked) {
+      post.comments = post.comments.filter(coment => coment != coments.id)
+      post.set({
+        commentCount: post.likeCount - 1
+      })
+    } else {
+      post.comments.push(coments.id)
+      post.set({
+        commentCount: post.likeCount + 1
+      })
+    }
+
+
+    post.save()
+
+    const PostuserSocket = req.connectedUsers[post.user]
+
+    if (PostuserSocket) {
+      req.io.to(PostuserSocket).emit('like', post)
+    }
+
+    await post.populate('comments').execPopulate()
+
+    return res.json({
+      coments,
+      post
+    })
+
+  } catch (e) {
+    console.log(e)
+    return res.status(400).send({
+      error: 'erro in create coment'
+    })
+  }
+})
+router.post("add/coment/:id", async (req, res) => {
+  try {
+    const post = await PostB.findById(req.params.id)
     const user = await User.findById(req.userId)
     const Text = req.body
 
@@ -355,38 +446,6 @@ router.get("/postsbussines", async (req, res) => {
   });
 });
 
-router.post("/bussines/posts", multer(multerConfig).single("avatar"), async (req, res) => {
-  try {
-    const Text = req.body
-    const {
-      location: avatar = "",
-      mimetype
-    } = req.file
-    const bussines = req.userId
-
-    const post = await PostB.create({
-      Text,
-      bussines,
-      avatar,
-      type: mimetype,
-    })
-
-    if (post.type === 'video/mp4') {
-      post.isVideo = true
-      await post.save()
-    } else {
-      post.isVideo = false
-      await post.save()
-    }
-    return res.json(post)
-
-  } catch (e) {
-    console.log(e)
-    return res.status(400).send({
-      error: 'Error in creating new post'
-    })
-  }
-});
 router.delete("/postsbussines/:id", async (req, res) => {
   const post = await PostB.findById(req.params.id);
 
@@ -398,6 +457,48 @@ router.delete("/postsbussines/:id", async (req, res) => {
 router.post('/likes/:id', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
+
+    if (!post) return res.status(400).send({
+      error: "post not found."
+    });
+
+    if (post.user === req.userId) return res.status(400).send({
+      error: "Unable to update post."
+    })
+
+    const postAlreadyLiked = post.likes.some(like => like == req.userId)
+
+    if (postAlreadyLiked) {
+      post.likes = post.likes.filter(like => like != req.userId)
+      post.set({
+        likeCount: post.likeCount - 1
+      })
+    } else {
+      post.likes.push(req.userId)
+      post.set({
+        likeCount: post.likeCount + 1
+      })
+    }
+
+    post.save()
+
+    const PostuserSocket = req.connectedUsers[post.user]
+
+    if (PostuserSocket) {
+      req.io.to(PostuserSocket).emit('like', post)
+    }
+
+    res.status(200).send(post)
+  } catch (err) {
+    return res.status(400).send({
+      error: 'Couldnt like this'
+    })
+  }
+
+})
+router.post('postb/likes/:id', async (req, res) => {
+  try {
+    const post = await PostB.findById(req.params.id)
 
     if (!post) return res.status(400).send({
       error: "post not found."
@@ -656,5 +757,47 @@ router.post("/bussines/postb/share/:id", async (req,res) => {
     return res.send('error')
   }
 })
+router.post("/bussines/posts", multer(multerConfig).single("avatar"), async (req, res) => {
+  try {
+    const Text = req.body
+    const {
+      location: avatar = "",
+      mimetype
+    } = req.file
+    const bussines = req.userId
+
+    const input = avatar
+    Algorithmia.client("simAbTd4ppvYZLapmdaUXK6ZEC41")
+      .algo("sfw/NudityDetection/1.1.6?timeout=300") // timeout is optional
+      .pipe(input)
+      .then(async function(response) {
+      if(response.result.nude === 'false'){
+      const post = await PostB.create({
+      Text,
+      bussines,
+      avatar,
+      type: mimetype,
+    })
+
+    if (post.type === 'video/mp4') {
+      post.isVideo = true
+      await post.save()
+    } else {
+      post.isVideo = false
+      await post.save()
+    }
+    return res.json(post)
+      }else{
+        res.status(400).send({error: 'It´s contem nudity'})
+      }
+      })    
+
+  } catch (e) {
+    console.log(e)
+    return res.status(400).send({
+      error: 'Error in creating new post'
+    })
+  }
+});
 
 module.exports = app => app.use(router)

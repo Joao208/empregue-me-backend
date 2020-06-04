@@ -12,14 +12,7 @@ const TextSchema = new mongoose.Schema({
   Text:String
 })
 
-const ImageSchema = new mongoose.Schema({
-  name: String,
-  size: Number,
-  key: String,
-});
-
 const PostbSchema = new mongoose.Schema({
-  Image: ImageSchema,
   Text: TextSchema,
   bussines: {
     type: mongoose.Schema.Types.ObjectId,
@@ -48,7 +41,7 @@ const PostbSchema = new mongoose.Schema({
 
 ImageSchema.pre("save", function () {
   if (!this.avatar) {
-    this.avatar = `${process.env.APP_avatar}/files/${this.key}`;
+    this.avatar = `${process.env.APP_avatar}/files/${this.avatar}`;
   }
 });
 
@@ -57,7 +50,7 @@ ImageSchema.pre("remove", function () {
     return s3
       .deleteObject({
         Bucket: 'serverem',
-        Key: this.key
+        avatar: this.avatar
       })
       .promise()
       .then(response => {
@@ -68,7 +61,7 @@ ImageSchema.pre("remove", function () {
       });
   } else {
     return promisify(fs.unlink)(
-      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.key)
+      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.avatar)
     );
   }
 });

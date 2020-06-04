@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const PointSchema = require('./utils/PointSchema');
 
 const CheckSchema = new mongoose.Schema({
   user: {
@@ -14,7 +13,10 @@ const CheckSchema = new mongoose.Schema({
   },
   latitude:String,
   longitude:String,
-
+  createdAt:{
+    type:Date,
+    default:Date.now
+  }
 })
 
 module.exports = mongoose.model("Check", CheckSchema);
