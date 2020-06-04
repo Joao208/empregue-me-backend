@@ -479,7 +479,7 @@ router.post('/confirmphone', async (req, res) => {
   }
 })
 router.get('/sujestions',async(req, res) => {
-  const {longitude,latitude} = req.query
+  const {longitude,latitude} = req.body
 
   const users = await User.find({
       location: {
