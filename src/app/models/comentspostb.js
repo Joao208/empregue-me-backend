@@ -21,4 +21,4 @@ const ComentBSchema = new mongoose.Schema({
   },
 })
 
-module.exports = mongoose.model("ComentB", ComentBSchema);
+module.exports = mongoose.model("Comentb", ComentBSchema);

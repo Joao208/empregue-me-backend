@@ -11,9 +11,11 @@ const Add = require('../models/add')
 const Vacancies = require('../models/vacancies')
 const authMiddleware = require('../middlewares/auth')
 const Bussines = require('../models/bussines')
+const ComentB = require('../models/comentspostb')
 const Booking = require('../models/booking')
 const User = require('../models/user')
 const Class = require('../models/classrom')
+const Check = require('../models/check')
 const router = Router();
 
 router.use(authMiddleware)
@@ -240,6 +242,69 @@ router.post("/coment/:id", async (req, res) => {
     })
   }
 })
+router.post("/postbussines/coment/:id", async (req, res) => {
+  try {
+    const post = await PostB.findById(req.params.id)
+    const user = await User.findById(req.userId)
+    const Text = req.body
+
+    if (!post) {
+      return res.status(400).json({
+        error: 'Post não exist'
+      })
+    }
+    if (post.user === req.userId) return res.status(400).send({
+      error: "Unable to update post."
+    })
+
+    const username = user.name
+    const avatar = user.avatar
+
+    const coments = await ComentB.create({
+      user,
+      post,
+      Text,
+      avatar,
+      username
+    })
+
+    const postAlreadyLiked = post.comments.some(coment => coment == coments.id)
+
+    if (postAlreadyLiked) {
+      post.comments = post.comments.filter(coment => coment != coments.id)
+      post.set({
+        commentCount: post.likeCount - 1
+      })
+    } else {
+      post.comments.push(coments.id)
+      post.set({
+        commentCount: post.likeCount + 1
+      })
+    }
+
+
+    post.save()
+
+    const PostuserSocket = req.connectedUsers[post.user]
+
+    if (PostuserSocket) {
+      req.io.to(PostuserSocket).emit('like', post)
+    }
+
+    await post.populate('comments').execPopulate()
+
+    return res.json({
+      coments,
+      post
+    })
+
+  } catch (e) {
+    console.log(e)
+    return res.status(400).send({
+      error: 'erro in create coment'
+    })
+  }
+})
 router.post("/vacancies/:id/booking", async (req, res) => {
   try {
     const user = req.userId
@@ -421,13 +486,25 @@ router.get("/feed", async (req, res) => {
   const user = await User.findById(req.userId)
   const {following} = user
   const {followingbussines} = user
-
   const posts = await Post.find({
       user: {
         $in: [user.id, ...following]
       }
     }).populate('user').populate('comments').limit(30)
     .sort('-createdAt')
+    const checkuser = await Check.find({
+      user: {
+        $in: [user.id, ...following]
+      }
+    }).populate('user').limit(2)
+    .sort('-createdAt')
+    const checkbussines = await Check.find({
+      bussines: {
+        $in: [user.id, ...followingbussines]
+      }
+    }).populate('bussines').limit(2)
+    .sort('-createdAt')
+
   const adds = await Add.find({}).limit(4).sort('-createdAt').populate('bussines').populate('comments')
   const postbussines = await PostB.find({
     bussines:{
@@ -437,8 +514,10 @@ router.get("/feed", async (req, res) => {
 
   const feed = ({
     posts,
+    checkuser,
     adds,
-    postbussines
+    postbussines,
+    checkbussines
   })
 
   return res.send(feed)
@@ -449,7 +528,7 @@ router.post("/classroom", multer(multerClass).array("avatar"), async (req, res) 
     const school = req.userId
     const {
       location:avatar = ""
-    } = await req.files
+    } = req.files
     const Text = req.body
 
     const classd = await Class.create({
@@ -458,10 +537,123 @@ router.post("/classroom", multer(multerClass).array("avatar"), async (req, res) 
       school
     })
 
-    res.send(classd)
+    return res.send(classd)
 
   } catch (e) {
-    res.send(e)
+    return res.send(e)
+  }
+})
+
+router.post("/check/location", async (req,res) => {
+  try{
+    const {latitude,longitude} = req.body
+    const user = req.userId
+
+    const check = await Check.create({
+      user,
+      latitude,
+      longitude
+    })
+
+    return res.send(check)
+  }catch(e){
+    console.log(e)
+    return res.send('error')
+  }
+})
+
+router.post("/bussines/check/location", async(req,res) => {
+  try{
+    const bussines = req.userId
+    const {latitude,longitude} = req.body
+
+    const check = await Check.create({
+      bussines,
+      latitude,
+      longitude
+    })
+
+    res.send(check)
+  }catch(e){
+    res.send('error')
+    console.log(e)
+  }
+})
+
+router.post("/post/share/:id", async (req,res) => {
+  try{
+    const post = await Post.findById(req.params.id)
+    const user = req.userId
+    const avatar = post.avatar
+    const text = post.Text
+
+    const share = await Post.create({
+      user,
+      avatar,
+      Text:text
+    })
+
+   return res.send(share)
+  }catch(e){
+    console.log(e)
+    return res.send('error')
+  }
+})
+router.post("/postb/share/:id", async (req,res) => {
+  try{
+    const post = await PostB.findById(req.params.id)
+    const user = req.userId
+    const avatar = post.avatar
+    const text = post.Text
+
+    const share = await Post.create({
+      user,
+      avatar,
+      Text:text
+    })
+
+   return res.send(share)
+  }catch(e){
+    console.log(e)
+    return res.send('error')
+  }
+})
+router.post("/bussines/post/share/:id", async (req,res) => {
+  try{
+    const post = await Post.findById(req.params.id)
+    const bussines = req.userId
+    const avatar = post.avatar
+    const text = post.Text
+
+    const share = await PostB.create({
+      bussines,
+      avatar,
+      Text:text
+    })
+
+   return res.send(share)
+  }catch(e){
+    console.log(e)
+    return res.send('error')
+  }
+})
+router.post("/bussines/postb/share/:id", async (req,res) => {
+  try{
+    const post = await PostB.findById(req.params.id)
+    const bussines = req.userId
+    const avatar = post.avatar
+    const text = post.Text
+
+    const share = await PostB.create({
+      bussines,
+      avatar,
+      Text:text
+    })
+
+   return res.send(share)
+  }catch(e){
+    console.log(e)
+    return res.send('error')
   }
 })
 
