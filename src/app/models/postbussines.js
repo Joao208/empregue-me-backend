@@ -39,13 +39,13 @@ const PostbSchema = new mongoose.Schema({
 
 })
 
-ImageSchema.pre("save", function () {
+PostbSchema.pre("save", function () {
   if (!this.avatar) {
     this.avatar = `${process.env.APP_avatar}/files/${this.avatar}`;
   }
 });
 
-ImageSchema.pre("remove", function () {
+PostbSchema.pre("remove", function () {
   if ('local' === "s3") {
     return s3
       .deleteObject({
