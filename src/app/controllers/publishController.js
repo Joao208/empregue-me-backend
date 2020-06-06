@@ -120,6 +120,7 @@ router.post("/add", multer(multerConfig).single("avatar"), async (req, res) => {
       mimetype,
       location: avatar
     } = req.file
+    console.log(avatar)
     const bussines = req.userId
     const input = avatar
     Algorithmia.client("simAbTd4ppvYZLapmdaUXK6ZEC41")

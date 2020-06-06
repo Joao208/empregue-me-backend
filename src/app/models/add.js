@@ -8,12 +8,6 @@ const {
 
 const s3 = new aws.S3();
 
-const ImageSchema = new mongoose.Schema({
-  name: String,
-  size: Number,
-  key: String,
-
-})
 const TextSchema = new mongoose.Schema({
   link:String,
   text:String
@@ -41,17 +35,18 @@ const AddSchema = new mongoose.Schema({
     default:0
   },
   type:String,
-  isVideo:Boolean
+  isVideo:Boolean,
+  avatar:String
 
 });
 
-ImageSchema.pre("save", function () {
+AddSchema.pre("save", function () {
   if (!this.avatar) {
     this.avatar = `${process.env.APP_avatar}/files/${this.key}`;
   }
 });
 
-ImageSchema.pre("remove", function () {
+AddSchema.pre("remove", function () {
   if ('local' === "s3") {
     return s3
       .deleteObject({
