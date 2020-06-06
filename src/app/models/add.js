@@ -35,7 +35,7 @@ const AddSchema = new mongoose.Schema({
     type:Number,
     default:0
   },
-  comments: [{ type: mongoose.Schema.ObjectId, ref: "ComentAdd" }],
+  //comments: [{ type: mongoose.Schema.ObjectId, ref: "ComentAdd" }],
   commentCount:{
     type:Number,
     default:0
