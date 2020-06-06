@@ -120,7 +120,6 @@ router.post("/add", multer(multerConfig).single("avatar"), async (req, res) => {
       mimetype,
       location: avatar
     } = req.file
-    console.log(avatar)
     const bussines = req.userId
     const input = avatar
     Algorithmia.client("simAbTd4ppvYZLapmdaUXK6ZEC41")
@@ -607,7 +606,7 @@ router.get("/feed", async (req, res) => {
     }).populate('bussines').limit(2)
     .sort('-createdAt')
 
-  const adds = await Add.find({}).limit(4).sort('-createdAt').populate('bussines').populate('comments')
+  const adds = await Add.find({}).limit(4).sort('-createdAt').populate('bussines')
   const postbussines = await PostB.find({
     bussines:{
       $in:[user.id, ...followingbussines]
