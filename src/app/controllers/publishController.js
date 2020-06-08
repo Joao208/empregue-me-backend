@@ -43,7 +43,9 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
       avatar,
       type: mimetype,
     })
-
+    console.log(response.nude)
+    console.log(response.result.nude)
+    console.log(response.result)
     if (post.type === 'video/mp4') {
       post.isVideo = true
       await post.save()
