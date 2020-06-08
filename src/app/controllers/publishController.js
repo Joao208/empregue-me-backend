@@ -17,7 +17,6 @@ const User = require('../models/user')
 const Class = require('../models/classrom')
 const Check = require('../models/check')
 const router = Router();
-const Algorithmia = require("algorithmia");
 
 router.use(authMiddleware)
 
@@ -31,21 +30,13 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
     } = req.file
     const user = req.userId
 
-    const input = avatar
-    Algorithmia.client("simAbTd4ppvYZLapmdaUXK6ZEC41")
-      .algo("sfw/NudityDetection/1.1.6?timeout=300") // timeout is optional
-      .pipe(input)
-      .then(async function(response) {
-        console.log(response.nude)
-        console.log(response.result.nude)
-        console.log(response.result)    
-      if(response.result.nude === 'false'){
       const post = await Post.create({
       Text,
       user,
       avatar,
       type: mimetype,
     })
+  
     if (post.type === 'video/mp4') {
       post.isVideo = true
       await post.save()
@@ -53,19 +44,16 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
       post.isVideo = false
       await post.save()
     }
-    return res.json(post)
-      }else{
-        res.status(400).send({error: 'It´s contem nudity'})
-      }
-      })    
 
+    return res.json(post)
+      
   } catch (e) {
     console.log(e)
     return res.status(400).send({
       error: 'Error in creating new post'
     })
   }
-});
+})
 
 router.delete("/posts/:id", async (req, res) => {
   const post = await Post.findById(req.params.id);
@@ -123,13 +111,8 @@ router.post("/add", multer(multerConfig).single("avatar"), async (req, res) => {
       location: avatar
     } = req.file
     const bussines = req.userId
-    const input = avatar
-    Algorithmia.client("simAbTd4ppvYZLapmdaUXK6ZEC41")
-      .algo("sfw/NudityDetection/1.1.6?timeout=300") // timeout is optional
-      .pipe(input)
-      .then(async function(response) {
-      if(response.result.nude === 'false'){
-      const add = await Add.create({
+
+    const add = await Add.create({
         text,
         bussines,
         avatar,
@@ -145,10 +128,6 @@ router.post("/add", multer(multerConfig).single("avatar"), async (req, res) => {
       }
       return res.json(add);
       
-      }else{
-        res.status(400).send({error: 'It´s contem nudity'})
-      }
-      }) 
 
   } catch (e) {
     console.log(e)
@@ -768,12 +747,6 @@ router.post("/bussines/posts", multer(multerConfig).single("avatar"), async (req
     } = req.file
     const bussines = req.userId
 
-    const input = avatar
-    Algorithmia.client("simAbTd4ppvYZLapmdaUXK6ZEC41")
-      .algo("sfw/NudityDetection/1.1.6?timeout=300") // timeout is optional
-      .pipe(input)
-      .then(async function(response) {
-      if(response.result.nude === 'false'){
       const post = await PostB.create({
       Text,
       bussines,
@@ -789,10 +762,6 @@ router.post("/bussines/posts", multer(multerConfig).single("avatar"), async (req
       await post.save()
     }
     return res.json(post)
-      }else{
-        res.status(400).send({error: 'It´s contem nudity'})
-      }
-      })    
 
   } catch (e) {
     console.log(e)
