@@ -36,6 +36,9 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
       .algo("sfw/NudityDetection/1.1.6?timeout=300") // timeout is optional
       .pipe(input)
       .then(async function(response) {
+        console.log(response.nude)
+        console.log(response.result.nude)
+        console.log(response.result)    
       if(response.result.nude === 'false'){
       const post = await Post.create({
       Text,
@@ -43,9 +46,6 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
       avatar,
       type: mimetype,
     })
-    console.log(response.nude)
-    console.log(response.result.nude)
-    console.log(response.result)
     if (post.type === 'video/mp4') {
       post.isVideo = true
       await post.save()
