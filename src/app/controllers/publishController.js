@@ -593,13 +593,15 @@ router.get("/feed", async (req, res) => {
       $in:[user.id, ...followingbussines]
     } 
   }).populate('bussines').populate('comments').sort('-createdAt').limit(30)
+  const jobs = await Vacancies.find({}).limit(4).sort('-createdAt').populate('bussines')
 
   const feed = ({
     posts,
     checkuser,
     adds,
     postbussines,
-    checkbussines
+    checkbussines,
+    jobs
   })
 
   return res.send(feed)
