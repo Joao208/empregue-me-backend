@@ -492,9 +492,7 @@ router.get('/sujestions',async(req, res) => {
           }
       }
   }).limit(5).sort('-createdAt')
-  
-  console.log(`> /search: ${users.length} results`)
-  
+    
   res.json(users)
 })
 
