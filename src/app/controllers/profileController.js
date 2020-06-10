@@ -491,7 +491,7 @@ router.get('/sujestions',async(req, res) => {
               $maxDistance: 10000
           }
       }
-  }).limit(5)
+  }).limit(5).sort('-createdAt')
   
   console.log(`> /search: ${users.length} results`)
   
