@@ -477,7 +477,7 @@ router.post('/likes/:id', async (req, res) => {
   }
 
 })
-router.post('postb/likes/:id', async (req, res) => {
+router.post('/postb/likes/:id', async (req, res) => {
   try {
     const post = await PostB.findById(req.params.id)
 
