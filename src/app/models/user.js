@@ -41,6 +41,10 @@ const UserSchema = new mongoose.Schema({
     phonetoken:String,
     phonetokenexpiress:Date,
     avatar:String,
+    confirmate:{
+      type:Boolean,
+      default:false
+    },
     location: {
         type: PointSchema,
         index: '2dsphere'

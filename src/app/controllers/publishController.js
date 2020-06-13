@@ -12,6 +12,7 @@ const Vacancies = require('../models/vacancies')
 const authMiddleware = require('../middlewares/auth')
 const Bussines = require('../models/bussines')
 const ComentB = require('../models/comentspostb')
+const ComentAdd = require('../models/comentAdd')
 const Booking = require('../models/booking')
 const User = require('../models/user')
 const Class = require('../models/classrom')
@@ -251,9 +252,9 @@ router.post("/coment/:id", async (req, res) => {
     })
   }
 })
-router.post("add/coment/:id", async (req, res) => {
+router.post("/add/coment/:id", async (req, res) => {
   try {
-    const post = await PostB.findById(req.params.id)
+    const post = await Add.findById(req.params.id)
     const user = await User.findById(req.userId)
     const Text = req.body
 
@@ -269,7 +270,7 @@ router.post("add/coment/:id", async (req, res) => {
     const username = user.name
     const avatar = user.avatar
 
-    const coments = await Coment.create({
+    const coments = await ComentAdd.create({
       user,
       post,
       Text,
@@ -587,7 +588,7 @@ router.get("/feed", async (req, res) => {
     }).populate('bussines').limit(2)
     .sort('-createdAt')
 
-  const adds = await Add.find({}).limit(4).sort('-createdAt').populate('bussines')
+  const adds = await Add.find({}).limit(4).sort('-createdAt').populate('bussines').populate('comments')
   const postbussines = await PostB.find({
     bussines:{
       $in:[user.id, ...followingbussines]
