@@ -772,6 +772,37 @@ router.post("/bussines/posts", multer(multerConfig).single("avatar"), async (req
       error: 'Error in creating new post'
     })
   }
-});
+})
+router.post('/user/confirmate/:token', async (req, res) => {
+  try {
+    const {token} = req.params
+    const user = await User.findOne({_id:req.userId})
+    if (!user)
+      return res.status(400).send({
+        error: 'User does not exist'
+      })
+
+    if (token !== user.usertoken)
+      return res.status(400).send({
+        error: 'Token invalid'
+      })
+
+    const now = new Date()
+
+    if (now > user.usertokenexpiress)
+      return res.status(400).send({
+        error: 'Token expired, generated a new one'
+      })
+
+    user.confirmate = true
+
+    await user.save()
+
+    return res.send(user)
+} catch (error) {
+    console.log(error);   
+  }
+  })
+  
 
 module.exports = app => app.use(router)
