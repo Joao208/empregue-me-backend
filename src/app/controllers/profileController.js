@@ -266,7 +266,7 @@ router.get("/profilebussinesv", async (req, res) => {
 })
 router.get("/profilebussinesv/:id", async (req, res) => {
   try {
-    const bussines = await Bussines.findById(req.userId) 
+    const bussines = await Bussines.findById(req.params.id) 
     const post = await PostB.find({
       bussines: bussines
     }).sort('-createdAt').populate('post').populate('bussines')
