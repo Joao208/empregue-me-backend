@@ -804,5 +804,22 @@ router.post('/user/confirmate/:token', async (req, res) => {
   }
   })
   
+router.post('/coments/populate/:id', async (req,res) => {
+  try {
+  const post = await Post.findById(req.params.id).populate('coments').populate('user')
+  const add = await Add.findById(req.params.id).populate('coments').populate('bussines')
+  const postb = await PostB.findById(req.params.id).populate('coments').populate('bussines')
+  
+  const response = ({
+    post,
+    add,
+    postb
+  })
+
+  res.send(response)
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 module.exports = app => app.use(router)
