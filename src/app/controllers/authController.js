@@ -63,8 +63,8 @@ router.post('/userregister', async (req, res) => {
     const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey('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');
     const msg = {
-      to: 'augustoj311@gmail.com',
-      from: email,
+      to:email,
+      from: 'augustoj311@gmail.com',
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
       html: `
