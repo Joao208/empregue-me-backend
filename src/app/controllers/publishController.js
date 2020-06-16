@@ -804,22 +804,32 @@ router.post('/user/confirmate/:token', async (req, res) => {
   }
   })
   
-router.get('/coments/populate/:id', async (req,res) => {
-  try {
-  const post = await Post.findById(req.params.id).populate('coments').populate('user')
-  const add = await Add.findById(req.params.id).populate('coments').populate('bussines')
-  const postb = await PostB.findById(req.params.id).populate('coments').populate('bussines')
-  
-  const response = ({
-    post,
-    add,
-    postb
+  router.get('/coments/post/populate/:id', async (req,res) => {
+    try {
+    const post = await Post.findById(req.params.id).populate('coments').populate('user')
+      
+    res.send(post)
+    } catch (error) {
+      console.log(error)
+    }
   })
-
-  res.send(response)
-  } catch (error) {
-    console.log(error)
-  }
-})
-
+  router.get('/coments/add/populate/:id', async (req,res) => {
+    try {
+    const add = await Add.findById(req.params.id).populate('coments').populate('bussines')
+      
+    res.send(add)
+    } catch (error) {
+      console.log(error)
+    }
+  })
+  router.get('/coments/postb/populate/:id', async (req,res) => {
+    try {
+    const postb = await PostB.findById(req.params.id).populate('coments').populate('bussines')
+    
+    res.send(postb)
+    } catch (error) {
+      console.log(error)
+    }
+  })
+  
 module.exports = app => app.use(router)
