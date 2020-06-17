@@ -462,6 +462,7 @@ router.post('/confirmphone', async (req, res) => {
         error: 'Token expired, generated a new one'
       })
 
+    user.phoneConfirme = true
 
     await user.save()
 

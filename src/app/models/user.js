@@ -43,6 +43,7 @@ const UserSchema = new mongoose.Schema({
     usertoken:String,
     usertokenexpiress:Date,
     avatar:String,
+    phoneConfirme:Boolean,
     confirmate:{
       type:Boolean,
       default:false
