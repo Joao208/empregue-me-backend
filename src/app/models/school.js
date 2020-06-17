@@ -27,7 +27,10 @@ const SchoolSchema = new mongoose.Schema({
     },
     name:String,
     bio:String,
-    avatar:String
+    avatar:String,
+    confirmate:Boolean,
+    usertoken: String,
+    usertokenexpiress: Date,
 })
 
 

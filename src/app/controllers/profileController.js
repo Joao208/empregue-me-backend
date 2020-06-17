@@ -106,7 +106,6 @@ router.post("/curriculum", multer(multerConfig).single("avatar"), async (req, re
     })
   }
 });
-
 router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const user = await User.findOne({
@@ -228,7 +227,6 @@ router.post('/profilebussines', multer(multerConfig).single("avatar"), async (re
 router.get("/profilebussinesv", async (req, res) => {
   try {
     const bussines = await Bussines.findById(req.userId) 
-    console.log(bussines)
     const post = await PostB.find({
        bussines:bussines
     }).sort('-createdAt').populate('post').populate('bussines')
@@ -302,7 +300,6 @@ router.get("/profilebussinesv/:id", async (req, res) => {
     })
   }
 })
-
 router.get("/profileview", async (req, res) => {
   try {
     const user = await User.findById(req.userId)
@@ -368,7 +365,6 @@ router.get("/profileview/:id", async (req, res) => {
     })
   }
 })
-
 router.delete("/profile/:id", async (req, res) => {
   const profile = await Profile.findById(req.params.id);
 
@@ -376,7 +372,6 @@ router.delete("/profile/:id", async (req, res) => {
 
   return res.send();
 });
-
 router.post('/addphone', async (req, res) => {
   const {
     phone
@@ -438,7 +433,6 @@ router.post('/addphone', async (req, res) => {
   }
 
 })
-
 router.post('/confirmphone', async (req, res) => {
   const {
     phone,
@@ -495,7 +489,6 @@ router.get('/sujestions',async(req, res) => {
     
   res.json(users)
 })
-
 router.post("/follow/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -538,8 +531,7 @@ router.post("/follow/:id", async (req, res) => {
       error: "Error in follow user"
     })
   }
-}
-)
+})
 router.post("/user/followb/:id", async (req, res) => {
   try {
     const user = await Bussines.findById(req.params.id)
@@ -582,8 +574,7 @@ router.post("/user/followb/:id", async (req, res) => {
       error: "Error in follow user"
     })
   }
-}
-)
+})
 router.delete("/user/unfollowb/:id",  async (req, res) => {
   try {
     const user = await Bussines.findById(req.params.id)
@@ -624,9 +615,7 @@ router.delete("/user/unfollowb/:id",  async (req, res) => {
   } catch (err) {
     return res.send(err)
   }
-}
-)
-
+})
 router.delete("/unfollow/:id",  async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -667,8 +656,7 @@ router.delete("/unfollow/:id",  async (req, res) => {
   } catch (err) {
     return res.send(err)
   }
-}
-)
+})
 router.post("/followb/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -708,9 +696,7 @@ router.post("/followb/:id", async (req, res) => {
       error: "Error in follow user"
     })
   }
-}
-)
-
+})
 router.delete("/unfollowb/:id",  async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -749,8 +735,6 @@ router.delete("/unfollowb/:id",  async (req, res) => {
   } catch (err) {
     return res.send(err)
   }
-}
-)
-
+})
 
 module.exports = app => app.use(router)
