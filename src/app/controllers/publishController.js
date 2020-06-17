@@ -824,7 +824,7 @@ router.get('/coments/post/populate/:id', async (req,res) => {
 })
 router.get('/coments/add/populate/:id', async (req,res) => {
   try {
-  const add = await Add.findById(req.params.id).populate('coments').populate('bussines')
+  const add = await Add.findById(req.params.id).populate('comments').populate('bussines')
     
   res.send(add)
   } catch (error) {
