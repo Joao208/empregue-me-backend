@@ -55,7 +55,6 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
     })
   }
 })
-
 router.delete("/posts/:id", async (req, res) => {
   const post = await Post.findById(req.params.id);
 
@@ -63,7 +62,6 @@ router.delete("/posts/:id", async (req, res) => {
 
   return res.send();
 });
-
 router.get("/user", async (req, res) => {
   const userid = req.userId
   const user = await User.find({
@@ -72,7 +70,6 @@ router.get("/user", async (req, res) => {
 
   return res.send(user);
 });
-
 router.get("/mybussines", async (req, res) => {
   const userid = req.userId
   const user = await Bussines.find({
@@ -81,8 +78,6 @@ router.get("/mybussines", async (req, res) => {
 
   return res.send(user);
 });
-
-
 router.get("/add", async (req, res) => {
   const user = await User.findById(req.userId)
   const {
@@ -103,7 +98,6 @@ router.get("/add", async (req, res) => {
     comments
   });
 });
-
 router.post("/add", multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const text = req.body
@@ -137,7 +131,6 @@ router.post("/add", multer(multerConfig).single("avatar"), async (req, res) => {
     })
   }
 });
-
 router.delete("/add/:id", async (req, res) => {
   const add = await Add.findById(req.params.id);
 
@@ -145,13 +138,11 @@ router.delete("/add/:id", async (req, res) => {
 
   return res.send();
 });
-
 router.get("/vacancies", async (req, res) => {
   const vacancies = await Vacancies.find().populate('bussines');
 
   return res.json(vacancies);
 });
-
 router.post("/vacancies", multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const text = req.body
@@ -188,7 +179,6 @@ router.delete("/vacancies/:id", async (req, res) => {
 
   return res.send();
 });
-
 router.post("/coment/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
@@ -405,7 +395,6 @@ router.post("/vacancies/:id/booking", async (req, res) => {
   }
 
 })
-
 router.get("/postsbussines", async (req, res) => {
   const user = await User.findById(req.userId)
   const {
@@ -426,8 +415,7 @@ router.get("/postsbussines", async (req, res) => {
     posts,
     comments
   });
-});
-
+})
 router.delete("/postsbussines/:id", async (req, res) => {
   const post = await PostB.findById(req.params.id);
 
@@ -435,7 +423,6 @@ router.delete("/postsbussines/:id", async (req, res) => {
 
   return res.send();
 })
-
 router.post('/likes/:id', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
@@ -520,7 +507,6 @@ router.post('/postb/likes/:id', async (req, res) => {
   }
 
 })
-
 router.post('/likesadd/:id', async (req, res) => {
   try {
     const post = await Add.findById(req.params.id)
@@ -563,8 +549,6 @@ router.post('/likesadd/:id', async (req, res) => {
   }
 
 })
-
-
 router.get("/feed", async (req, res) => {
   const user = await User.findById(req.userId)
   const {following} = user
@@ -607,7 +591,6 @@ router.get("/feed", async (req, res) => {
 
   return res.send(feed)
 })
-
 router.post("/classroom", multer(multerClass).array("avatar"), async (req, res) => {
   try {
     const school = req.userId
@@ -628,7 +611,6 @@ router.post("/classroom", multer(multerClass).array("avatar"), async (req, res) 
     return res.send(e)
   }
 })
-
 router.post("/check/location", async (req,res) => {
   try{
     const {latitude,longitude} = req.body
@@ -646,7 +628,6 @@ router.post("/check/location", async (req,res) => {
     return res.send('error')
   }
 })
-
 router.post("/bussines/check/location", async(req,res) => {
   try{
     const bussines = req.userId
@@ -664,7 +645,6 @@ router.post("/bussines/check/location", async(req,res) => {
     console.log(e)
   }
 })
-
 router.post("/post/share/:id", async (req,res) => {
   try{
     const post = await Post.findById(req.params.id)
@@ -802,34 +782,33 @@ router.post('/user/confirmate/:token', async (req, res) => {
 } catch (error) {
     console.log(error);   
   }
-  })
-  
-  router.get('/coments/post/populate/:id', async (req,res) => {
-    try {
-    const post = await Post.findById(req.params.id).populate('coments').populate('user')
-      
-    res.send(post)
-    } catch (error) {
-      console.log(error)
-    }
-  })
-  router.get('/coments/add/populate/:id', async (req,res) => {
-    try {
-    const add = await Add.findById(req.params.id).populate('coments').populate('bussines')
-      
-    res.send(add)
-    } catch (error) {
-      console.log(error)
-    }
-  })
-  router.get('/coments/postb/populate/:id', async (req,res) => {
-    try {
-    const postb = await PostB.findById(req.params.id).populate('coments').populate('bussines')
+})
+router.get('/coments/post/populate/:id', async (req,res) => {
+  try {
+  const post = await Post.findById(req.params.id).populate('coments').populate('user')
     
-    res.send(postb)
-    } catch (error) {
-      console.log(error)
-    }
-  })
+  res.send(post)
+  } catch (error) {
+    console.log(error)
+  }
+})
+router.get('/coments/add/populate/:id', async (req,res) => {
+  try {
+  const add = await Add.findById(req.params.id).populate('coments').populate('bussines')
+    
+  res.send(add)
+  } catch (error) {
+    console.log(error)
+  }
+})
+router.get('/coments/postb/populate/:id', async (req,res) => {
+  try {
+  const postb = await PostB.findById(req.params.id).populate('coments').populate('bussines')
+  
+  res.send(postb)
+  } catch (error) {
+    console.log(error)
+  }
+})
   
 module.exports = app => app.use(router)
