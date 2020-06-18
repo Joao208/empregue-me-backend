@@ -4,6 +4,7 @@ node_modules
 # Adonis directory for storing tmp files
 tmp/uploads/*
 !tmp/uploads/.gitkeep
+yarn.lock
 
 # Environment variables, never commit this file
 .env
