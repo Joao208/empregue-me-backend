@@ -30,6 +30,8 @@ const BussinesSchema = new mongoose.Schema({
     },
     followers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+    followersbussines: [{ type: mongoose.Schema.ObjectId, ref: 'Bussines' }],
+    followingbussines: [{ type: mongoose.Schema.ObjectId, ref: 'Bussines' }],
     createdAt:{
         type:Date,
         default:Date.now

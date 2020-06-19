@@ -1,5 +1,4 @@
 # Node modules
-node_modules
 
 # Adonis directory for storing tmp files
 tmp/uploads/*

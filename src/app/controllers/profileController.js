@@ -21,91 +21,6 @@ const router = Router()
 
 router.use(authMiddleware)
 
-router.post("/curriculum", multer(multerConfig).single("avatar"), async (req, res) => {
-  try {
-    const {
-      name,
-      street,
-      number,
-      bairro,
-      city,
-      dateOfNasciment,
-      cellPhone,
-      academyFormation,
-      qualifications,
-      expirence,
-    } = req.body
-    const user = req.userId
-
-    const curriculum = await Curriculum.create({
-      name,
-      street,
-      number,
-      bairro,
-      city,
-      dateOfNasciment,
-      cellPhone,
-      academyFormation,
-      qualifications,
-      expirence,
-      user,
-    })
-
-    var conteudo = `
-		<h1>Curriculo Vitae</h1>		
-		<div>
-			<h2>Dados Pessoais</h2>			
-				<div class="vcard">
-				  <img src="https://debrasileiroparabrasileiro.com/wp-content/uploads/2019/01/15.jpg" alt="photo" />
-         <span>${name}</span>
-         <span>, Nascido em:${dateOfNasciment}</span>
-         <span>, Celular:${cellPhone}</span>				
-				<div>
-				  <span>${city}</span>
-          <span>,${bairro}</span>
-          <span>,${street}</span>
-          <span>,${number}</span>
-				 </div>
-				</div>
-		</div>
-
-		<div>
-			<h2>Dados Profissionais</h2>
-			
-			<p><label>Empresa</label>${expirence}</p>
-		</div>
-
-		<div>
-			<h2>Formação</h2>
-			
-			<p><label>Curso</label>${academyFormation}</p>
-    </div>
-    
-    <div>
-    <h2>Formação</h2>
-    
-    <p><label>Curso</label>${qualifications}</p>
-    </div>
-    `
-
-    const curriculumPdf = await pdf.create(conteudo, {}).toFile(`./${user}.pdf`, (err, response) => {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log(response)
-      }
-
-    })
-
-    return res.json(curriculum)
-
-  } catch (e) {
-    console.log(e)
-    return res.status(400).send({
-      error: 'Error in creating new curriculum'
-    })
-  }
-});
 router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) => {
   try {
     const user = await User.findOne({
@@ -730,6 +645,90 @@ router.delete("/unfollowb/:id",  async (req, res) => {
 
     if (FolowUserSocket) {
       req.io.to(FolowUserSocket).emit('follow', user);
+    }
+
+    return res.json(me)
+  } catch (err) {
+    return res.send(err)
+  }
+})
+router.post("/bussines/followb/:id", async (req, res) => {
+  try {
+    const user = await Bussines.findById(req.params.id)
+    const profile1 = await ProfileB.findOne({bussines:req.params.id})
+    const profile2 = await Profile.findOne({user:req.userId})
+
+    if (!user) {
+      return res.status(400).json({
+        error: 'usuario não existe '
+      })
+    }
+
+    if (user.followers.indexOf(req.userId) !== -1) {
+      return res
+        .status(400)
+        .json({
+          error: `você já está seguindo ${user.name}`
+        })
+    }
+    user.followers.push(req.userId)
+    await user.save()
+
+    /** following */
+    const me = await Bussines.findById(req.userId)
+
+    me.followingbussines.push(req.userId)
+    await me.save()
+
+    const FolowUserSocket = req.connectedUsers[user .user];
+
+    if (FolowUserSocket) {
+      req.io.to(FolowUserSocket).emit('follow_you', profile1);
+      req.io.to(FolowUserSocket).emit('follow_me', profile2)
+    }
+
+    return res.json(me)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({
+      error: "Error in follow user"
+    })
+  }
+})
+router.delete("/bussines/unfollowb/:id",  async (req, res) => {
+  try {
+    const user = await Bussines.findById(req.params.id)
+    const profile1 = await ProfileB.findOne({user:req.params.id})
+    const profile2 = await Profile.findOne({user:req.userId})
+    if (!user) {
+      return res.status(400).json({
+        error: `usuario não existe`
+      })
+    }
+
+    const following = user.followers.indexOf(req.userId)
+
+    if (following === -1) {
+      return res
+        .status(400)
+        .json({
+          error: `você não está seguindo ${user.name}`
+        })
+    }
+
+    user.followers.splice(following, 1)
+    await user.save()
+
+    const me = await Bussines.findById(req.userId)
+
+    me.followingbussines.splice(me.followingbussines.indexOf(user.id), 1)
+    await me.save()
+
+    const FolowUserSocket = req.connectedUsers[user .user];
+
+    if (FolowUserSocket) {
+      req.io.to(FolowUserSocket).emit('follow_you', profile1)
+      req.io.to(FolowUserSocket).emit('follow_me', profile2)
     }
 
     return res.json(me)
