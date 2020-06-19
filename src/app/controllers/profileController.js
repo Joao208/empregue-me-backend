@@ -156,13 +156,13 @@ router.get("/profilebussinesv", async (req, res) => {
     }).populate('vacancies')
 
     const profileuser = ({
-      followersCount: bussines.followers.length,
-      followingCount: bussines.following.length,
       bussines,
       post,
       profile,
       add,
-      vacancies
+      vacancies,
+      followersCount: bussines.followers.length + bussines.followersbussines.length,
+      followingCount: bussines.following.length + bussines.followingbussines.length,
     })
 
     if (profile === null)
@@ -199,8 +199,8 @@ router.get("/profilebussinesv/:id", async (req, res) => {
       profile,
       add,
       vacancies,
-      followersCount: bussines.followers.length,
-      followingCount: bussines.following.length
+      followersCount: bussines.followers.length + bussines.followersbussines.length,
+      followingCount: bussines.following.length + bussines.followingbussines.length,
     })
 
     if (profile === null)
