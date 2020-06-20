@@ -815,7 +815,7 @@ router.post('/school/confirmate/:token', async (req, res) => {
 })
 router.get('/coments/post/populate/:id', async (req,res) => {
   try {
-  const post = await Post.findById(req.params.id).populate('coments').populate('user')
+  const post = await Post.findById(req.params.id).populate('comments').populate('user')
     
   res.send(post)
   } catch (error) {
