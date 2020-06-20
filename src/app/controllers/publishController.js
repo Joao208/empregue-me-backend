@@ -833,7 +833,7 @@ router.get('/coments/add/populate/:id', async (req,res) => {
 })
 router.get('/coments/postb/populate/:id', async (req,res) => {
   try {
-  const postb = await PostB.findById(req.params.id).populate('coments').populate('bussines')
+  const postb = await PostB.findById(req.params.id).populate('comments').populate('bussines')
   
   res.send(postb)
   } catch (error) {
