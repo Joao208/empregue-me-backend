@@ -882,4 +882,193 @@ router.get("/bussines/feed", async (req, res) => {
 
   return res.send(feed)
 })
+router.post("/bussines/coment/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+    const user = await Bussines.findById(req.userId)
+    const Text = req.body
+
+    if (!post) {
+      return res.status(400).json({
+        error: 'Post não exist'
+      })
+    }
+    if (post.user === req.userId) return res.status(400).send({
+      error: "Unable to update post."
+    })
+
+    const username = user.nome
+    const avatar = user.avatar
+
+    const coments = await Coment.create({
+      user,
+      post,
+      Text,
+      avatar,
+      username
+    })
+
+    const postAlreadyLiked = post.comments.some(coment => coment == coments.id)
+
+    if (postAlreadyLiked) {
+      post.comments = post.comments.filter(coment => coment != coments.id)
+      post.set({
+        commentCount: post.likeCount - 1
+      })
+    } else {
+      post.comments.push(coments.id)
+      post.set({
+        commentCount: post.likeCount + 1
+      })
+    }
+
+
+    post.save()
+
+    const PostuserSocket = req.connectedUsers[post.user]
+
+    if (PostuserSocket) {
+      req.io.to(PostuserSocket).emit('like', post)
+    }
+
+    await post.populate('comments').execPopulate()
+
+    return res.json({
+      coments,
+      post
+    })
+
+  } catch (e) {
+    console.log(e)
+    return res.status(400).send({
+      error: 'erro in create coment'
+    })
+  }
+})
+router.post("/bussines/add/coment/:id", async (req, res) => {
+  try {
+    const post = await Add.findById(req.params.id)
+    const user = await Bussines.findById(req.userId)
+    const Text = req.body
+
+    if (!post) {
+      return res.status(400).json({
+        error: 'Post não exist'
+      })
+    }
+    if (post.user === req.userId) return res.status(400).send({
+      error: "Unable to update post."
+    })
+
+    const username = user.nome
+    const avatar = user.avatar
+
+    const coments = await ComentAdd.create({
+      user,
+      post,
+      Text,
+      avatar,
+      username
+    })
+
+    const postAlreadyLiked = post.comments.some(coment => coment == coments.id)
+
+    if (postAlreadyLiked) {
+      post.comments = post.comments.filter(coment => coment != coments.id)
+      post.set({
+        commentCount: post.likeCount - 1
+      })
+    } else {
+      post.comments.push(coments.id)
+      post.set({
+        commentCount: post.likeCount + 1
+      })
+    }
+
+
+    post.save()
+
+    const PostuserSocket = req.connectedUsers[post.user]
+
+    if (PostuserSocket) {
+      req.io.to(PostuserSocket).emit('like', post)
+    }
+
+    await post.populate('comments').execPopulate()
+
+    return res.json({
+      coments,
+      post
+    })
+
+  } catch (e) {
+    console.log(e)
+    return res.status(400).send({
+      error: 'erro in create coment'
+    })
+  }
+})
+router.post("/bussines/postbussines/coment/:id", async (req, res) => {
+  try {
+    const post = await PostB.findById(req.params.id)
+    const user = await Bussines.findById(req.userId)
+    const Text = req.body
+
+    if (!post) {
+      return res.status(400).json({
+        error: 'Post não exist'
+      })
+    }
+    if (post.user === req.userId) return res.status(400).send({
+      error: "Unable to update post."
+    })
+
+    const username = user.nome
+    const avatar = user.avatar
+
+    const coments = await ComentB.create({
+      user,
+      post,
+      Text,
+      avatar,
+      username
+    })
+
+    const postAlreadyLiked = post.comments.some(coment => coment == coments.id)
+
+    if (postAlreadyLiked) {
+      post.comments = post.comments.filter(coment => coment != coments.id)
+      post.set({
+        commentCount: post.likeCount - 1
+      })
+    } else {
+      post.comments.push(coments.id)
+      post.set({
+        commentCount: post.likeCount + 1
+      })
+    }
+
+
+    post.save()
+
+    const PostuserSocket = req.connectedUsers[post.user]
+
+    if (PostuserSocket) {
+      req.io.to(PostuserSocket).emit('like', post)
+    }
+
+    await post.populate('comments').execPopulate()
+
+    return res.json({
+      coments,
+      post
+    })
+
+  } catch (e) {
+    console.log(e)
+    return res.status(400).send({
+      error: 'erro in create coment'
+    })
+  }
+})
 module.exports = app => app.use(router)
