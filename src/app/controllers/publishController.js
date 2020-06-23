@@ -224,7 +224,7 @@ router.post("/coment/:id", async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = post.populate('user').populate('comments')
+    const postd = Post.findById(post._id).populate('user').populate('comments')
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
@@ -288,7 +288,7 @@ router.post("/add/coment/:id", async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = await post.populate('bussines').populate('comments').execPopulate()
+    const postd = await Add.findById(post._id).populate('bussines').populate('comments').execPopulate()
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
@@ -351,9 +351,10 @@ router.post("/postbussines/coment/:id", async (req, res) => {
     post.save()
 
     const PostuserSocket = req.connectedUsers[post.user]
+    const postd = await PostB.findById(post._id).populate('bussines').populate('comments')
 
     if (PostuserSocket) {
-      req.io.emit('like', post)
+      req.io.emit('like', postd)
     }
 
     return res.json({
@@ -453,7 +454,7 @@ router.post('/likes/:id', async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = post.populate('user').populate('comments')
+    const postd = await Post.findById(post._id).populate('user').populate('comments')
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
@@ -496,7 +497,7 @@ router.post('/postb/likes/:id', async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = await post.populate('bussines').populate('comments').execPopulate()
+    const postd = await PostB.findById(post._id).populate('bussines').populate('comments')
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
@@ -539,7 +540,7 @@ router.post('/likesadd/:id', async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = await post.populate('bussines').populate('comments').execPopulate()
+    const postd = await Add.findById(post._id).populate('bussines').populate('comments')
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
