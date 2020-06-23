@@ -141,18 +141,18 @@ router.post('/profilebussines', multer(multerConfig).single("avatar"), async (re
 })
 router.get("/profilebussinesv", async (req, res) => {
   try {
-    const bussines = await Bussines.findById(req.userId) 
+    const bussines = await Bussines.findById(req.userId)
     const post = await PostB.find({
-       bussines:bussines
+      bussines: bussines
     }).sort('-createdAt').populate('post').populate('bussines')
     const profile = await ProfileB.find({
-       bussines:bussines
+      bussines: bussines
     }).populate('bussines').populate('profile')
     const add = await Add.find({
-      bbussines:bussines
+      bbussines: bussines
     }).populate('add').populate('bussines').sort('-createdAt')
     const vacancies = await Vacancies.find({
-      bussines:bussines
+      bussines: bussines
     }).populate('vacancies')
 
     const profileuser = ({
@@ -179,7 +179,7 @@ router.get("/profilebussinesv", async (req, res) => {
 })
 router.get("/profilebussinesv/:id", async (req, res) => {
   try {
-    const bussines = await Bussines.findById(req.params.id) 
+    const bussines = await Bussines.findById(req.params.id)
     const post = await PostB.find({
       bussines: bussines
     }).sort('-createdAt').populate('post').populate('bussines')
@@ -229,8 +229,8 @@ router.get("/profileview", async (req, res) => {
     }).populate('curriculum')
 
     if (profile === null)
-    return res.send('User does not have a profile')
-    
+      return res.send('User does not have a profile')
+
     return res.json({
       user,
       curriculum,
@@ -388,28 +388,35 @@ router.post('/confirmphone', async (req, res) => {
     })
   }
 })
-router.get('/sujestions',async(req, res) => {
-  const {longitude,latitude} = req.query
+router.get('/sujestions', async (req, res) => {
+  const {
+    longitude,
+    latitude
+  } = req.query
 
   const users = await User.find({
-      location: {
-          $near: {
-              $geometry: {
-                  type: 'Point',
-                  coordinates: [longitude, latitude]
-              },
-              $maxDistance: 10000
-          }
+    location: {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates: [longitude, latitude]
+        },
+        $maxDistance: 10000
       }
+    }
   }).limit(5).sort('-createdAt')
-    
+
   res.json(users)
 })
 router.post("/follow/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
-    const profile1 = await Profile.findOne({user:req.params.id})
-    const profile2 = await Profile.findOne({user:req.userId})
+    const profile1 = await Profile.findOne({
+      user: req.params.id
+    }).populate('user').populate('profile')
+    const profile2 = await Profile.findOne({
+      user: req.userId
+    }).populate('user').populate('profile')
 
     if (!user) {
       return res.status(400).json({
@@ -433,11 +440,11 @@ router.post("/follow/:id", async (req, res) => {
     me.following.push(req.userId)
     await me.save()
 
-    const FolowUserSocket = req.connectedUsers[user .user];
+    const FolowUserSocket = req.connectedUsers[user.user];
 
     if (FolowUserSocket) {
-      req.io.to(FolowUserSocket).emit('follow_you', profile1);
-      req.io.to(FolowUserSocket).emit('follow_me', profile2)
+      req.io.emit('follow_you', profile1);
+      req.io.emit('follow_me', profile2)
     }
 
     return res.json(me)
@@ -448,11 +455,60 @@ router.post("/follow/:id", async (req, res) => {
     })
   }
 })
+router.delete("/unfollow/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    const profile1 = await Profile.findOne({
+      user: req.params.id
+    }).populate('user').populate('profile')
+    const profile2 = await Profile.findOne({
+      user: req.userId
+    }).populate('user').populate('profile')
+    if (!user) {
+      return res.status(400).json({
+        error: `usuario não existe`
+      })
+    }
+
+    const following = user.followers.indexOf(req.userId)
+
+    if (following === -1) {
+      return res
+        .status(400)
+        .json({
+          error: `você não está seguindo ${user.name}`
+        })
+    }
+
+    user.followers.splice(following, 1)
+    await user.save()
+
+    const me = await User.findById(req.userId)
+    console.log(me)
+    me.following.splice(me.following.indexOf(user.id), 1)
+    await me.save()
+
+    const FolowUserSocket = req.connectedUsers[user.user];
+
+    if (FolowUserSocket) {
+      req.io.emit('follow_you', profile1);
+      req.io.emit('follow_me', profile2)
+    }
+
+    return res.json(me)
+  } catch (err) {
+    return res.send(err)
+  }
+})
 router.post("/user/followb/:id", async (req, res) => {
   try {
     const user = await Bussines.findById(req.params.id)
-    const profile1 = await ProfileB.findOne({bussines:req.params.id})
-    const profile2 = await Profile.findOne({user:req.userId})
+    const profile1 = await ProfileB.findOne({
+      bussines: req.params.id
+    }).populate('bussines').populate('profile')
+    const profile2 = await Profile.findOne({
+      user: req.userId
+    }).populate('user').populate('profile')
 
     if (!user) {
       return res.status(400).json({
@@ -476,11 +532,11 @@ router.post("/user/followb/:id", async (req, res) => {
     me.followingbussines.push(req.userId)
     await me.save()
 
-    const FolowUserSocket = req.connectedUsers[user .user];
+    const FolowUserSocket = req.connectedUsers[user.user];
 
     if (FolowUserSocket) {
-      req.io.to(FolowUserSocket).emit('follow_you', profile1);
-      req.io.to(FolowUserSocket).emit('follow_me', profile2)
+      req.io.emit('follow_you', profile1);
+      req.io.emit('follow_me', profile2)
     }
 
     return res.json(me)
@@ -491,11 +547,15 @@ router.post("/user/followb/:id", async (req, res) => {
     })
   }
 })
-router.delete("/user/unfollowb/:id",  async (req, res) => {
+router.delete("/user/unfollowb/:id", async (req, res) => {
   try {
     const user = await Bussines.findById(req.params.id)
-    const profile1 = await ProfileB.findOne({user:req.params.id})
-    const profile2 = await Profile.findOne({user:req.userId})
+    const profile1 = await ProfileB.findOne({
+      bussines: req.params.id
+    }).populate('bussines').populate('profile')
+    const profile2 = await Profile.findOne({
+      user: req.userId
+    }).populate('user').populate('profile')
     if (!user) {
       return res.status(400).json({
         error: `usuario não existe`
@@ -520,131 +580,11 @@ router.delete("/user/unfollowb/:id",  async (req, res) => {
     me.followingbussines.splice(me.followingbussines.indexOf(user.id), 1)
     await me.save()
 
-    const FolowUserSocket = req.connectedUsers[user .user];
+    const FolowUserSocket = req.connectedUsers[user.user];
 
     if (FolowUserSocket) {
-      req.io.to(FolowUserSocket).emit('follow_you', profile1)
-      req.io.to(FolowUserSocket).emit('follow_me', profile2)
-    }
-
-    return res.json(me)
-  } catch (err) {
-    return res.send(err)
-  }
-})
-router.delete("/unfollow/:id",  async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id)
-    const profile1 = await Profile.findOne({user:req.params.id})
-    const profile2 = await Profile.findOne({user:req.userId})
-    if (!user) {
-      return res.status(400).json({
-        error: `usuario não existe`
-      })
-    }
-
-    const following = user.followers.indexOf(req.userId)
-
-    if (following === -1) {
-      return res
-        .status(400)
-        .json({
-          error: `você não está seguindo ${user.name}`
-        })
-    }
-
-    user.followers.splice(following, 1)
-    await user.save()
-
-    const me = await User.findById(req.userId)
-    console.log(me)
-    me.following.splice(me.following.indexOf(user.id), 1)
-    await me.save()
-
-    const FolowUserSocket = req.connectedUsers[user .user];
-
-    if (FolowUserSocket) {
-      req.io.to(FolowUserSocket).emit('follow_you', profile1)
-      req.io.to(FolowUserSocket).emit('follow_me', profile2)
-    }
-
-    return res.json(me)
-  } catch (err) {
-    return res.send(err)
-  }
-})
-router.post("/followb/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id)
-
-    if (!user) {
-      return res.status(400).json({
-        error: 'usuario não existe '
-      })
-    }
-
-    if (user.followers.indexOf(req.userId) !== -1) {
-      return res
-        .status(400)
-        .json({
-          error: `você já está seguindo ${user.name}`
-        })
-    }
-    user.followers.push(req.userId)
-    await user.save()
-
-    /** following */
-    const me = await Bussines.findById(req.userId)
-
-    me.following.push(req.userId)
-    await me.save()
-
-    const FolowUserSocket = req.connectedUsers[user .user];
-
-    if (FolowUserSocket) {
-      req.io.to(FolowUserSocket).emit('follow', user);
-    }
-
-    return res.json(me)
-  } catch (err) {
-    console.log(err)
-    return res.status(400).send({
-      error: "Error in follow user"
-    })
-  }
-})
-router.delete("/unfollowb/:id",  async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id)
-
-    if (!user) {
-      return res.status(400).json({
-        error: `usuario não existe`
-      })
-    }
-
-    const following = user.followers.indexOf(req.userId)
-
-    if (following === -1) {
-      return res
-        .status(400)
-        .json({
-          error: `você não está seguindo ${user.name}`
-        })
-    }
-
-    user.followers.splice(following, 1)
-    await user.save()
-
-    const me = await Bussines.findById(req.userId)
-    console.log(me)
-    me.following.splice(me.following.indexOf(user.id), 1)
-    await me.save()
-
-    const FolowUserSocket = req.connectedUsers[user .user];
-
-    if (FolowUserSocket) {
-      req.io.to(FolowUserSocket).emit('follow', user);
+      req.io.emit('follow_you', profile1)
+      req.io.emit('follow_me', profile2)
     }
 
     return res.json(me)
@@ -655,8 +595,12 @@ router.delete("/unfollowb/:id",  async (req, res) => {
 router.post("/bussines/followb/:id", async (req, res) => {
   try {
     const user = await Bussines.findById(req.params.id)
-    const profile1 = await ProfileB.findOne({bussines:req.params.id})
-    const profile2 = await Profile.findOne({user:req.userId})
+    const profile1 = await ProfileB.findOne({
+      bussines: req.params.id
+    }).populate('bussines').populate('profile')
+    const profile2 = await ProfileB.findOne({
+      bussines: req.userId
+    }).populate('bussines').populate('profile')
 
     if (!user) {
       return res.status(400).json({
@@ -680,11 +624,11 @@ router.post("/bussines/followb/:id", async (req, res) => {
     me.followingbussines.push(req.userId)
     await me.save()
 
-    const FolowUserSocket = req.connectedUsers[user .user];
+    const FolowUserSocket = req.connectedUsers[user.user];
 
     if (FolowUserSocket) {
-      req.io.to(FolowUserSocket).emit('follow_you', profile1);
-      req.io.to(FolowUserSocket).emit('follow_me', profile2)
+      req.io.emit('follow_you', profile1);
+      req.io.emit('follow_me', profile2)
     }
 
     return res.json(me)
@@ -695,11 +639,15 @@ router.post("/bussines/followb/:id", async (req, res) => {
     })
   }
 })
-router.delete("/bussines/unfollowb/:id",  async (req, res) => {
+router.delete("/bussines/unfollowb/:id", async (req, res) => {
   try {
     const user = await Bussines.findById(req.params.id)
-    const profile1 = await ProfileB.findOne({user:req.params.id})
-    const profile2 = await Profile.findOne({user:req.userId})
+    const profile1 = await ProfileB.findOne({
+      bussines: req.params.id
+    }).populate('bussines').populate('profile')
+    const profile2 = await ProfileB.findOne({
+      bussines: req.userId
+    }).populate('bussines').populate('profile')
     if (!user) {
       return res.status(400).json({
         error: `usuario não existe`
@@ -724,11 +672,11 @@ router.delete("/bussines/unfollowb/:id",  async (req, res) => {
     me.followingbussines.splice(me.followingbussines.indexOf(user.id), 1)
     await me.save()
 
-    const FolowUserSocket = req.connectedUsers[user .user];
+    const FolowUserSocket = req.connectedUsers[user.user];
 
     if (FolowUserSocket) {
-      req.io.to(FolowUserSocket).emit('follow_you', profile1)
-      req.io.to(FolowUserSocket).emit('follow_me', profile2)
+      req.io.emit('follow_you', profile1);
+      req.io.emit('follow_me', profile2)
     }
 
     return res.json(me)
@@ -736,5 +684,98 @@ router.delete("/bussines/unfollowb/:id",  async (req, res) => {
     return res.send(err)
   }
 })
+router.post("/bussines/follow/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    const profile1 = await Profile.findOne({
+      user: req.params.id
+    }).populate('user').populate('profile')
+    const profile2 = await ProfileB.findOne({
+      bussines: req.userId
+    }).populate('bussines').populate('profile')
+
+    if (!user) {
+      return res.status(400).json({
+        error: 'usuario não existe '
+      })
+    }
+
+    if (user.followers.indexOf(req.userId) !== -1) {
+      return res
+        .status(400)
+        .json({
+          error: `você já está seguindo ${user.name}`
+        })
+    }
+    user.followers.push(req.userId)
+    await user.save()
+
+    /** following */
+    const me = await Bussines.findById(req.userId)
+
+    me.following.push(req.userId)
+    await me.save()
+
+    const FolowUserSocket = req.connectedUsers[user.user];
+
+    if (FolowUserSocket) {
+      req.io.emit('follow_you', profile1);
+      req.io.emit('follow_me', profile2)
+    }
+
+    return res.json(me)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({
+      error: "Error in follow user"
+    })
+  }
+})
+router.delete("/bussines/unfollow/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    const profile1 = await Profile.findOne({
+      user: req.params.id
+    }).populate('user').populate('profile')
+    const profile2 = await ProfileB.findOne({
+      bussines: req.userId
+    }).populate('bussines').populate('profile')
+    if (!user) {
+      return res.status(400).json({
+        error: `usuario não existe`
+      })
+    }
+
+    const following = user.followers.indexOf(req.userId)
+
+    if (following === -1) {
+      return res
+        .status(400)
+        .json({
+          error: `você não está seguindo ${user.name}`
+        })
+    }
+
+    user.followers.splice(following, 1)
+    await user.save()
+
+    const me = await Bussines.findById(req.userId)
+    console.log(me)
+    me.following.splice(me.following.indexOf(user.id), 1)
+    await me.save()
+
+    const FolowUserSocket = req.connectedUsers[user.user];
+
+    if (FolowUserSocket) {
+      req.io.emit('follow_you', profile1);
+      req.io.emit('follow_me', profile2)
+    }
+
+    return res.json(me)
+  } catch (err) {
+    return res.send(err)
+  }
+})
+
 
 module.exports = app => app.use(router)
