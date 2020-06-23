@@ -348,13 +348,13 @@ router.post("/postbussines/coment/:id", async (req, res) => {
 
     post.save()
 
+    await post.populate('comments').populate('user')
+
     const PostuserSocket = req.connectedUsers[post.user]
 
     if (PostuserSocket) {
-      req.io.emit('like', post.populate('user'))
+      req.io.emit('like', post)
     }
-
-    await post.populate('comments').execPopulate()
 
     return res.json({
       coments,
