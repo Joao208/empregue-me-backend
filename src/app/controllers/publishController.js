@@ -288,7 +288,7 @@ router.post("/add/coment/:id", async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = post.populate('bussines').populate('comments')
+    const postd = await post.populate('bussines').populate('comments').execPopulate()
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
@@ -496,7 +496,7 @@ router.post('/postb/likes/:id', async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = post.populate('bussines').populate('comments')
+    const postd = await post.populate('bussines').populate('comments').execPopulate()
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
@@ -539,7 +539,7 @@ router.post('/likesadd/:id', async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = post.populate('bussines').populate('comments')
+    const postd = await post.populate('bussines').populate('comments').execPopulate()
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
@@ -994,7 +994,7 @@ router.post("/bussines/add/coment/:id", async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = post.populate('bussines').populate('comments')
+    const postd = await post.populate('bussines').populate('comments').execPopulate()
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
@@ -1058,7 +1058,7 @@ router.post("/bussines/postbussines/coment/:id", async (req, res) => {
 
     const PostuserSocket = req.connectedUsers[post.user]
 
-    const postd = post.populate('bussines').populate('comments')
+    const postd = await post.populate('bussines').populate('comments').execPopulate()
     if (PostuserSocket) {
       req.io.emit('like', postd)
     }
