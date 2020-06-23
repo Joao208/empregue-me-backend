@@ -34,7 +34,15 @@ const {
       }
   })
 
-  router.get()
+  router.get('/dashboard/view',async (req,res) => {
+      try {
+          const school = School.findById(req.userId)
+          const classes = Class.find({school:req.userId})
+          
+      } catch (error) {
+          console.log(error)
+      }
+  })
 
   module.exports = app => app.use(router)
   
