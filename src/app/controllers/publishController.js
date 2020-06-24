@@ -382,7 +382,7 @@ router.post("/vacancies/:id/booking", async (req, res) => {
     await booking.populate('vacancies').populate('bussines').populate('user').execPopulate();
 
     const ownerSocket = req.connectedUsers[booking.vacancies.bussines];
-
+    console.log(booking.vacancies.bussines)
     if (ownerSocket) {
       req.io.to(ownerSocket).emit('booking_request', booking);
     }
