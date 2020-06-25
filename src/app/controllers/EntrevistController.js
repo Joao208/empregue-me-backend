@@ -1,4 +1,5 @@
 const Booking = require('../models/booking');
+const Notification = require('../models/notification')
 
 module.exports = {
   async store(req, res) {
@@ -9,11 +10,27 @@ module.exports = {
     booking.approved = true;
     await booking.save();
 
-    const bookingUserSocket = req.connectedUsers[booking .user];
+    const bookingUserSocket = req.connectedUsers[booking.user];
+
+    const notification = await Notification.create({
+      user:booking.user,
+    })
+    console.log(notification)
+    const notificationAlreadyCreated = notification.bookings.some(bookings => bookings == booking.id)
+
+    if (notificationAlreadyCreated) {
+      notification.bookings = notification.bookings.filter(bookings => bookings != booking.id)
+    } else {
+      notification.bookings.push(booking.id)
+    }
+    notification.save()
+
+    await notification.populate('vacancies').populate('user').execPopulate()
 
     if (bookingUserSocket) {
-      req.io.to(bookingUserSocket).emit('booking_response', booking);
+      req.io.to(bookingUserSocket).emit('booking_response', notification)
     }
+    console.log(notification)
     return res.json(booking);
   }
 };

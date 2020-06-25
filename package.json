@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.1.1",
+    "@tensorflow/tfjs-node": "^2.0.1",
     "aws-sdk": "^2.390.0",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
@@ -45,6 +46,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "nodemon": "^2.0.4",
     "prebuild-install": "^5.3.4",
     "pusher": "^3.0.1",
     "socket.io": "^2.3.0"

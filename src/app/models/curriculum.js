@@ -9,22 +9,7 @@ const CurriculumSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  profile: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Profile',
-  },
   avatar: String,
-  name: String,
-  street: String,
-  number: String,
-  bairro: String,
-  city: String,
-  dateOfNasciment: String,
-  cellPhone: String,
-  academyFormation: String,
-  qualifications: String,
-  expirence: String,
-
 })
 
 CurriculumSchema.virtual('avatar_url').get(function() {

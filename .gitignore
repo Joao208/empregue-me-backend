@@ -7,3 +7,4 @@ tmp/uploads/*
 .env
 "sendgrid.env" 
 "sendgrid.env" 
+node_modules
