@@ -17,6 +17,7 @@ const Booking = require('../models/booking')
 const User = require('../models/user')
 const Class = require('../models/classrom')
 const Check = require('../models/check')
+const Notifications = require('../models/notification')
 const router = Router();
 
 router.use(authMiddleware)
@@ -1076,6 +1077,16 @@ router.post("/bussines/postbussines/coment/:id", async (req, res) => {
     return res.status(400).send({
       error: 'erro in create coment'
     })
+  }
+})
+router.get('/notifications', async (req,res) => {
+  try{
+    const notifications = Notifications.find({user:req.userId}).populate('bookings').populate('user')
+
+
+    return res.send(notifications)
+  }catch(e){
+    console.log(e)
   }
 })
 module.exports = app => app.use(router)
