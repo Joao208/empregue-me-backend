@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('../../database')
 const aws = require("aws-sdk");
 const fs = require("fs");
 const path = require("path");
