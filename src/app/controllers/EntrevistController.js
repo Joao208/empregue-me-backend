@@ -25,7 +25,7 @@ module.exports = {
     }
     notification.save()
 
-    await notification.populate('vacancies').populate('user').execPopulate()
+    await notification.populate('bookings').populate('user').execPopulate()
 
     if (bookingUserSocket) {
       req.io.to(bookingUserSocket).emit('booking_response', notification)
