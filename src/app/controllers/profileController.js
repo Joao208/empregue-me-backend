@@ -787,7 +787,7 @@ router.get('/followed/:id', async (req,res) => {
     })
   }
 
-  return res.send({followed = false})
+  return res.send()
   }catch(error){
     return console.log(error)
   }
