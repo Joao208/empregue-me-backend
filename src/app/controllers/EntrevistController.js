@@ -12,7 +12,7 @@ module.exports = {
 
     const bookingUserSocket = req.connectedUsers[booking.user];
 
-    const notification = await Notification.findOne({user:booking.user}).populate('user').populate('bookings')
+    const notification = await Notification.findOne({user:booking.user}).populate('user').populate('bookings').sort('-createdAt')
 
     if(!notification)
     return notification = await Notification.create({
