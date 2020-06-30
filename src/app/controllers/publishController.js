@@ -1081,9 +1081,10 @@ router.post("/bussines/postbussines/coment/:id", async (req, res) => {
 })
 router.get('/notifications', async (req,res) => {
   try{
-    const notifications = await Notifications.find({user:req.userId}).populate('bookings').limit(1)
+    const notification = await Notification.findOne({user:req.userId}).populate('user').populate('bookings')
 
     return res.send(notifications) 
+    
   }catch(e){
     console.log(e)
   }
