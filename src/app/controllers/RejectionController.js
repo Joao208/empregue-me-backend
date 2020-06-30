@@ -12,10 +12,13 @@ module.exports = {
 
     const bookingUserSocket = req.connectedUsers[booking.user];
 
-    const notification = Notification.create({
+    const notification = await Notification.findOne({user:booking.user}).populate('user').populate('bookings')
+
+    if(!notification)
+    return notification = await Notification.create({
       user:booking.user,
     })
-
+    console.log(notification)
     const notificationAlreadyCreated = notification.bookings.some(bookings => bookings == booking.id)
 
     if (notificationAlreadyCreated) {
@@ -25,12 +28,12 @@ module.exports = {
     }
     notification.save()
 
-    await notification.populate('vacancies').populate('user').execPopulate()
-
+    await notification.populate('bookings').populate('user').execPopulate()
 
     if (bookingUserSocket) {
-      req.io.to(bookingUserSocket).emit('booking_response', notification);
+      req.io.to(bookingUserSocket).emit('booking_response', notification)
     }
+    console.log(notification)
     return res.json(booking);
   }
 };
