@@ -792,5 +792,23 @@ router.get('/followed/:id', async (req,res) => {
     return console.log(error)
   }
 })
+router.get('/followedb/:id', async (req,res) => {
+  try{
+  const user = await Bussines.findById(req.params.id)
+  const followed = true
+
+  if (user.followers.indexOf(req.userId) !== -1) {
+    return res.send({
+      followed
+    })
+  }
+
+  return res.send()
+  }catch(error){
+    return console.log(error)
+  }
+})
+
+
 
 module.exports = app => app.use(router)
