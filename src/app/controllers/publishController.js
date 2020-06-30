@@ -17,7 +17,7 @@ const Booking = require('../models/booking')
 const User = require('../models/user')
 const Class = require('../models/classrom')
 const Check = require('../models/check')
-const Notifications = require('../models/notification')
+const Notification = require('../models/notification')
 const router = Router();
 
 router.use(authMiddleware)
