@@ -1083,7 +1083,7 @@ router.get('/notifications', async (req,res) => {
   try{
     const notification = await Notification.findOne({user:req.userId}).populate('user').populate('bookings')
 
-    return res.send(notifications) 
+    return res.send(notification) 
     
   }catch(e){
     console.log(e)
