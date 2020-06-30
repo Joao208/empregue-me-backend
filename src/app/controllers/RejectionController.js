@@ -1,4 +1,5 @@
 const Booking = require('../models/booking');
+const Notification = require('../models/notification')
 
 module.exports = {
   async store(req, res) {
