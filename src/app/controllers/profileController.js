@@ -776,6 +776,21 @@ router.delete("/bussines/unfollow/:id", async (req, res) => {
     return res.send(err)
   }
 })
+router.get('/followed/:id', async (req,res) => {
+  try{
+  const user = await User.findById(req.params.id)
+  const followed = true
 
+  if (user.followers.indexOf(req.userId) !== -1) {
+    return res.send({
+      followed
+    })
+  }
+
+  return res.send({followed = false})
+  }catch(error){
+    return console.log(error)
+  }
+})
 
 module.exports = app => app.use(router)
