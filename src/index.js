@@ -46,8 +46,18 @@ app.use(
   express.static(path.resolve(__dirname, "..", "tmp", "uploads"))
 );
 
-require('./app/controllers/authController')(app)
-require('./app/controllers/publishController')(app)
 require('./app/controllers/profileController')(app)
+require('./app/controllers/AddController')(app)
+require('./app/controllers/BussineController')(app)
+require('./app/controllers/CheckController')(app)
+require('./app/controllers/FeedController')(app)
+require('./app/controllers/FollowController')(app)
+require('./app/controllers/NotificationController')(app)
+require('./app/controllers/PostController')(app)
+require('./app/controllers/SchoolController')(app)
+require('./app/controllers/SujestionController')(app)
+require('./app/controllers/UserController')(app)
+require('./app/controllers/VacanciesController')(app)
+
 
 server.listen(process.env.PORT || 3000)

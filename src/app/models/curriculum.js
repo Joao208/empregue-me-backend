@@ -1,6 +1,16 @@
-const mongoose = require('../../database')
+const mongoose = require("mongoose");
+const aws = require("aws-sdk");
+const fs = require("fs");
+const path = require("path");
+const { promisify } = require("util");
+
+const s3 = new aws.S3();
 
 const CurriculumSchema = new mongoose.Schema({
+  name: String,
+  size: Number,
+  key: String,
+  url: String,
   createdAt: {
     type: Date,
     default: Date.now
@@ -8,20 +18,22 @@ const CurriculumSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    require: true
   },
-  avatar: String,
-})
+});
 
-CurriculumSchema.virtual('avatar_url').get(function() {
-  return `${process.env.APP_URL}/files/${this.Avatar}`
-})
+CurriculumSchema.pre("save", function() {
+  if (!this.url) {
+    this.url = `${process.env.APP_URL}/files/${this.key}`;
+  }
+});
 
-CurriculumSchema.pre("remove", function () {
-  if ('local' === "s3") {
+CurriculumSchema.pre("remove", function() {
+  if (process.env.STORAGE_TYPE === "s3") {
     return s3
       .deleteObject({
-        Bucket: 'serverem',
-        avatar: this.avatar
+        Bucket: process.env.BUCKET_NAME,
+        Key: this.key
       })
       .promise()
       .then(response => {
@@ -32,12 +44,9 @@ CurriculumSchema.pre("remove", function () {
       });
   } else {
     return promisify(fs.unlink)(
-      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.avatar)
+      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.key)
     );
   }
 });
 
-
-const Curriculum = mongoose.model('Curriculum', CurriculumSchema)
-
-module.exports = Curriculum
+module.exports = mongoose.model("Curriculum", CurriculumSchema);
