@@ -14,6 +14,7 @@ const {
   router.use(authMiddleware)
   
   router.get("/feed", async (req, res) => {
+    try{
     const user = await User.findById(req.userId)
     const {following} = user
     const {followingbussines} = user
@@ -54,6 +55,9 @@ const {
     })
   
     return res.send(feed)
+  }catch(error){
+    console.log(error)
+  }
   })
   router.get("/bussines/feed", async (req, res) => {
     const user = await Bussines.findById(req.userId)
