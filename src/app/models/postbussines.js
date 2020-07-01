@@ -29,7 +29,7 @@ const PostbSchema = new mongoose.Schema({
     default:0
   },
   avatar: String,
-  comments: [{ type: mongoose.Schema.ObjectId, ref: "Comentb" }],
+  comments: [{ type: mongoose.Schema.ObjectId, ref: "Comentbs" }],
   commentCount:{
     type:Number,
     default:0
