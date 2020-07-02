@@ -59,6 +59,6 @@ require('./app/controllers/SujestionController')(app)
 require('./app/controllers/UserController')(app)
 require('./app/controllers/VacanciesController')(app)
 require('./app/controllers/PostBController')(app)
-
+require('./app/controllers/AuthUser')(app)
 
 server.listen(process.env.PORT || 3000)
