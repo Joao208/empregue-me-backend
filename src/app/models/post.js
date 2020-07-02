@@ -43,7 +43,6 @@ PostSchema.virtual('avatar_url').get(function() {
 })
 
 PostSchema.pre("remove", function () {
-  if (process.env.STORAGE_TYPE === "s3") {
     return s3
       .deleteObject({
         Bucket: 'serverem',
@@ -56,11 +55,6 @@ PostSchema.pre("remove", function () {
       .catch(response => {
         console.log(response.status);
       });
-  } else {
-    return promisify(fs.unlink)(
-      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.avatar)
-    );
-  }
 });
 
 module.exports = mongoose.model("Post", PostSchema);
