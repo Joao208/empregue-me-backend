@@ -48,7 +48,6 @@ app.use(
 
 require('./app/controllers/profileController')(app)
 require('./app/controllers/AddController')(app)
-require('./app/controllers/BussineController')(app)
 require('./app/controllers/CheckController')(app)
 require('./app/controllers/FeedController')(app)
 require('./app/controllers/FollowController')(app)
@@ -59,6 +58,6 @@ require('./app/controllers/SujestionController')(app)
 require('./app/controllers/UserController')(app)
 require('./app/controllers/VacanciesController')(app)
 require('./app/controllers/PostBController')(app)
-require('./app/controllers/AuthUser')(app)
+require('./app/controllers/authController')(app)
 
 server.listen(process.env.PORT || 3000)
