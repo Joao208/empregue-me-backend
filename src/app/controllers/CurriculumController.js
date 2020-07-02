@@ -35,13 +35,13 @@
     return res.send();
   });
 
-  router.get("/posts", async (req, res) => {
+  router.get("/curriculums", async (req, res) => {
     const posts = await Curriculum.find({user:req.userId});
   
     return res.json(posts);
   });
 
-  router.get("/posts/:id", async (req, res) => {
+  router.get("/curriculums/:id", async (req, res) => {
     const posts = await Curriculum.find({user:req.params.id});
   
     return res.json(posts);

@@ -41,7 +41,7 @@ module.exports = {
   storage: storageTypes['s3'],
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
-      "img/png"
+      "application/pdf"
        ];
 
     if (allowedMimes.includes(file.mimetype)) {
