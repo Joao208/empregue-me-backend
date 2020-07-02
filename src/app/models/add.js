@@ -47,7 +47,7 @@ AddSchema.pre("save", function () {
 });
 
 AddSchema.pre("remove", function () {
-  if ('local' === "s3") {
+  if (process.env.STORAGE_TYPE === "s3") {
     return s3
       .deleteObject({
         Bucket: 'serverem',
