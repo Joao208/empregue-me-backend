@@ -36,13 +36,13 @@
   });
 
   router.get("/curriculums", async (req, res) => {
-    const posts = await Curriculum.find({user:req.userId});
+    const posts = await Curriculum.find({user:req.userId}).sort('-createdAt').limit(3)
   
     return res.json(posts);
   });
 
   router.get("/curriculums/:id", async (req, res) => {
-    const posts = await Curriculum.find({user:req.params.id});
+    const posts = await Curriculum.find({user:req.params.id}).sort('-createdAt').limit(3)
   
     return res.json(posts);
   });

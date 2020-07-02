@@ -37,7 +37,7 @@ module.exports = {
 
     try {
       if (await Bussines.findOne({
-          email
+          cnpj
         }))
         return response.status(400).send({
           error: 'Bussines already exists'

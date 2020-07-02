@@ -190,8 +190,8 @@ const {
       const {
         location: avatar = "",
         mimetype
-      } = req.file
-      const bussines = req.userId
+      } = req.file || {location:""}
+        const bussines = req.userId
   
         const post = await PostB.create({
         Text,
