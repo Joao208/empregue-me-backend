@@ -47,7 +47,7 @@ PostSchema.pre("remove", function () {
     return s3
       .deleteObject({
         Bucket: 'serverem',
-        avatar: this.avatar
+        Key: this.avatar
       })
       .promise()
       .then(response => {

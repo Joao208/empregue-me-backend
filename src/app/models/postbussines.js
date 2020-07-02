@@ -50,7 +50,7 @@ PostbSchema.pre("remove", function () {
     return s3
       .deleteObject({
         Bucket: 'serverem',
-        avatar: this.avatar
+        key: this.avatar
       })
       .promise()
       .then(response => {

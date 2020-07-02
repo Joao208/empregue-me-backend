@@ -42,7 +42,7 @@ const AddSchema = new mongoose.Schema({
 
 AddSchema.pre("save", function () {
   if (!this.avatar) {
-    this.avatar = `${process.env.APP_avatar}/files/${this.key}`;
+    this.avatar = `${process.env.APP_avatar}/files/${this.avatar}`;
   }
 });
 
@@ -51,7 +51,7 @@ AddSchema.pre("remove", function () {
     return s3
       .deleteObject({
         Bucket: 'serverem',
-        Key: this.key
+        Key: this.avatar
       })
       .promise()
       .then(response => {
@@ -62,7 +62,7 @@ AddSchema.pre("remove", function () {
       });
   } else {
     return promisify(fs.unlink)(
-      path.resolve(__dirname, "..", "..","..","tmp", "uploads", this.key)
+      path.resolve(__dirname, "..", "..","..","tmp", "uploads", this.avatar)
     );
   }
 });
