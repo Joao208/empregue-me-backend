@@ -46,6 +46,7 @@ app.use(
   express.static(path.resolve(__dirname, "..", "tmp", "uploads"))
 );
 
+require('./app/controllers/authController')(app)
 require('./app/controllers/profileController')(app)
 require('./app/controllers/AddController')(app)
 require('./app/controllers/CheckController')(app)
@@ -58,6 +59,7 @@ require('./app/controllers/SujestionController')(app)
 require('./app/controllers/UserController')(app)
 require('./app/controllers/VacanciesController')(app)
 require('./app/controllers/PostBController')(app)
-require('./app/controllers/authController')(app)
+require('./app/controllers/CurriculumController')(app)
+
 
 server.listen(process.env.PORT || 3000)

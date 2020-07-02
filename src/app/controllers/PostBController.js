@@ -1,6 +1,7 @@
 const {
     Router
   } = require('express')
+  const router = Router();
   const multer = require("multer")
   const multerConfig = require("../../config/multer")
   const Post = require("../models/post")
@@ -9,7 +10,6 @@ const {
   const Bussines = require('../models/bussines')
   const ComentB = require('../models/comentspostb')
   const User = require('../models/user')
-  const router = Router();
   
   router.use(authMiddleware)
   

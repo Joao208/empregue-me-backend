@@ -4,12 +4,15 @@
   const router = Router();
   const authMiddleware = require('../middlewares/auth')
   const Curriculum = require('../models/curriculum')
+  const multer = require("multer")
+  const multerConfig = require("../../config/multerCurriculum")
+
   router.use(authMiddleware)
   
   router.post("/add/curriculum", multer(multerConfig).single("file"), async (req, res) => {
     try{
-    const { originalname: name, size, key, location: url = "" } = req.file;
-  
+    const {mimetype, originalname: name, size, key, location: url = "" } = req.file;
+    console.log(mimetype)
     const post = await Curriculum.create({
       name,
       size,

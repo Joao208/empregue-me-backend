@@ -1,4 +1,6 @@
-const express = require('express');
+const {
+  Router
+} = require('express');
 const bcrypt = require('bcryptjs')
 const Bussines = require('../models/bussines')
 const User = require('../models/user')
@@ -10,7 +12,7 @@ const multerConfig = require("../../config/multerprofile")
 
 const authConfig = require('../../config/auth.json')
 
-const router = express.Router()
+const router = Router()
 
 function generateToken(params = {}) {
   return jwt.sign(params, authConfig.secret, {
@@ -63,7 +65,7 @@ router.post('/userregister', async (req, res) => {
     const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey('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');
     const msg = {
-      to:email,
+      to: email,
       from: 'augustoj311@gmail.com',
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
@@ -594,10 +596,10 @@ router.post('/userregister', async (req, res) => {
        `,
     };
     sgMail.send(msg).then(() => {
-        console.log('Message sent')
+      console.log('Message sent')
     }).catch((error) => {
-        console.log(error.response.body)
-        // console.log(error.response.body.errors[0].message)
+      console.log(error.response.body)
+      // console.log(error.response.body.errors[0].message)
     })
 
     return res.send({
@@ -725,7 +727,7 @@ router.post('/forgot_password', async (req, res) => {
     const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey('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');
     const msg = {
-      to:email ,
+      to: email,
       from: 'augustoj311@gmail.com',
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
@@ -1229,14 +1231,14 @@ a{
        `,
     };
     sgMail.send(msg).then(() => {
-        console.log('Message sent')
+      console.log('Message sent')
     }).catch((error) => {
-        console.log(error.response.body)
-        // console.log(error.response.body.errors[0].message)
+      console.log(error.response.body)
+      // console.log(error.response.body.errors[0].message)
     })
 
     return res.send()
-    } catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(400).send({
       error: 'Erro on forgot password, try again'
@@ -1781,13 +1783,13 @@ router.post('/forgot_password_bussines', async (req, res) => {
           `,
     };
     sgMail.send(msg).then(() => {
-        console.log('Message sent')
+      console.log('Message sent')
     }).catch((error) => {
-        console.log(error.response.body)
-        // console.log(error.response.body.errors[0].message)
+      console.log(error.response.body)
+      // console.log(error.response.body.errors[0].message)
     })
     return res.send()
-    
+
   } catch (err) {
     console.log(err)
     res.status(400).send({
@@ -1881,7 +1883,7 @@ router.post('/reset_password_bussines', async (req, res) => {
   }
 })
 
-router.post('/schoolregister', multer(multerConfig).single("avatar") ,async (req, res) => {
+router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req, res) => {
   const {
     name,
     email,
@@ -1891,7 +1893,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar") ,async (req
     bio
   } = req.body
   const {
-    location:avatar = ''
+    location: avatar = ''
   } = req.file
 
   try {
@@ -1931,7 +1933,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar") ,async (req
     const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey('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');
     const msg = {
-      to:email,
+      to: email,
       from: 'augustoj311@gmail.com',
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
@@ -2462,10 +2464,10 @@ router.post('/schoolregister', multer(multerConfig).single("avatar") ,async (req
        `,
     };
     sgMail.send(msg).then(() => {
-        console.log('Message sent')
+      console.log('Message sent')
     }).catch((error) => {
-        console.log(error.response.body)
-        // console.log(error.response.body.errors[0].message)
+      console.log(error.response.body)
+      // console.log(error.response.body.errors[0].message)
     })
 
     return res.send({
@@ -2666,13 +2668,13 @@ router.post('/school/forgot_password', async (req, res) => {
       `,
     };
     sgMail.send(msg).then(() => {
-        console.log('Message sent')
+      console.log('Message sent')
     }).catch((error) => {
-        console.log(error.response.body)
-        // console.log(error.response.body.errors[0].message)
+      console.log(error.response.body)
+      // console.log(error.response.body.errors[0].message)
     })
     return res.send()
-    } catch (err) {
+  } catch (err) {
     console.log(err)
     res.status(400).send({
       error: 'Erro on forgot password, try again'
