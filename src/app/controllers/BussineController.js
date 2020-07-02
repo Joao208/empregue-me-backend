@@ -15,6 +15,7 @@ function generateToken(params = {}) {
 }
 
 router.post('/bussinesauthenticate', async (req, res) => {
+  try{
   const {
     email,
     password
@@ -43,6 +44,9 @@ router.post('/bussinesauthenticate', async (req, res) => {
       id: bussines.id
     })
   })
+  }catch(err){
+    console.log(err)
+  }
 })
 router.post('/forgot_password_bussines', async (req, res) => {
   const {

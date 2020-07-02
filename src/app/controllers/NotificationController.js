@@ -2,6 +2,7 @@ const {
     Router
   } = require('express')
   const Notification = require('../models/notification')
+  const NotificationB = require('../models/notificationb')
   const router = Router();
   const authMiddleware = require('../middlewares/auth')
 
@@ -10,6 +11,16 @@ const {
   router.get('/notifications', async (req,res) => {
     try{
       const notification = await Notification.findOne({user:req.userId}).populate('user').populate('bookings').sort('-createdAt')
+  
+      return res.send(notification) 
+      
+    }catch(e){
+      console.log(e)
+    }
+  })
+  router.get('/bussines/notifications', async (req,res) => {
+    try{
+      const notification = await NotificationB.findOne({bussines:req.userId}).populate('bussines').populate('bookings').sort('-createdAt')
   
       return res.send(notification) 
       
