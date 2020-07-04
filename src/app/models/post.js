@@ -43,6 +43,7 @@ PostSchema.virtual('avatar_url').get(function() {
 })
 
 PostSchema.pre("remove", function () {
+  if(this.avatar)
     return s3
       .deleteObject({
         Bucket: 'serverem',
