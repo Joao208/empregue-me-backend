@@ -41,10 +41,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(routes)
-app.use(
-  "/files",
-  express.static(path.resolve(__dirname, "..", "tmp", "uploads"))
-);
 
 require('./app/controllers/authController')(app)
 require('./app/controllers/profileController')(app)
