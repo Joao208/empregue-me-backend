@@ -46,24 +46,19 @@ PostbSchema.pre("save", function () {
 });
 
 PostbSchema.pre("remove", function () {
-  if (process.env.STORAGE_TYPE === "s3") {
-    return s3
-      .deleteObject({
-        Bucket: 'serverem',
-        key: this.avatar
-      })
-      .promise()
-      .then(response => {
-        console.log(response.status);
-      })
-      .catch(response => {
-        console.log(response.status);
-      });
-  } else {
-    return promisify(fs.unlink)(
-      path.resolve(__dirname, "..", "..", "tmp", "uploads", this.avatar)
-    );
-  }
-});
+  if(this.avatar)
+  return s3
+    .deleteObject({
+      Bucket: 'serverem',
+      Key: this.avatar
+    })
+    .promise()
+    .then(response => {
+      console.log(response.status);
+    })
+    .catch(response => {
+      console.log(response.status);
+    });
+  });
 
 module.exports = mongoose.model("Postb", PostbSchema);
