@@ -118,9 +118,6 @@ const {
       const PostuserSocket = req.connectedUsers[post.user]
   
       const postd = await Add.findById(post._id).populate('bussines').populate('comments').execPopulate()
-      if (PostuserSocket) {
-        req.io.emit('like', postd)
-      }
   
       await post.populate('comments').execPopulate()
   
@@ -167,10 +164,10 @@ const {
       const PostuserSocket = req.connectedUsers[post.user]
   
       const postd = await Add.findById(post._id).populate('bussines').populate('comments')
+      
       if (PostuserSocket) {
         req.io.emit('like', postd)
       }
-  
       res.status(200).send(post)
     } catch (err) {
       return res.status(400).send({
@@ -234,9 +231,6 @@ const {
       const PostuserSocket = req.connectedUsers[post.user]
   
       const postd = await post.populate('bussines').populate('comments').execPopulate()
-      if (PostuserSocket) {
-        req.io.emit('like', postd)
-      }
   
       await post.populate('comments').execPopulate()
   
