@@ -5,6 +5,7 @@ const authMiddleware = require('../middlewares/auth')
 const User = require('../models/user')
 const router = Router();
 const crypto = require('crypto')
+const Nexmo = require('nexmo')
 
 router.use(authMiddleware)
 
