@@ -42,7 +42,10 @@ const UserSchema = new mongoose.Schema({
     phonetokenexpiress:Date,
     usertoken:String,
     usertokenexpiress:Date,
-    avatar:String,
+    avatar:{
+      type:String,
+      default:'https://api.adorable.io/avatars/285/abott@adorable'
+    },
     phoneConfirme:Boolean,
     confirmate:{
       type:Boolean,
