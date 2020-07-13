@@ -116,7 +116,7 @@ router.post('/addphone', async (req, res) => {
   } catch (err) {
     console.log(err)
     res.status(400).send({
-      error: 'Erro on add phone, try again'
+      error: 'Error on add phone, try again'
     })
   }
 
@@ -131,18 +131,20 @@ router.post('/confirmphone', async (req, res) => {
     const user = await User.findOne({
         phone
       })
-      .select('+phonetoken phonetokenexpiress')
 
     if (!user)
       return res.status(400).send({
         error: 'User does not exist'
       })
 
-    if (token !== user.phonetoken)
-      return res.status(400).send({
+    if (token !== user.phonetoken){
+      console.log(user.phonetoken)
+      console.log(user)
+      console.log(token)
+      res.status(400).send({
         error: 'Token invalid'
       })
-
+    }
     const now = new Date()
 
     if (now > user.phonetokenexpiress)
