@@ -37,7 +37,7 @@ router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) 
 
     const {
       location: avatar = ""
-    } = req.file || {location:"https://api.adorable.io/avatars/285/abott@adorable"}
+    } = req.file || {location:user.avatar}
 
     const {
       FacebookUrl,

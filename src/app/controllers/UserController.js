@@ -76,8 +76,8 @@ router.post('/addphone', async (req, res) => {
         error: 'User not found'
       })
 
-    const token = crypto.randomBytes(4).toString('hex')
-
+    const token = Math.floor(Math.random() * 999999);
+    console.log(token)
     const now = new Date();
     now.setHours(now.getHours() + 1)
 
@@ -90,7 +90,7 @@ router.post('/addphone', async (req, res) => {
     })
 
 
-    const nexmo = new Nexmo({
+   const nexmo = new Nexmo({
       apiKey: '7c58d252',
       apiSecret: 'p1k7cHMvzZ1ts1B4',
     });
@@ -163,5 +163,5 @@ router.post('/confirmphone', async (req, res) => {
     })
   }
 })
-
 module.exports = app => app.use(router)
+

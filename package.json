@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "install": "prebuild-install || node-gyp rebuild",
+    "start": "node src/index.js",
+    "ia":"nodemon ai.js"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +20,7 @@
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "brain.js": "^2.0.0-beta.1",
     "bucket": "0.0.1",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
@@ -39,6 +42,7 @@
     "nexmo": "^2.6.0",
     "nodemailer": "^6.4.6",
     "nodemailer-express-handlebars": "^3.3.0",
+    "nodemon": "^2.0.4",
     "pagarme": "^4.11.0",
     "passport": "^0.4.0",
     "passport-facebook-token": "^3.3.0",
@@ -46,7 +50,6 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "nodemon": "^2.0.4",
     "prebuild-install": "^5.3.4",
     "pusher": "^3.0.1",
     "socket.io": "^2.3.0"
