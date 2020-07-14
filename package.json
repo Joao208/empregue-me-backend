@@ -6,9 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
-    "install": "prebuild-install || node-gyp rebuild",
-    "start": "node src/index.js",
-    "ia":"nodemon ai.js"
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
