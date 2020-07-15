@@ -101,7 +101,7 @@ router.post('/profilebussines', multer(multerConfig).single("avatar"), async (re
 
     const {
       location: avatar = ""
-    } = req.file
+    } = req.file || {location:bussines.avatar}
 
     const {
       bio,

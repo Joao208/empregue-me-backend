@@ -50,7 +50,10 @@ const BussinesSchema = new mongoose.Schema({
       index: '2dsphere'
     },
     nome:String,
-    avatar:String,
+    avatar:{
+      type:String,
+      default:'https://api.adorable.io/avatars/285/abott@adorable'
+    },
     bio:String,
     site:String
 })
@@ -63,7 +66,7 @@ BussinesSchema.pre('save', async function hashPassword (next) {
 BussinesSchema.virtual('avatar_url').get(function() {
     return `${process.env.APP_URL}/files/${this.Avatar}`
   })
-  
+
 BussinesSchema.pre("remove", function () {
     if ('local' === "s3") {
       return s3
@@ -84,7 +87,7 @@ BussinesSchema.pre("remove", function () {
       );
     }
   });
-  
+
 
 
 const Bussines = mongoose.model('Bussines', BussinesSchema)
