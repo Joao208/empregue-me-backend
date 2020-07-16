@@ -66,7 +66,7 @@ router.post('/userregister', async (req, res) => {
     sgMail.setApiKey('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');
     const msg = {
       to: email,
-      from: 'augustoj311@gmail.com',
+      from: 'contato@empregue-me.page',
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
       html: `
@@ -78,13 +78,13 @@ router.post('/userregister', async (req, res) => {
           <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
           <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
           <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
-      
-      
+
+
           <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
-      
+
           <!-- CSS Reset : BEGIN -->
       <style>
-      
+
       html,
       body {
           margin: 0 auto !important;
@@ -93,25 +93,25 @@ router.post('/userregister', async (req, res) => {
           width: 100% !important;
           background: #f1f1f1;
       }
-      
+
       /* What it does: Stops email clients resizing small text. */
       * {
           -ms-text-size-adjust: 100%;
           -webkit-text-size-adjust: 100%;
       }
-      
+
       /* What it does: Centers email on Android 4.4 */
       div[style*="margin: 16px 0"] {
           margin: 0 !important;
       }
-      
+
       /* What it does: Stops Outlook from adding extra spacing to tables. */
       table,
       td {
           mso-table-lspace: 0pt !important;
           mso-table-rspace: 0pt !important;
       }
-      
+
       /* What it does: Fixes webkit padding issue. */
       table {
           border-spacing: 0 !important;
@@ -119,17 +119,17 @@ router.post('/userregister', async (req, res) => {
           table-layout: fixed !important;
           margin: 0 auto !important;
       }
-      
+
       /* What it does: Uses a better rendering method when resizing images in IE. */
       img {
           -ms-interpolation-mode:bicubic;
       }
-      
+
       /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
       a {
           text-decoration: none;
       }
-      
+
       /* What it does: A work-around for email clients meddling in triggered links. */
       *[x-apple-data-detectors],  /* iOS */
       .unstyle-auto-detected-links *,
@@ -143,26 +143,26 @@ router.post('/userregister', async (req, res) => {
           font-weight: inherit !important;
           line-height: inherit !important;
       }
-      
+
       /* What it does: Prevents Gmail from displaying a download button on large, non-linked images. */
       .a6S {
           display: none !important;
           opacity: 0.01 !important;
       }
-      
+
       /* What it does: Prevents Gmail from changing the text color in conversation threads. */
       .im {
           color: inherit !important;
       }
-      
+
       /* If the above doesn't work, add a .g-img class to any image in question. */
       img.g-img + div {
           display: none !important;
       }
-      
+
       /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
       /* Create one of these media queries for each additional viewport size you'd like to fix */
-      
+
       /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
       @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
           u ~ div .email-container {
@@ -181,18 +181,18 @@ router.post('/userregister', async (req, res) => {
               min-width: 414px !important;
           }
       }
-      
+
       </style>
-      
+
           <!-- CSS Reset : END -->
-      
+
           <!-- Progressive Enhancements : BEGIN -->
       <style>
-      
+
       .primary{
         background: #f3a333;
       }
-      
+
       .bg_white{
         background: #ffffff;
       }
@@ -208,7 +208,7 @@ router.post('/userregister', async (req, res) => {
       .email-section{
         padding:2.5em;
       }
-      
+
       /*BUTTON*/
       .btn{
         padding: 10px 15px;
@@ -218,15 +218,15 @@ router.post('/userregister', async (req, res) => {
         background: #f3a333;
         color: #ffffff;
       }
-      
-      
-      
+
+
+
       h1,h2,h3,h4,h5,h6{
         font-family: 'Playfair Display', serif;
         color: #000000;
         margin-top: 0;
       }
-      
+
       body{
         font-family: 'Montserrat', sans-serif;
         font-weight: 400;
@@ -234,11 +234,11 @@ router.post('/userregister', async (req, res) => {
         line-height: 1.8;
         color: rgba(0,0,0,.4);
       }
-      
+
       a{
         color: #f3a333;
       }
-      
+
       .logo h1{
         margin: 0;
       }
@@ -249,7 +249,7 @@ router.post('/userregister', async (req, res) => {
         text-transform: uppercase;
         font-family: 'Montserrat', sans-serif;
       }
-      
+
       /*HERO*/
       .hero{
         position: relative;
@@ -262,8 +262,8 @@ router.post('/userregister', async (req, res) => {
         font-size: 30px;
         margin-bottom: 0;
       }
-      
-      
+
+
       .heading-section h2{
         color: #000000;
         font-size: 28px;
@@ -290,7 +290,7 @@ router.post('/userregister', async (req, res) => {
         background: #f3a333;
         margin: 0 auto;
       }
-      
+
       .heading-section-white{
         color: rgba(255,255,255,.8);
       }
@@ -310,37 +310,37 @@ router.post('/userregister', async (req, res) => {
         letter-spacing: 2px;
         color: rgba(255,255,255,.4);
       }
-      
-      
+
+
       .icon{
         text-align: center;
       }
-      
+
       /*SERVICES*/
       .text-services{
-        padding: 10px 10px 0; 
+        padding: 10px 10px 0;
         text-align: center;
       }
       .text-services h3{
         font-size: 20px;
       }
-      
+
       /*BLOG*/
       .text-services .meta{
         text-transform: uppercase;
         font-size: 14px;
       }
-      
+
       /*TESTIMONY*/
       .text-testimony .name{
         margin: 0;
       }
       .text-testimony .position{
         color: rgba(0,0,0,.3);
-      
+
       }
-      
-      
+
+
       /*VIDEO*/
       .img{
         width: 100%;
@@ -363,9 +363,9 @@ router.post('/userregister', async (req, res) => {
         left: 50%;
         margin-left: -25px;
       }
-      
-      
-      
+
+
+
       /*COUNTER*/
       .counter-text{
         text-align: center;
@@ -381,13 +381,13 @@ router.post('/userregister', async (req, res) => {
         color: rgba(255,255,255,.9);
         font-size: 13px;
       }
-      
-      
+
+
       /*FOOTER*/
-      
+
       .footer{
         color: rgba(255,255,255,.5);
-      
+
       }
       .footer .heading{
         color: #ffffff;
@@ -404,27 +404,27 @@ router.post('/userregister', async (req, res) => {
       .footer ul li a{
         color: rgba(255,255,255,1);
       }
-      
-      
+
+
       @media screen and (max-width: 500px) {
-      
+
         .icon{
           text-align: left;
         }
-      
+
         .text-services{
           padding-left: 0;
           padding-right: 20px;
           text-align: left;
         }
-      
+
       }
-      
+
       </style>
-      
-      
+
+
       </head>
-      
+
       <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
         <center style="width: 100%; background-color: #f1f1f1;">
           <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
@@ -588,11 +588,11 @@ router.post('/userregister', async (req, res) => {
                 </td>
               </tr>
             </table>
-      
+
           </div>
         </center>
       </body>
-      </html>           
+      </html>
        `,
     };
     sgMail.send(msg).then(() => {
@@ -728,7 +728,7 @@ router.post('/forgot_password', async (req, res) => {
     sgMail.setApiKey('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');
     const msg = {
       to: email,
-      from: 'augustoj311@gmail.com',
+      from: 'contato@empregue-me.page',
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
       html: `
@@ -980,7 +980,7 @@ a{
 
 /*SERVICES*/
 .text-services{
-	padding: 10px 10px 0; 
+	padding: 10px 10px 0;
 	text-align: center;
 }
 .text-services h3{
@@ -1280,7 +1280,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
     sgMail.setApiKey('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');
     const msg = {
       to: email,
-      from: 'augustoj311@gmail.com',
+      from: 'contato@empregue-me.page',
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
       html: `
@@ -1292,13 +1292,13 @@ router.post('/forgot_password_bussines', async (req, res) => {
           <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
           <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
           <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
-      
-      
+
+
           <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
-      
+
           <!-- CSS Reset : BEGIN -->
       <style>
-      
+
       html,
       body {
           margin: 0 auto !important;
@@ -1307,25 +1307,25 @@ router.post('/forgot_password_bussines', async (req, res) => {
           width: 100% !important;
           background: #f1f1f1;
       }
-      
+
       /* What it does: Stops email clients resizing small text. */
       * {
           -ms-text-size-adjust: 100%;
           -webkit-text-size-adjust: 100%;
       }
-      
+
       /* What it does: Centers email on Android 4.4 */
       div[style*="margin: 16px 0"] {
           margin: 0 !important;
       }
-      
+
       /* What it does: Stops Outlook from adding extra spacing to tables. */
       table,
       td {
           mso-table-lspace: 0pt !important;
           mso-table-rspace: 0pt !important;
       }
-      
+
       /* What it does: Fixes webkit padding issue. */
       table {
           border-spacing: 0 !important;
@@ -1333,17 +1333,17 @@ router.post('/forgot_password_bussines', async (req, res) => {
           table-layout: fixed !important;
           margin: 0 auto !important;
       }
-      
+
       /* What it does: Uses a better rendering method when resizing images in IE. */
       img {
           -ms-interpolation-mode:bicubic;
       }
-      
+
       /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
       a {
           text-decoration: none;
       }
-      
+
       /* What it does: A work-around for email clients meddling in triggered links. */
       *[x-apple-data-detectors],  /* iOS */
       .unstyle-auto-detected-links *,
@@ -1357,26 +1357,26 @@ router.post('/forgot_password_bussines', async (req, res) => {
           font-weight: inherit !important;
           line-height: inherit !important;
       }
-      
+
       /* What it does: Prevents Gmail from displaying a download button on large, non-linked images. */
       .a6S {
           display: none !important;
           opacity: 0.01 !important;
       }
-      
+
       /* What it does: Prevents Gmail from changing the text color in conversation threads. */
       .im {
           color: inherit !important;
       }
-      
+
       /* If the above doesn't work, add a .g-img class to any image in question. */
       img.g-img + div {
           display: none !important;
       }
-      
+
       /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
       /* Create one of these media queries for each additional viewport size you'd like to fix */
-      
+
       /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
       @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
           u ~ div .email-container {
@@ -1395,18 +1395,18 @@ router.post('/forgot_password_bussines', async (req, res) => {
               min-width: 414px !important;
           }
       }
-      
+
       </style>
-      
+
           <!-- CSS Reset : END -->
-      
+
           <!-- Progressive Enhancements : BEGIN -->
       <style>
-      
+
       .primary{
         background: #f3a333;
       }
-      
+
       .bg_white{
         background: #456de6;
       }
@@ -1422,7 +1422,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
       .email-section{
         padding:2.5em;
       }
-      
+
       /*BUTTON*/
       .btn{
         padding: 10px 15px;
@@ -1432,15 +1432,15 @@ router.post('/forgot_password_bussines', async (req, res) => {
         background: #f3a333;
         color: #ffffff;
       }
-      
-      
-      
+
+
+
       h1,h2,h3,h4,h5,h6{
         font-family: 'Playfair Display', serif;
         color: #000000;
         margin-top: 0;
       }
-      
+
       body{
         font-family: 'Montserrat', sans-serif;
         font-weight: 400;
@@ -1448,11 +1448,11 @@ router.post('/forgot_password_bussines', async (req, res) => {
         line-height: 1.8;
         color: rgba(0,0,0,.4);
       }
-      
+
       a{
         color: #f3a333;
       }
-      
+
       .logo h1{
         margin: 0;
       }
@@ -1463,7 +1463,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
         text-transform: uppercase;
         font-family: 'Montserrat', sans-serif;
       }
-      
+
       /*HERO*/
       .hero{
         position: relative;
@@ -1476,8 +1476,8 @@ router.post('/forgot_password_bussines', async (req, res) => {
         font-size: 30px;
         margin-bottom: 0;
       }
-      
-      
+
+
       .heading-section h2{
         color: #000000;
         font-size: 28px;
@@ -1504,7 +1504,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
         background: #f3a333;
         margin: 0 auto;
       }
-      
+
       .heading-section-white{
         color: rgba(255,255,255,.8);
       }
@@ -1524,37 +1524,37 @@ router.post('/forgot_password_bussines', async (req, res) => {
         letter-spacing: 2px;
         color: rgba(255,255,255,.4);
       }
-      
-      
+
+
       .icon{
         text-align: center;
       }
-      
+
       /*SERVICES*/
       .text-services{
-        padding: 10px 10px 0; 
+        padding: 10px 10px 0;
         text-align: center;
       }
       .text-services h3{
         font-size: 20px;
       }
-      
+
       /*BLOG*/
       .text-services .meta{
         text-transform: uppercase;
         font-size: 14px;
       }
-      
+
       /*TESTIMONY*/
       .text-testimony .name{
         margin: 0;
       }
       .text-testimony .position{
         color: rgba(0,0,0,.3);
-      
+
       }
-      
-      
+
+
       /*VIDEO*/
       .img{
         width: 100%;
@@ -1577,9 +1577,9 @@ router.post('/forgot_password_bussines', async (req, res) => {
         left: 50%;
         margin-left: -25px;
       }
-      
-      
-      
+
+
+
       /*COUNTER*/
       .counter-text{
         text-align: center;
@@ -1595,13 +1595,13 @@ router.post('/forgot_password_bussines', async (req, res) => {
         color: rgba(255,255,255,.9);
         font-size: 13px;
       }
-      
-      
+
+
       /*FOOTER*/
-      
+
       .footer{
         color: rgba(255,255,255,.5);
-      
+
       }
       .footer .heading{
         color: #ffffff;
@@ -1618,27 +1618,27 @@ router.post('/forgot_password_bussines', async (req, res) => {
       .footer ul li a{
         color: rgba(255,255,255,1);
       }
-      
-      
+
+
       @media screen and (max-width: 500px) {
-      
+
         .icon{
           text-align: left;
         }
-      
+
         .text-services{
           padding-left: 0;
           padding-right: 20px;
           text-align: left;
         }
-      
+
       }
-      
+
       </style>
-      
-      
+
+
       </head>
-      
+
       <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
         <center style="width: 100%; background-color: #f1f1f1;">
           <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
@@ -1775,7 +1775,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
                 </td>
               </tr>
             </table>
-      
+
           </div>
         </center>
       </body>
@@ -1934,7 +1934,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
     sgMail.setApiKey('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');
     const msg = {
       to: email,
-      from: 'augustoj311@gmail.com',
+      from: 'contato@empregue-me.page',
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
       html: `
@@ -1946,13 +1946,13 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
           <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
           <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
           <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
-      
-      
+
+
           <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
-      
+
           <!-- CSS Reset : BEGIN -->
       <style>
-      
+
       html,
       body {
           margin: 0 auto !important;
@@ -1961,25 +1961,25 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
           width: 100% !important;
           background: #f1f1f1;
       }
-      
+
       /* What it does: Stops email clients resizing small text. */
       * {
           -ms-text-size-adjust: 100%;
           -webkit-text-size-adjust: 100%;
       }
-      
+
       /* What it does: Centers email on Android 4.4 */
       div[style*="margin: 16px 0"] {
           margin: 0 !important;
       }
-      
+
       /* What it does: Stops Outlook from adding extra spacing to tables. */
       table,
       td {
           mso-table-lspace: 0pt !important;
           mso-table-rspace: 0pt !important;
       }
-      
+
       /* What it does: Fixes webkit padding issue. */
       table {
           border-spacing: 0 !important;
@@ -1987,17 +1987,17 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
           table-layout: fixed !important;
           margin: 0 auto !important;
       }
-      
+
       /* What it does: Uses a better rendering method when resizing images in IE. */
       img {
           -ms-interpolation-mode:bicubic;
       }
-      
+
       /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
       a {
           text-decoration: none;
       }
-      
+
       /* What it does: A work-around for email clients meddling in triggered links. */
       *[x-apple-data-detectors],  /* iOS */
       .unstyle-auto-detected-links *,
@@ -2011,26 +2011,26 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
           font-weight: inherit !important;
           line-height: inherit !important;
       }
-      
+
       /* What it does: Prevents Gmail from displaying a download button on large, non-linked images. */
       .a6S {
           display: none !important;
           opacity: 0.01 !important;
       }
-      
+
       /* What it does: Prevents Gmail from changing the text color in conversation threads. */
       .im {
           color: inherit !important;
       }
-      
+
       /* If the above doesn't work, add a .g-img class to any image in question. */
       img.g-img + div {
           display: none !important;
       }
-      
+
       /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
       /* Create one of these media queries for each additional viewport size you'd like to fix */
-      
+
       /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
       @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
           u ~ div .email-container {
@@ -2049,18 +2049,18 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
               min-width: 414px !important;
           }
       }
-      
+
       </style>
-      
+
           <!-- CSS Reset : END -->
-      
+
           <!-- Progressive Enhancements : BEGIN -->
       <style>
-      
+
       .primary{
         background: #f3a333;
       }
-      
+
       .bg_white{
         background: #ffffff;
       }
@@ -2076,7 +2076,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
       .email-section{
         padding:2.5em;
       }
-      
+
       /*BUTTON*/
       .btn{
         padding: 10px 15px;
@@ -2086,15 +2086,15 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         background: #f3a333;
         color: #ffffff;
       }
-      
-      
-      
+
+
+
       h1,h2,h3,h4,h5,h6{
         font-family: 'Playfair Display', serif;
         color: #000000;
         margin-top: 0;
       }
-      
+
       body{
         font-family: 'Montserrat', sans-serif;
         font-weight: 400;
@@ -2102,11 +2102,11 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         line-height: 1.8;
         color: rgba(0,0,0,.4);
       }
-      
+
       a{
         color: #f3a333;
       }
-      
+
       .logo h1{
         margin: 0;
       }
@@ -2117,7 +2117,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         text-transform: uppercase;
         font-family: 'Montserrat', sans-serif;
       }
-      
+
       /*HERO*/
       .hero{
         position: relative;
@@ -2130,8 +2130,8 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         font-size: 30px;
         margin-bottom: 0;
       }
-      
-      
+
+
       .heading-section h2{
         color: #000000;
         font-size: 28px;
@@ -2158,7 +2158,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         background: #f3a333;
         margin: 0 auto;
       }
-      
+
       .heading-section-white{
         color: rgba(255,255,255,.8);
       }
@@ -2178,37 +2178,37 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         letter-spacing: 2px;
         color: rgba(255,255,255,.4);
       }
-      
-      
+
+
       .icon{
         text-align: center;
       }
-      
+
       /*SERVICES*/
       .text-services{
-        padding: 10px 10px 0; 
+        padding: 10px 10px 0;
         text-align: center;
       }
       .text-services h3{
         font-size: 20px;
       }
-      
+
       /*BLOG*/
       .text-services .meta{
         text-transform: uppercase;
         font-size: 14px;
       }
-      
+
       /*TESTIMONY*/
       .text-testimony .name{
         margin: 0;
       }
       .text-testimony .position{
         color: rgba(0,0,0,.3);
-      
+
       }
-      
-      
+
+
       /*VIDEO*/
       .img{
         width: 100%;
@@ -2231,9 +2231,9 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         left: 50%;
         margin-left: -25px;
       }
-      
-      
-      
+
+
+
       /*COUNTER*/
       .counter-text{
         text-align: center;
@@ -2249,13 +2249,13 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         color: rgba(255,255,255,.9);
         font-size: 13px;
       }
-      
-      
+
+
       /*FOOTER*/
-      
+
       .footer{
         color: rgba(255,255,255,.5);
-      
+
       }
       .footer .heading{
         color: #ffffff;
@@ -2272,27 +2272,27 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
       .footer ul li a{
         color: rgba(255,255,255,1);
       }
-      
-      
+
+
       @media screen and (max-width: 500px) {
-      
+
         .icon{
           text-align: left;
         }
-      
+
         .text-services{
           padding-left: 0;
           padding-right: 20px;
           text-align: left;
         }
-      
+
       }
-      
+
       </style>
-      
-      
+
+
       </head>
-      
+
       <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #222222;">
         <center style="width: 100%; background-color: #f1f1f1;">
           <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
@@ -2456,11 +2456,11 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
                 </td>
               </tr>
             </table>
-      
+
           </div>
         </center>
       </body>
-      </html>           
+      </html>
        `,
     };
     sgMail.send(msg).then(() => {
@@ -2593,7 +2593,7 @@ router.post('/school/forgot_password', async (req, res) => {
     const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey('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');
     const msg = {
-      to: 'augustoj311@gmail.com',
+      to: 'contato@empregue-me.page',
       from: email,
       subject: 'Empregue.me a melhor plataforma de contratação',
       text: 'Empregue.me',
@@ -2605,9 +2605,9 @@ router.post('/school/forgot_password', async (req, res) => {
         <meta name="viewport" content="width=device-width, initial-scale=1">
       </head>
       <body>
-      
+
         <style>
-      
+
         .btn{
         height:40px;
         border-radius:10px;
@@ -2647,14 +2647,14 @@ router.post('/school/forgot_password', async (req, res) => {
         margin-left:25%;
       }
         </style>
-      
+
       <div class="jumbotron text-center" style="margin-bottom:0">
         <h1 class="h1">Seu token:${token}</h1>
-        <p class="p">Não o compartilhe com ninguém</p> 
+        <p class="p">Não o compartilhe com ninguém</p>
        <a href="https://light-empregue-me.herokuapp.com/reset-password"><button type="button" class="btn btn-warning">Resetar senha</button> </a>
       </div>
       <img src="https://cdlempregos.cdl-sc.org.br/projeto-site/img/texto_principal.png" alt="Emprego logo">
-      
+
                 <div class="copyright">
                   &copy; Copyright <strong>Empregue.me</strong>. All Rights Reserved
                 </div>
@@ -2662,7 +2662,7 @@ router.post('/school/forgot_password', async (req, res) => {
                   Designed by <a href="https://lostech.site/">Lost Tech</a>
                 </div>
       </div>
-      
+
       </body>
       </html>
       `,
