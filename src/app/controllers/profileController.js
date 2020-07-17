@@ -46,6 +46,7 @@ router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) 
       YouTubeUrl,
       GithubUrl,
       bio,
+      profession
     } = req.body
 
     if (profile === null) {
@@ -62,6 +63,7 @@ router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) 
           YouTubeUrl,
           GithubUrl,
           bio,
+          profession:profession.split(',').map(tech => tech.trim()),
         }
       })
     } else {

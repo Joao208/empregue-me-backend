@@ -40,6 +40,7 @@ const UserSchema = new mongoose.Schema({
     phone:Number,
     phonetoken:String,
     phonetokenexpiress:Date,
+    profession:[String],
     usertoken:String,
     usertokenexpiress:Date,
     avatar:{
@@ -67,7 +68,7 @@ UserSchema.pre('save', async function hashPassword (next) {
 UserSchema.virtual('avatar_url').get(function() {
     return `${process.env.APP_URL}/files/${this.Avatar}`
   })
-  
+
   UserSchema.pre("remove", function () {
     if ('local' === "s3") {
       return s3
@@ -88,8 +89,8 @@ UserSchema.virtual('avatar_url').get(function() {
       );
     }
   });
-  
-  
+
+
 const User = mongoose.model('User', UserSchema)
 
 module.exports = User
