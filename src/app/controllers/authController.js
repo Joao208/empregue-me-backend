@@ -63,7 +63,7 @@ router.post('/userregister', async (req, res) => {
     })
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey('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');
     const msg = {
       to: email,
       from: 'contato@empregue-me.page',
@@ -711,7 +711,7 @@ router.post('/forgot_password', async (req, res) => {
         error: 'User not found'
       })
 
-    const token = crypto.randomBytes(6).toString('hex')
+    const token = Math.floor(Math.random() * 999999)
 
     const now = new Date();
     now.setHours(now.getHours() + 1)
@@ -725,7 +725,7 @@ router.post('/forgot_password', async (req, res) => {
 
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey('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');
     const msg = {
       to: email,
       from: 'contato@empregue-me.page',
@@ -1263,7 +1263,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
         error: 'User not found'
       })
 
-    const token = crypto.randomBytes(20).toString('hex')
+    const token = Math.floor(Math.random() * 999999);
 
     const now = new Date();
     now.setHours(now.getHours() + 1)
@@ -1277,7 +1277,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
 
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey('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');
     const msg = {
       to: email,
       from: 'contato@empregue-me.page',
@@ -1931,7 +1931,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
     })
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey('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');
     const msg = {
       to: email,
       from: 'contato@empregue-me.page',
@@ -2577,7 +2577,7 @@ router.post('/school/forgot_password', async (req, res) => {
         error: 'User not found'
       })
 
-    const token = crypto.randomBytes(6).toString('hex')
+    const token = Math.floor(Math.random() * 999999);
 
     const now = new Date();
     now.setHours(now.getHours() + 1)
@@ -2591,7 +2591,7 @@ router.post('/school/forgot_password', async (req, res) => {
 
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey('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');
     const msg = {
       to: 'contato@empregue-me.page',
       from: email,

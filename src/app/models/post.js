@@ -1,11 +1,5 @@
 const mongoose = require('mongoose')
 const aws = require("aws-sdk");
-const fs = require("fs");
-const path = require("path");
-const {
-  promisify
-} = require("util");
-
 const s3 = new aws.S3();
 
 const TextSchema = new mongoose.Schema({

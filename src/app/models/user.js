@@ -1,6 +1,8 @@
 const mongoose = require('../../database')
 const bcrypt = require('bcryptjs')
 const PointSchema = require('./utils/PointSchema');
+const aws = require("aws-sdk");
+const s3 = new aws.S3();
 
 const UserSchema = new mongoose.Schema({
     email:{
