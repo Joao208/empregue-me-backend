@@ -2,7 +2,7 @@ const {
   Router
 } = require('express')
 const router = Router()
-
+const authMiddleware = require('../middlewares/auth')
 router.use(authMiddleware)
 
 router.post('/create-payment-intent', async (req, res) => {
