@@ -3,12 +3,12 @@ const {
 } = require('express')
 const router = Router()
 const authMiddleware = require('../middlewares/auth')
+const stripe = require("stripe")(process.env.SECURITY_KEY_STRIPE);
 router.use(authMiddleware)
 
 router.post('/create-payment-intent', async (req, res) => {
-  const stripe = require("stripe")("sk_test_51H7wkvGHhRYZj7pYmWxDTUBu6LpyAAwn0hVB1lrACKkURVCPZjEb6WCU3q7EEwdWXioaKxSFyLKTxhcWreKwxikM00uekeWZwa");
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 50,
+    amount: 500,
     currency: "brl"
   });
   res.send({
