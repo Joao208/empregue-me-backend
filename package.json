@@ -13,12 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.1.1",
-    "@tensorflow/tfjs-node": "^2.0.1",
     "aws-sdk": "^2.390.0",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-    "brain.js": "^2.0.0-beta.1",
     "bucket": "0.0.1",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
@@ -27,7 +25,6 @@
     "express": "^4.17.1",
     "express-promise-router": "^3.0.3",
     "fs": "^0.0.1-security",
-    "googleapis": "^38.0.0",
     "html-pdf": "^2.2.0",
     "http": "0.0.1-security",
     "image-downloader": "^3.4.2",
@@ -51,7 +48,7 @@
     "pusher": "^3.0.1",
     "socket.io": "^2.3.0",
     "stripe": "^6.28.0"
-    },
+  },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
