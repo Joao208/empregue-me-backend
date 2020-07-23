@@ -16,7 +16,7 @@ const io = socketio(server);
 const connectedUsers = {}
 
 io.on('connection', socket =>{
- 
+
 const {user_id} = socket.handshake.query;
 
 connectedUsers[user_id] = socket.id;
@@ -56,6 +56,7 @@ require('./app/controllers/UserController')(app)
 require('./app/controllers/VacanciesController')(app)
 require('./app/controllers/PostBController')(app)
 require('./app/controllers/CurriculumController')(app)
+require('./app/controllers/CheckoutController')(app)
 
 
 server.listen(process.env.PORT || 3000)
