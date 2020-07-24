@@ -15,10 +15,11 @@ const TextSchema = new mongoose.Schema({
     max:50,
     min:15,
   },
-  Title:String
+  Title:String,
 })
 const ClassRoomSchema = new mongoose.Schema({
   Text: TextSchema,
+  class:String,
   school: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'School',

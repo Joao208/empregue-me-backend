@@ -62,5 +62,15 @@
       console.log(error);
     }
   })
+  router.get('/courses', async (req, res) => {
+    try {
+      const courses = await Class.find()
+
+      return res.send(courses)
+
+    } catch (error) {
+      console.log(error)
+    }
+  })
 
   module.exports = app => app.use(router)

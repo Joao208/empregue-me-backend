@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Vacancies = require('../models/vacancies')
 const Bussines = require('../models/bussines')
+const ClassRoom = require('../models/classrom')
 
 module.exports = {
   async index(req, res) {
@@ -58,8 +59,26 @@ module.exports = {
         error: 'Error em find bussines'
       })
     }
+  },
+
+  async class(req, res) {
+    try {
+      const nome = req.body
+
+      const classrom = await ClassRoom.find({ class: { $regex: nome, $options: "i" } }, function(err, docs) {
+        console.log("Partial Search Begins");
+        console.log(docs);
+        })
+
+      return res.json(classrom)
+
+    } catch (e) {
+      console.log(e)
+      return res.status(400).send({
+        error: 'Error em find bussines'
+      })
+    }
   }
 
-  // update (não atualizar github_username)
-  // destroy
+
 }
