@@ -7,27 +7,16 @@ const {
   const authMiddleware = require('../middlewares/auth')
 
   router.use(authMiddleware)
-  
+
   router.get('/notifications', async (req,res) => {
     try{
       const notification = await Notification.findOne({user:req.userId}).populate('user').populate('bookings').sort('-createdAt')
-  
-      return res.send(notification) 
-      
-    }catch(e){
-      console.log(e)
-    }
-  })
-  router.get('/bussines/notifications', async (req,res) => {
-    try{
-      const notification = await NotificationB.findOne({bussines:req.userId}).populate('bussines').populate('bookings').sort('-createdAt')
-  
-      return res.send(notification) 
-      
+
+      return res.send(notification)
+
     }catch(e){
       console.log(e)
     }
   })
 
   module.exports = app => app.use(router)
-  

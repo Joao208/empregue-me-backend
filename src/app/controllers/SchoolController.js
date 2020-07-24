@@ -4,18 +4,8 @@
   const Class = require('../models/classrom')
   const School = require('../models/school')
   const express = require('express');
-  const bcrypt = require('bcryptjs')
-  const jwt = require('jsonwebtoken')
-  const crypto = require('crypto')
-  const multerConfig = require("../../config/multerprofile")
 
   const authConfig = require('../../config/auth.json')
-
-  function generateToken(params = {}) {
-    return jwt.sign(params, authConfig.secret, {
-      expiresIn: 864000
-    })
-  }
 
   const router = express.Router()
 
@@ -26,7 +16,6 @@
       const school = req.userId
       const avatar = req.files.map(files => files.location)
       const Text = req.body
-      console.log(avatar)
       const classd = await Class.create({
         avatar,
         Text,
