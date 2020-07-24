@@ -24,11 +24,9 @@
   router.post("/classroom", multer(multerClass).array("avatar"), async (req, res) => {
     try {
       const school = req.userId
-      const {
-        avatar
-      } = req.files.map(files => files.location)
+      const avatar = req.files.map(files => files.location)
       const Text = req.body
-
+      console.log(avatar)
       const classd = await Class.create({
         avatar,
         Text,
