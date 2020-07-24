@@ -26,7 +26,7 @@
       const school = req.userId
       const {
         location: avatar = ""
-      } = req.files
+      } = req.files.map(files => console.log(files))
       const Text = req.body
 
       const classd = await Class.create({
