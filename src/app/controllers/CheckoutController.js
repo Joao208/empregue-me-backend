@@ -8,7 +8,7 @@ router.use(authMiddleware)
 
 router.post('/create-payment-intent', async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 500,
+    amount: 20,
     currency: "brl"
   });
   res.send({
