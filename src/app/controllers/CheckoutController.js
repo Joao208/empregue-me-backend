@@ -15,6 +15,16 @@ router.post('/payment-intent', async (req, res) => {
     clientSecret: paymentIntent.client_secret
   });
 })
+router.post('/payment-intent/:price', async (req, res) => {
+  const price = req.params.price * 100
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: price,
+    currency: "brl"
+  });
+  res.send({
+    clientSecret: paymentIntent.client_secret
+  });
+})
 router.post('/create-costumer', async (req, res) => {
 
   const customer = await stripe.customers.create({
