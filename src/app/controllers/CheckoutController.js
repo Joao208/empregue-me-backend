@@ -37,8 +37,8 @@ router.post('/subscription/user', async (req, res) => {
       quantity: 1,
     }],
     mode: 'subscription',
-    success_url: 'https://example.com/success?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'https://example.com/cancel',
+    success_url: 'https://light-empregue-me.herokuapp.com/profile',
+    cancel_url: 'https://light-empregue-me.herokuapp.com',
   });
 
   res.send(session)

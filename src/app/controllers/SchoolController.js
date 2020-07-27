@@ -4,8 +4,7 @@
   const Class = require('../models/classrom')
   const School = require('../models/school')
   const express = require('express');
-
-  const authConfig = require('../../config/auth.json')
+  const multerConfig = require('../../config/multerprofile')
 
   const router = express.Router()
 
@@ -16,10 +15,13 @@
       const school = req.userId
       const avatar = req.files.map(files => files.location)
       const Text = req.body
+      const classcourse = req.body.class
+
       const classd = await Class.create({
         avatar,
         Text,
-        school
+        school,
+        classcourse
       })
 
       return res.send(classd)
@@ -64,7 +66,7 @@
   })
   router.get('/courses', async (req, res) => {
     try {
-      const courses = await Class.find()
+      const courses = await Class.find().populate('school')
 
       return res.send(courses)
 
@@ -72,5 +74,13 @@
       console.log(error)
     }
   })
+  router.get('/courses/:id', async (req, res) => {
+    try {
+      const courses = await Class.findById(req.params.id).populate('school')
 
+      return res.send(courses)
+    } catch (error) {
+      console.log(error)
+    }
+  })
   module.exports = app => app.use(router)
