@@ -27,7 +27,8 @@ router.post('/userregister', async (req, res) => {
     email,
     password,
     latitude,
-    longitude
+    longitude,
+    costumer
   } = req.body
 
   try {
@@ -45,7 +46,8 @@ router.post('/userregister', async (req, res) => {
       email,
       password,
       location,
-      name
+      name,
+      stripeCustomerId:costumer
     });
 
     user.password = undefined
