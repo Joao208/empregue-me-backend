@@ -27,7 +27,8 @@ module.exports = {
       password,
       createdAt,
       latitude,
-      longitude
+      longitude,
+      customer
     } = request.body;
 
     const location = {
@@ -53,7 +54,8 @@ module.exports = {
         createdAt,
         cnpjI,
         location,
-        nome
+        nome,
+        customer
       });
 
       bussines.password = undefined

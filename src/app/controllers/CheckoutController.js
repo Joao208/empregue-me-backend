@@ -4,11 +4,11 @@ const {
 const router = Router()
 const stripe = require("stripe")("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");
 
-router.post('/payment-intent', async (req, res) => {
-  const costumerId = req.body
+router.post('/payment-intent/save_card', async (req, res) => {
+  const customerId = req.body
 
   const paymentIntent = await stripe.paymentIntents.create({
-    customer: costumerId,
+    customer: customerId,
     setup_future_usage: 'off_session',
     amount: 70,
     currency: "brl"
@@ -20,11 +20,11 @@ router.post('/payment-intent', async (req, res) => {
 })
 router.post('/payment-intent/saved_card/:price', async (req, res) => {
   const price = req.params.price * 100
-  const costumerId = req.body
+  const customerId = req.body
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: price,
-    customer: costumerId,
+    customer: customerId,
     setup_future_usage: 'off_session',
     currency: "brl"
   });
@@ -84,7 +84,7 @@ router.post('/saved_card/intent', async (req, res) => {
     console.log(error)
   }
 })
-router.post('/payment-intent/no/save_card', async (req, res) => {
+router.post('/payment-intent', async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 70,
     currency: "brl"
@@ -95,9 +95,9 @@ router.post('/payment-intent/no/save_card', async (req, res) => {
 })
 router.post('/panel/pay', async (req, res) => {
   try {
-    const costumerId = req.body
-
-    const session = await stripe.billingPortal.create({
+    const customerId = req.body
+    console.log(stripe.billingPortal)
+    const session = await stripe.billingPortal.sessions.create({
       customer: 'cus_HjFMnVvCOwNGSF',
       return_url: 'https://example.com/account',
     });
