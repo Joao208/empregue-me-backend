@@ -95,7 +95,7 @@ router.post('/payment-intent', async (req, res) => {
 })
 router.post('/panel/pay/:customerId', async (req, res) => {
   try {
-    const {customerId} = req.params.customerId
+    const customerId = req.params.customerId
 
     console.log(customerId)
 
