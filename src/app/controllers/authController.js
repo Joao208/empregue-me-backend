@@ -28,7 +28,7 @@ router.post('/userregister', async (req, res) => {
     password,
     latitude,
     longitude,
-    costumer
+    customer
   } = req.body
   try {
     if (await User.findOne({
@@ -46,7 +46,7 @@ router.post('/userregister', async (req, res) => {
       password,
       location,
       name,
-      costumer:costumer
+      customer
     });
 
     user.password = undefined
