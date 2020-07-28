@@ -97,7 +97,7 @@ router.post('/panel/pay', async (req, res) => {
   try {
     const costumerId = req.body
 
-    var session = await stripe.billingPortal.create({
+    const session = await stripe.billingPortal.create({
       customer: 'cus_HjFMnVvCOwNGSF',
       return_url: 'https://example.com/account',
     });
