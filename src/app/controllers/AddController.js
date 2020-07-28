@@ -9,9 +9,9 @@ const {
   const ComentAdd = require('../models/comentAdd')
   const User = require('../models/user')
   const router = Router();
-  
+
   router.use(authMiddleware)
-  
+
   router.get("/add", async (req, res) => {
     const user = await User.findById(req.userId)
     const {
@@ -26,7 +26,7 @@ const {
     const comments = await Coments.find({
       add: adds
     }).populate('add').count()
-  
+
     return res.json({
       adds,
       comments
@@ -38,15 +38,15 @@ const {
       const {
         mimetype,
         location: avatar
-      } = req.file
+      } = req.file || {location:""}
       const bussines = req.userId
-  
+
       const add = await Add.create({
           text,
           bussines,
           avatar,
           type:mimetype,
-  
+
         })
         if (add.type === 'video/mp4') {
         add.isVideo = true
@@ -56,8 +56,8 @@ const {
         await add.save()
         }
         return res.json(add);
-        
-  
+
+
     } catch (e) {
       console.log(e)
       return res.status(400).send({
@@ -67,9 +67,9 @@ const {
   });
   router.delete("/add/:id", async (req, res) => {
     const add = await Add.findById(req.params.id);
-  
+
     await add.remove();
-  
+
     return res.send();
   });
   router.post("/add/coment/:id", async (req, res) => {
@@ -77,7 +77,7 @@ const {
       const post = await Add.findById(req.params.id)
       const user = await User.findById(req.userId)
       const Text = req.body
-  
+
       if (!post) {
         return res.status(400).json({
           error: 'Post não exist'
@@ -86,10 +86,10 @@ const {
       if (post.user === req.userId) return res.status(400).send({
         error: "Unable to update post."
       })
-  
+
       const username = user.name
       const avatar = user.avatar
-  
+
       const coments = await ComentAdd.create({
         user,
         post,
@@ -97,9 +97,9 @@ const {
         avatar,
         username
       })
-  
+
       const postAlreadyLiked = post.comments.some(coment => coment == coments.id)
-  
+
       if (postAlreadyLiked) {
         post.comments = post.comments.filter(coment => coment != coments.id)
         post.set({
@@ -111,21 +111,21 @@ const {
           commentCount: post.likeCount + 1
         })
       }
-  
-  
+
+
       post.save()
-  
+
       const PostuserSocket = req.connectedUsers[post.user]
-  
+
       const postd = await Add.findById(post._id).populate('bussines').populate('comments').execPopulate()
-  
+
       await post.populate('comments').execPopulate()
-  
+
       return res.json({
         coments,
         post
       })
-  
+
     } catch (e) {
       console.log(e)
       return res.status(400).send({
@@ -136,17 +136,17 @@ const {
   router.post('/likesadd/:id', async (req, res) => {
     try {
       const post = await Add.findById(req.params.id)
-  
+
       if (!post) return res.status(400).send({
         error: "post not found."
       });
-  
+
       if (post.user === req.userId) return res.status(400).send({
         error: "Unable to update post."
       })
-  
+
       const postAlreadyLiked = post.likes.some(like => like == req.userId)
-  
+
       if (postAlreadyLiked) {
         post.likes = post.likes.filter(like => like != req.userId)
         post.set({
@@ -158,13 +158,13 @@ const {
           likeCount: post.likeCount + 1
         })
       }
-  
+
       post.save()
-  
+
       const PostuserSocket = req.connectedUsers[post.user]
-  
+
       const postd = await Add.findById(post._id).populate('bussines').populate('comments')
-      
+
       if (PostuserSocket) {
         req.io.emit('like', postd)
       }
@@ -174,12 +174,12 @@ const {
         error: 'Couldnt like this'
       })
     }
-  
+
   })
   router.get('/coments/add/populate/:id', async (req,res) => {
     try {
     const add = await Add.findById(req.params.id).populate('comments').populate('bussines')
-      
+
     res.send(add)
     } catch (error) {
       console.log(error)
@@ -190,7 +190,7 @@ const {
       const post = await Add.findById(req.params.id)
       const user = await Bussines.findById(req.userId)
       const Text = req.body
-  
+
       if (!post) {
         return res.status(400).json({
           error: 'Post não exist'
@@ -199,10 +199,10 @@ const {
       if (post.user === req.userId) return res.status(400).send({
         error: "Unable to update post."
       })
-  
+
       const username = user.nome
       const avatar = user.avatar
-  
+
       const coments = await ComentAdd.create({
         user,
         post,
@@ -210,9 +210,9 @@ const {
         avatar,
         username
       })
-  
+
       const postAlreadyLiked = post.comments.some(coment => coment == coments.id)
-  
+
       if (postAlreadyLiked) {
         post.comments = post.comments.filter(coment => coment != coments.id)
         post.set({
@@ -224,21 +224,21 @@ const {
           commentCount: post.likeCount + 1
         })
       }
-  
-  
+
+
       post.save()
-  
+
       const PostuserSocket = req.connectedUsers[post.user]
-  
+
       const postd = await post.populate('bussines').populate('comments').execPopulate()
-  
+
       await post.populate('comments').execPopulate()
-  
+
       return res.json({
         coments,
         post
       })
-  
+
     } catch (e) {
       console.log(e)
       return res.status(400).send({
@@ -248,4 +248,3 @@ const {
   })
 
   module.exports = app => app.use(router)
-  

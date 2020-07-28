@@ -7,7 +7,11 @@ const stripe = require("stripe")("sk_live_51H7wkvGHhRYZj7pYLXAX2zTD6crvt78SYHIt2
 router.use(authMiddleware)
 
 router.post('/payment-intent', async (req, res) => {
+  const customer = await stripe.customers.create();
+
   const paymentIntent = await stripe.paymentIntents.create({
+    customer: customer.id,
+    setup_future_usage: 'off_session',
     amount: 70,
     currency: "brl"
   });
@@ -25,20 +29,6 @@ router.post('/payment-intent/:price', async (req, res) => {
     clientSecret: paymentIntent.client_secret
   });
 })
-router.post('/create-costumer', async (req, res) => {
-
-  const customer = await stripe.customers.create({
-    email: req.body.email,
-  });
-
-  // save the customer.id as stripeCustomerId
-  // in your database.
-
-  res.send({
-    customer
-  });
-
-})
 router.post('/subscription/user', async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -52,6 +42,44 @@ router.post('/subscription/user', async (req, res) => {
   });
 
   res.send(session)
+})
+router.post('/saved_card/intent', async (req, res) => {
+  try {
+    const chargeCustomer = async (customerId) => {
+      // Lookup the payment methods available for the customer
+      const paymentMethods = await stripe.paymentMethods.list({
+        customer: customerId,
+        type: "card"
+      });
+      // Charge the customer and payment method immediately
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 70,
+        currency: "brl",
+        customer: customerId,
+        payment_method: paymentMethods.data[0].id,
+        off_session: true,
+        confirm: true
+      });
+      if (paymentIntent.status === "succeeded") {
+        console.log("✅ Successfully charged card off session");
+      }
+    }
+    res.send({
+      clientSecret: paymentIntent.client_secret
+    });
+
+  } catch (error) {
+    console.log(error)
+  }
+})
+router.post('/payment-intent/no/save_card', async (req, res) => {
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: 70,
+    currency: "brl"
+  });
+  res.send({
+    clientSecret: paymentIntent.client_secret
+  });
 })
 
 module.exports = app => app.use(router)
