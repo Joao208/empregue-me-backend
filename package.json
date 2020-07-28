@@ -47,8 +47,8 @@
     "path": "^0.12.7",
     "pusher": "^3.0.1",
     "socket.io": "^2.3.0",
-    "stripe": "^6.28.0"
-  },
+    "stripe": "^8.69.0"
+    },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",

@@ -58,23 +58,23 @@ router.post('/subscription/user', async (req, res) => {
 })
 router.post('/saved_card/intent', async (req, res) => {
   try {
-      const customerId = req.body
-      // Lookup the payment methods available for the customer
-      const paymentMethods = await stripe.paymentMethods.list({
-        customer: customerId,
-        type: "card"
-      });
-      // Charge the customer and payment method immediately
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 70,
-        currency: "brl",
-        customer: customerId,
-        payment_method: paymentMethods.data[0].id,
-        off_session: true,
-        confirm: true
-      });
-      if (paymentIntent.status === "succeeded") {
-        console.log("✅ Successfully charged card off session");
+    const customerId = req.body
+    // Lookup the payment methods available for the customer
+    const paymentMethods = await stripe.paymentMethods.list({
+      customer: customerId,
+      type: "card"
+    });
+    // Charge the customer and payment method immediately
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: 70,
+      currency: "brl",
+      customer: customerId,
+      payment_method: paymentMethods.data[0].id,
+      off_session: true,
+      confirm: true
+    });
+    if (paymentIntent.status === "succeeded") {
+      console.log("✅ Successfully charged card off session");
     }
     res.send({
       clientSecret: paymentIntent.client_secret
@@ -96,9 +96,11 @@ router.post('/payment-intent', async (req, res) => {
 router.post('/panel/pay', async (req, res) => {
   try {
     const customerId = req.body
+
     console.log(stripe.billingPortal)
+
     const session = await stripe.billingPortal.sessions.create({
-      customer: 'cus_HjFMnVvCOwNGSF',
+      customer:customerId,
       return_url: 'https://example.com/account',
     });
 
@@ -107,9 +109,14 @@ router.post('/panel/pay', async (req, res) => {
     console.log(error)
   }
 })
-router.post('/create_customer', async (req, res) => {
-  const customer = await stripe.customers.create();
+router.post('/create_customer/:email', async (req, res) => {
+  const email = req.params.email
+
+  const customer = await stripe.customers.create({
+    email:email
+  });
 
   res.send(customer)
 })
+
 module.exports = app => app.use(router)
