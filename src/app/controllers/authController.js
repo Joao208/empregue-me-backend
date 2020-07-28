@@ -30,7 +30,6 @@ router.post('/userregister', async (req, res) => {
     longitude,
     costumer
   } = req.body
-
   try {
     if (await User.findOne({
         email
@@ -47,7 +46,7 @@ router.post('/userregister', async (req, res) => {
       password,
       location,
       name,
-      stripeCustomerId:costumer
+      costumer:costumer
     });
 
     user.password = undefined
