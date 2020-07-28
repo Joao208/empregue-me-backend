@@ -1896,7 +1896,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
   } = req.body
   const {
     location: avatar = ''
-  } = req.file
+  } = req.file || {location:'https://api.adorable.io/avatars/285/abott@adorable'}
 
   try {
     if (await School.findOne({

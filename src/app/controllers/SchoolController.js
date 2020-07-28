@@ -140,6 +140,8 @@ const Bussines = require("../models/bussines")
         // console.log(error.response.body.errors[0].message)
       })
 
+      const school = await School.findById(courses.school)
+
       if (courses.school === req.userId) return res.status(400).send({
         error: "Unable to update post."
       })
@@ -151,10 +153,19 @@ const Bussines = require("../models/bussines")
         courses.set({
           compras: courses.compras - 1
         })
+        school.set({
+          compras: school.compras - 1
+        })
       } else {
         courses.users.push(req.userId)
         courses.set({
           compras: courses.compras + 1
+        })
+        school.set({
+          compras: school.compras + 1
+        })
+        school.set({
+          vendas_em_valores:school.vendas_em_valores + courses.Text.Value
         })
       }
 
@@ -221,6 +232,9 @@ const Bussines = require("../models/bussines")
         // console.log(error.response.body.errors[0].message)
       })
 
+      const school = await School.findById(courses.school)
+
+
       if (courses.school === req.userId) return res.status(400).send({
         error: "Unable to update post."
       })
@@ -232,10 +246,16 @@ const Bussines = require("../models/bussines")
         courses.set({
           compras: courses.compras - 1
         })
+        school.set({
+          compras: school.compras - 1
+        })
       } else {
         courses.users.push(req.userId)
         courses.set({
           compras: courses.compras + 1
+        })
+        school.set({
+          compras: school.compras + 1
         })
       }
 
@@ -259,6 +279,16 @@ const Bussines = require("../models/bussines")
     return res.send()
     }catch(error){
       return console.log(error)
+    }
+  })
+  router.get('/vendas/count/month', async (req, res) => {
+    try {
+      const school = await School.findById(req.userId)
+
+      const vendas = courses.compras
+
+    } catch (error) {
+      console.log(error)
     }
   })
 

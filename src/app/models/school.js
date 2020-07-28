@@ -27,11 +27,22 @@ const SchoolSchema = new mongoose.Schema({
     },
     name:String,
     bio:String,
-    avatar:String,
+    avatar:{
+      type:String,
+      default:'https://api.adorable.io/avatars/285/abott@adorable'
+    },
     confirmate:Boolean,
     usertoken: String,
     usertokenexpiress: Date,
-})
+    compras:{
+      type:Number,
+      default:0
+    },
+    vendas_em_valores:{
+      type:Number,
+      default:0
+    },
+  })
 
 
 SchoolSchema.pre('save', async function hashPassword (next) {
@@ -43,7 +54,7 @@ SchoolSchema.pre('save', async function hashPassword (next) {
 SchoolSchema.virtual('avatar_url').get(function() {
     return `${process.env.APP_URL}/files/${this.Avatar}`
   })
-  
+
   SchoolSchema.pre("remove", function () {
     if ('local' === "s3") {
       return s3
@@ -64,8 +75,8 @@ SchoolSchema.virtual('avatar_url').get(function() {
       );
     }
   });
-  
-  
+
+
 const School = mongoose.model('School', SchoolSchema)
 
 module.exports = School
