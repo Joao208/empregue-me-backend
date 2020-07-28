@@ -95,7 +95,7 @@ router.post('/payment-intent', async (req, res) => {
 })
 router.post('/panel/pay', async (req, res) => {
   try {
-    const customerId = req.body
+    const {customerId} = req.body
 
     console.log(stripe.billingPortal)
 
