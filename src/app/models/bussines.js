@@ -45,6 +45,7 @@ const BussinesSchema = new mongoose.Schema({
         select:false
     },
     cnpjI:CnpjIShcema,
+    stripeCustomerId:String,
     location: {
       type: PointSchema,
       index: '2dsphere'

@@ -2,17 +2,33 @@ const {
   Router
 } = require('express')
 const router = Router()
-const authMiddleware = require('../middlewares/auth')
+const authMiddleware = require('../middlewares/auth');
+const Bussines = require('../models/bussines');
 const stripe = require("stripe")("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");
 router.use(authMiddleware)
 
 router.post('/payment-intent', async (req, res) => {
-  const customer = await stripe.customers.create();
+  const costumerId = req.body
 
   const paymentIntent = await stripe.paymentIntents.create({
-    customer: customer.id,
+    customer: costumerId,
     setup_future_usage: 'off_session',
     amount: 70,
+    currency: "brl"
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret
+  });
+})
+router.post('/payment-intent/saved_card/:price', async (req, res) => {
+  const price = req.params.price * 100
+  const costumerId = req.body
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: price,
+    customer: costumerId,
+    setup_future_usage: 'off_session',
     currency: "brl"
   });
   res.send({
@@ -45,7 +61,7 @@ router.post('/subscription/user', async (req, res) => {
 })
 router.post('/saved_card/intent', async (req, res) => {
   try {
-    const chargeCustomer = async (customerId) => {
+      const customerId = req.body
       // Lookup the payment methods available for the customer
       const paymentMethods = await stripe.paymentMethods.list({
         customer: customerId,
@@ -62,7 +78,6 @@ router.post('/saved_card/intent', async (req, res) => {
       });
       if (paymentIntent.status === "succeeded") {
         console.log("✅ Successfully charged card off session");
-      }
     }
     res.send({
       clientSecret: paymentIntent.client_secret
@@ -81,5 +96,23 @@ router.post('/payment-intent/no/save_card', async (req, res) => {
     clientSecret: paymentIntent.client_secret
   });
 })
+router.post('/panel/pay', async (req, res) => {
+  try {
+    const costumerId = req.body
 
+    var session = await stripe.billingPortal.sessions.create({
+      customer: costumerId,
+      return_url: 'https://light-empregue-me.herokuapp.com/profile',
+    });
+
+    res.send(session)
+  } catch (error) {
+    console.log(error)
+  }
+})
+router.post('/create_customer', async (req, res) => {
+  const customer = await stripe.customers.create();
+
+  res.send(customer)
+})
 module.exports = app => app.use(router)
