@@ -164,7 +164,7 @@ const User = require("../models/user")
       console.log(error)
     }
   })
-  router.get('/courses/:id/buyed', async (req,res) => {
+  router.get('/courses/buyed/:id', async (req,res) => {
     try{
     const courses = await Class.findById(req.params.id)
     const buyed = true
