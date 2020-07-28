@@ -5,7 +5,6 @@ const router = Router()
 const authMiddleware = require('../middlewares/auth');
 const Bussines = require('../models/bussines');
 const stripe = require("stripe")("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");
-router.use(authMiddleware)
 
 router.post('/payment-intent', async (req, res) => {
   const costumerId = req.body
