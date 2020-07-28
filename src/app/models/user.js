@@ -47,7 +47,7 @@ const UserSchema = new mongoose.Schema({
     usertokenexpiress:Date,
     stripeCustomerId:{
       type:String,
-      required:true
+      required:false
     },
     avatar:{
       type:String,
