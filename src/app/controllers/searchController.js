@@ -63,9 +63,9 @@ module.exports = {
 
   async class(req, res) {
     try {
-      const nome = req.body
+      const nome = req.params.name
 
-      const classrom = await ClassRoom.find({ class: { $regex: nome, $options: "i" } }, function(err, docs) {
+      const classrom = await ClassRoom.find({ classcourse: { $regex: nome, $options: "i" } }, function(err, docs) {
         console.log("Partial Search Begins");
         console.log(docs);
         })
