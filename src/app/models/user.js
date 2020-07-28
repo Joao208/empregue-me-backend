@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
     following: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     followersbussines: [{ type: mongoose.Schema.ObjectId, ref: 'Bussines' }],
     followingbussines: [{ type: mongoose.Schema.ObjectId, ref: 'Bussines' }],
-    customer:String,
+    named:String,
     name:String,
     FacebookUrl:String,
     InstagramUrl:String,
