@@ -140,7 +140,7 @@ const Bussines = require("../models/bussines")
         // console.log(error.response.body.errors[0].message)
       })
 
-      const school = await School.findById(courses.school)
+      const school = await School.findById(courses.school._id)
 
       if (courses.school === req.userId) return res.status(400).send({
         error: "Unable to update post."
@@ -169,6 +169,7 @@ const Bussines = require("../models/bussines")
         })
       }
 
+      school.save()
       courses.save()
 
       return res.send()
@@ -232,7 +233,7 @@ const Bussines = require("../models/bussines")
         // console.log(error.response.body.errors[0].message)
       })
 
-      const school = await School.findById(courses.school)
+      const school = await School.findById(courses.school._id)
 
 
       if (courses.school === req.userId) return res.status(400).send({
@@ -259,6 +260,7 @@ const Bussines = require("../models/bussines")
         })
       }
 
+      school.save()
       courses.save()
 
       return res.send()
