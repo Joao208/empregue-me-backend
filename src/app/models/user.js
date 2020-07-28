@@ -45,7 +45,10 @@ const UserSchema = new mongoose.Schema({
     profession:[String],
     usertoken:String,
     usertokenexpiress:Date,
-    stripeCustomerId:String,
+    stripeCustomerId:{
+      type:String,
+      required
+    },
     avatar:{
       type:String,
       default:'https://api.adorable.io/avatars/285/abott@adorable'
