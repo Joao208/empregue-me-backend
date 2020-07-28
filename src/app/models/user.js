@@ -32,6 +32,10 @@ const UserSchema = new mongoose.Schema({
     following: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     followersbussines: [{ type: mongoose.Schema.ObjectId, ref: 'Bussines' }],
     followingbussines: [{ type: mongoose.Schema.ObjectId, ref: 'Bussines' }],
+    customer:{
+      type:String,
+      required:true
+    },
     name:String,
     FacebookUrl:String,
     InstagramUrl:String,
@@ -45,10 +49,6 @@ const UserSchema = new mongoose.Schema({
     profession:[String],
     usertoken:String,
     usertokenexpiress:Date,
-    customer:{
-      type:String,
-      required:true
-    },
     avatar:{
       type:String,
       default:'https://api.adorable.io/avatars/285/abott@adorable'
