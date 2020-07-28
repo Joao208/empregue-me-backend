@@ -93,9 +93,9 @@ router.post('/payment-intent', async (req, res) => {
     clientSecret: paymentIntent.client_secret
   });
 })
-router.post('/panel/pay', async (req, res) => {
+router.post('/panel/pay/:customerId', async (req, res) => {
   try {
-    const {customerId} = req.body
+    const {customerId} = req.params.customerId
 
     console.log(customerId)
 
