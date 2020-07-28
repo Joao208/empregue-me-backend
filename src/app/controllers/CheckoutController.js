@@ -99,7 +99,7 @@ router.post('/panel/pay', async (req, res) => {
   try {
     const costumerId = req.body
 
-    var session = await stripe.billingPortal.sessions.create({
+    const session = await stripe.billingPortal.sessions.create({
       customer: costumerId,
       return_url: 'https://light-empregue-me.herokuapp.com/profile',
     });
