@@ -22,7 +22,6 @@ ProfileSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  Premium:Boolean,
 })
 
 const Profile = mongoose.model('Profile', ProfileSchema)

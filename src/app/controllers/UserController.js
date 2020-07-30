@@ -163,5 +163,19 @@ router.post('/confirmphone', async (req, res) => {
     })
   }
 })
+router.post('/user/premiun/create', async (req, res) => {
+try {
+  const user = await User.findById(req.userId)
+
+  user.Premium = true
+  await user.save()
+
+  res.send()
+
+} catch (error) {
+  console.log(error)
+}
+})
+
 module.exports = app => app.use(router)
 

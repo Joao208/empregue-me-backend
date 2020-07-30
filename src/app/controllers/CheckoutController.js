@@ -3,6 +3,7 @@ const {
 } = require('express')
 const router = Router()
 const stripe = require("stripe")("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");
+const endpointSecret = 'whsec_NrbqCW97lX7o2TPgLfN8DUuPa8Onu4rH'
 
 router.post('/payment-intent/save_card', async (req, res) => {
   const customerId = req.body
@@ -49,6 +50,7 @@ router.post('/subscription/user', async (req, res) => {
       price: 'price_1H9TF0GHhRYZj7pY5ldEUxGq',
       quantity: 1,
     }],
+    trial_period_days: 60,
     mode: 'subscription',
     success_url: 'https://light-empregue-me.herokuapp.com/profile',
     cancel_url: 'https://light-empregue-me.herokuapp.com',
@@ -97,11 +99,9 @@ router.post('/panel/pay/:customerId', async (req, res) => {
   try {
     const customerId = req.params.customerId
 
-    console.log(customerId)
-
     const session = await stripe.billingPortal.sessions.create({
       customer:customerId,
-      return_url: 'https://example.com/account',
+      return_url: 'https://light-empregue-me.herokuapp.com/profile',
     });
 
     res.send(session)
@@ -118,5 +118,26 @@ router.post('/create_customer/:email', async (req, res) => {
 
   res.send(customer)
 })
+router.post('/webhook', (req, res) => {
+  const sig = req.headers['stripe-signature'];
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  } catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+  // Handle the checkout.session.completed event
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+
+    // Fulfill the purchase...
+    handleCheckoutSession(session);
+  }
+
+  // Return a response to acknowledge receipt of the event
+  res.json({received: true});
+});
 
 module.exports = app => app.use(router)

@@ -59,6 +59,11 @@ const UserSchema = new mongoose.Schema({
         type: PointSchema,
         index: '2dsphere'
       },
+    Premium:{
+      type:Boolean,
+      default:false
+    },
+
 })
 
 

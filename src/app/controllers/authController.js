@@ -440,7 +440,7 @@ router.post('/userregister', async (req, res) => {
                 </td>
               </tr><!-- end tr -->
               <tr>
-                <td valign="middle" class="hero" style="background-image: url(https://specials-images.forbesimg.com/imageserve/1157006349/960x0.jpg?fit=scale); background-size: cover; height: 400px;">
+                <td valign="middle" class="hero" style="background-image: url(https://www.jivochat.com.br/blog/assets/images/compressed/blog2/o-que-e-email-marketing/o-que-e-email-marketing-img_header.jpg); background-size: cover; height: 400px;">
                 </td>
               </tr><!-- end tr -->
               <tr>
@@ -528,40 +528,6 @@ router.post('/userregister', async (req, res) => {
                   </table>
                 </td>
               </tr><!-- end:tr -->
-            <!-- 1 Column Text + Button : END -->
-            </table>
-            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-              <tr>
-                <td valign="middle" class="bg_black footer email-section">
-                  <table>
-                    <tr>
-                      <td valign="top" width="33.333%" style="padding-top: 20px;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                          <tr>
-                            <td style="text-align: left; padding-right: 10px;">
-                              <h3 class="heading">Empregue.me</h3>
-                              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, ullam at provident sint a ab. Optio debitis repellat incidunt, dolorem vel nobis ex sunt distinctio fugiat autem possimus quam ipsam?</p>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td valign="top" width="33.333%" style="padding-top: 20px;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                          <tr>
-                            <td style="text-align: left; padding-left: 5px; padding-right: 5px;">
-                              <h3 class="heading">Contact Info</h3>
-                              <ul>
-                                <li><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                <li><span class="text">+2 392 3929 210</span></a></li>
-                              </ul>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr><!-- end: tr -->
               <tr>
                 <td valign="middle" class="bg_black footer email-section">
                   <table>
@@ -1163,40 +1129,6 @@ a{
 		        </table>
 		      </td>
 		    </tr><!-- end:tr -->
-      <!-- 1 Column Text + Button : END -->
-      </table>
-      <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-      	<tr>
-          <td valign="middle" class="bg_black footer email-section">
-            <table>
-            	<tr>
-                <td valign="top" width="33.333%" style="padding-top: 20px;">
-                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                    <tr>
-                      <td style="text-align: left; padding-right: 10px;">
-                      	<h3 class="heading">Empregue.me</h3>
-                      	<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, ullam at provident sint a ab. Optio debitis repellat incidunt, dolorem vel nobis ex sunt distinctio fugiat autem possimus quam ipsam?</p>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-                <td valign="top" width="33.333%" style="padding-top: 20px;">
-                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                    <tr>
-                      <td style="text-align: left; padding-left: 5px; padding-right: 5px;">
-                      	<h3 class="heading">Contact Info</h3>
-                      	<ul>
-					                <li><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-					                <li><span class="text">+2 392 3929 210</span></a></li>
-					              </ul>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr><!-- end: tr -->
         <tr>
         	<td valign="middle" class="bg_black footer email-section">
         		<table>
@@ -1715,40 +1647,6 @@ router.post('/forgot_password_bussines', async (req, res) => {
                   </table>
                 </td>
               </tr><!-- end:tr -->
-            <!-- 1 Column Text + Button : END -->
-            </table>
-            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-              <tr>
-                <td valign="middle" class="bg_black footer email-section">
-                  <table>
-                    <tr>
-                      <td valign="top" width="33.333%" style="padding-top: 20px;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                          <tr>
-                            <td style="text-align: left; padding-right: 10px;">
-                              <h3 class="heading">Empregue.me</h3>
-                              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, ullam at provident sint a ab. Optio debitis repellat incidunt, dolorem vel nobis ex sunt distinctio fugiat autem possimus quam ipsam?</p>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td valign="top" width="33.333%" style="padding-top: 20px;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                          <tr>
-                            <td style="text-align: left; padding-left: 5px; padding-right: 5px;">
-                              <h3 class="heading">Contact Info</h3>
-                              <ul>
-                                <li><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                <li><span class="text">+2 392 3929 210</span></a></li>
-                              </ul>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr><!-- end: tr -->
               <tr>
                 <td valign="middle" class="bg_black footer email-section">
                   <table>
@@ -2308,7 +2206,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
                 </td>
               </tr><!-- end tr -->
               <tr>
-                <td valign="middle" class="hero" style="background-image: url(https://specials-images.forbesimg.com/imageserve/1157006349/960x0.jpg?fit=scale); background-size: cover; height: 400px;">
+                <td valign="middle" class="hero" style="background-image: url(https://www.jivochat.com.br/blog/assets/images/compressed/blog2/o-que-e-email-marketing/o-que-e-email-marketing-img_header.jpg); background-size: cover; height: 400px;">
                 </td>
               </tr><!-- end tr -->
               <tr>
@@ -2396,40 +2294,6 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
                   </table>
                 </td>
               </tr><!-- end:tr -->
-            <!-- 1 Column Text + Button : END -->
-            </table>
-            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-              <tr>
-                <td valign="middle" class="bg_black footer email-section">
-                  <table>
-                    <tr>
-                      <td valign="top" width="33.333%" style="padding-top: 20px;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                          <tr>
-                            <td style="text-align: left; padding-right: 10px;">
-                              <h3 class="heading">Empregue.me</h3>
-                              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, ullam at provident sint a ab. Optio debitis repellat incidunt, dolorem vel nobis ex sunt distinctio fugiat autem possimus quam ipsam?</p>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td valign="top" width="33.333%" style="padding-top: 20px;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                          <tr>
-                            <td style="text-align: left; padding-left: 5px; padding-right: 5px;">
-                              <h3 class="heading">Contact Info</h3>
-                              <ul>
-                                <li><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                <li><span class="text">+2 392 3929 210</span></a></li>
-                              </ul>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr><!-- end: tr -->
               <tr>
                 <td valign="middle" class="bg_black footer email-section">
                   <table>
