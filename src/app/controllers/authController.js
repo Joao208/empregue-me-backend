@@ -204,7 +204,7 @@ router.post('/userregister', async (req, res) => {
         background: #000000;
       }
       .bg_dark{
-        background: rgba(0,0,0,.8);
+        background: #f1f1f1;
       }
       .email-section{
         padding:2.5em;
@@ -293,15 +293,15 @@ router.post('/userregister', async (req, res) => {
       }
 
       .heading-section-white{
-        color: rgba(255,255,255,.8);
+        color: #03aced;
+      }
+      .heading-section-white h2{
+        color: #03aced;
       }
       .heading-section-white h2{
         font-size: 28px;
         line-height: 1;
         padding-bottom: 0;
-      }
-      .heading-section-white h2{
-        color: #ffffff;
       }
       .heading-section-white .subheading{
         margin-bottom: 0;
@@ -309,7 +309,7 @@ router.post('/userregister', async (req, res) => {
         font-size: 13px;
         text-transform: uppercase;
         letter-spacing: 2px;
-        color: rgba(255,255,255,.4);
+        color: #03aced;
       }
 
 
@@ -440,7 +440,10 @@ router.post('/userregister', async (req, res) => {
                 </td>
               </tr><!-- end tr -->
               <tr>
-                <td valign="middle" class="hero" style="background-image: url(https://www.jivochat.com.br/blog/assets/images/compressed/blog2/o-que-e-email-marketing/o-que-e-email-marketing-img_header.jpg); background-size: cover; height: 400px;">
+                <td valign="middle" class="hero" style="background-image: url(https://www.jivochat.com.br/blog/assets/images/compressed/blog2/o-que-e-email-marketing/o-que-e-email-marketing-img_header.jpg);background-size: 100%;
+                height: 273px;
+                background-repeat: no-repeat;"
+                >
                 </td>
               </tr><!-- end tr -->
               <tr>
@@ -536,7 +539,9 @@ router.post('/userregister', async (req, res) => {
                         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                           <tr>
                             <td style="text-align: left; padding-right: 10px;">
-                              <p>&copy; 2020 Empregue.me. All Rights Reserved</p>
+                              <p style="
+    color: aliceblue;
+">© 2020 Empregue.me. All Rights Reserved</p>
                             </td>
                           </tr>
                         </table>
@@ -1186,7 +1191,7 @@ img.g-img + div {
 	background: #000000;
 }
 .bg_dark{
-	background: rgba(0,0,0,.8);
+  background: #f1f1f1;
 }
 .email-section{
 	padding:2.5em;
@@ -1275,15 +1280,15 @@ a{
 }
 
 .heading-section-white{
-	color: rgba(255,255,255,.8);
+  color: #03aced;
+}
+.heading-section-white h2{
+  color: #03aced;
 }
 .heading-section-white h2{
 	font-size: 28px;
 	line-height: 1;
 	padding-bottom: 0;
-}
-.heading-section-white h2{
-	color: #ffffff;
 }
 .heading-section-white .subheading{
 	margin-bottom: 0;
@@ -1291,7 +1296,7 @@ a{
 	font-size: 13px;
 	text-transform: uppercase;
 	letter-spacing: 2px;
-	color: rgba(255,255,255,.4);
+	color: #03aced;
 }
 
 
@@ -1491,7 +1496,9 @@ a{
                   <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                     <tr>
                       <td style="text-align: left; padding-right: 10px;">
-                      	<p>&copy; 2020 Empregue.me. All Rights Reserved</p>
+                      	<p style="
+    color: aliceblue;
+">© 2020 Empregue.me. All Rights Reserved</p>
                       </td>
                     </tr>
                   </table>
@@ -1704,7 +1711,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
         background: #000000;
       }
       .bg_dark{
-        background: rgba(0,0,0,.8);
+        background: #f1f1f1;
       }
       .email-section{
         padding:2.5em;
@@ -1793,15 +1800,15 @@ router.post('/forgot_password_bussines', async (req, res) => {
       }
 
       .heading-section-white{
-        color: rgba(255,255,255,.8);
+        color: #03aced;
+      }
+      .heading-section-white h2{
+        color: #03aced;
       }
       .heading-section-white h2{
         font-size: 28px;
         line-height: 1;
         padding-bottom: 0;
-      }
-      .heading-section-white h2{
-        color: #ffffff;
       }
       .heading-section-white .subheading{
         margin-bottom: 0;
@@ -1809,7 +1816,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
         font-size: 13px;
         text-transform: uppercase;
         letter-spacing: 2px;
-        color: rgba(255,255,255,.4);
+        color: #03aced
       }
 
 
@@ -2009,7 +2016,9 @@ router.post('/forgot_password_bussines', async (req, res) => {
                         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                           <tr>
                             <td style="text-align: left; padding-right: 10px;">
-                              <p>&copy; 2020 Empregue.me. All Rights Reserved</p>
+                              <p style="
+    color: aliceblue;
+">© 2020 Empregue.me. All Rights Reserved</p>
                             </td>
                           </tr>
                         </table>
@@ -2324,7 +2333,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         background: #000000;
       }
       .bg_dark{
-        background: rgba(0,0,0,.8);
+        background: #f1f1f1;
       }
       .email-section{
         padding:2.5em;
@@ -2413,15 +2422,15 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
       }
 
       .heading-section-white{
-        color: rgba(255,255,255,.8);
+        color: #03aced;
+      }
+      .heading-section-white h2{
+        color: #03aced;
       }
       .heading-section-white h2{
         font-size: 28px;
         line-height: 1;
         padding-bottom: 0;
-      }
-      .heading-section-white h2{
-        color: #ffffff;
       }
       .heading-section-white .subheading{
         margin-bottom: 0;
@@ -2429,7 +2438,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
         font-size: 13px;
         text-transform: uppercase;
         letter-spacing: 2px;
-        color: rgba(255,255,255,.4);
+        color: #03aced;
       }
 
 
@@ -2656,7 +2665,9 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
                         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                           <tr>
                             <td style="text-align: left; padding-right: 10px;">
-                              <p>&copy; 2020 Empregue.me. All Rights Reserved</p>
+                              <p style="
+    color: aliceblue;
+">© 2020 Empregue.me. All Rights Reserved</p>
                             </td>
                           </tr>
                         </table>
