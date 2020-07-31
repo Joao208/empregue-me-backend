@@ -43,6 +43,7 @@ app.use(bodyParser.urlencoded({
 app.use(routes)
 
 require('./app/controllers/authController')(app)
+require('./app/controllers/ClassViewController')(app)
 require('./app/controllers/CheckoutController')(app)
 require('./app/controllers/profileController')(app)
 require('./app/controllers/AddController')(app)

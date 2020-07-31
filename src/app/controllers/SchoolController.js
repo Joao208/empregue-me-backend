@@ -4,8 +4,8 @@
   const Class = require('../models/classrom')
   const School = require('../models/school')
   const express = require('express');
-const User = require("../models/user")
-const Bussines = require("../models/bussines")
+  const User = require("../models/user")
+  const Bussines = require("../models/bussines")
 
   const router = express.Router()
 
@@ -115,7 +115,7 @@ const Bussines = require("../models/bussines")
           compras: school.compras + 1
         })
         school.set({
-          vendas_em_valores:school.vendas_em_valores + courses.Text.Value
+          vendas_em_valores: school.vendas_em_valores + courses.Text.Value
         })
       }
 
@@ -218,18 +218,18 @@ const Bussines = require("../models/bussines")
       console.log(error)
     }
   })
-  router.get('/courses/buyed/:id', async (req,res) => {
-    try{
-    const courses = await Class.findById(req.params.id)
-    const buyed = true
+  router.get('/courses/buyed/:id', async (req, res) => {
+    try {
+      const courses = await Class.findById(req.params.id)
+      const buyed = true
 
-    if (courses.users.indexOf(req.userId) !== -1) {
-      return res.send({
-        buyed
-      })
-    }
-    return res.send()
-    }catch(error){
+      if (courses.users.indexOf(req.userId) !== -1) {
+        return res.send({
+          buyed
+        })
+      }
+      return res.send()
+    } catch (error) {
       return console.log(error)
     }
   })
