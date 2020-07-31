@@ -2,6 +2,7 @@ const {
   Router
 } = require('express')
 const router = Router()
+const User = require('../models/user')
 const stripe = require("stripe")("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");
 const endpointSecret = 'whsec_NrbqCW97lX7o2TPgLfN8DUuPa8Onu4rH'
 
@@ -43,7 +44,9 @@ router.post('/payment-intent/:price', async (req, res) => {
     clientSecret: paymentIntent.client_secret
   });
 })
-router.post('/subscription/user', async (req, res) => {
+router.post('/subscription/user/:id', async (req, res) => {
+  const user = User.findById(req.params.id)
+  const customerId = user.customer
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: [{
@@ -51,6 +54,7 @@ router.post('/subscription/user', async (req, res) => {
       quantity: 1,
     }],
     trial_period_days: 60,
+    customer: customerId,
     mode: 'subscription',
     success_url: 'https://light-empregue-me.herokuapp.com/profile',
     cancel_url: 'https://light-empregue-me.herokuapp.com',
