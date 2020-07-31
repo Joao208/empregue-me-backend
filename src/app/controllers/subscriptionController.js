@@ -29,6 +29,6 @@ router.post('/subscription/user', async (req, res) => {
 
   await user.save()
 
-  res.send(session)
+  res.send(session.id)
 })
 module.exports = app => app.use(router)
