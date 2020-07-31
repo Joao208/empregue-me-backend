@@ -7,7 +7,7 @@ const authMiddleware = require('../middlewares/auth')
 const stripe = require("stripe")("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");
 router.use(authMiddleware)
 
-router.post('/subscription/user/:id', async (req, res) => {
+router.post('/subscription/user', async (req, res) => {
   const user = await User.findById(req.userId)
   const customerId = user.customer
   const session = await stripe.checkout.sessions.create({
@@ -25,7 +25,10 @@ router.post('/subscription/user/:id', async (req, res) => {
     cancel_url: 'https://light-empregue-me.herokuapp.com',
   });
 
+  user.sessionId = session.id
+
+  await user.save()
+
   res.send(session)
 })
-
 module.exports = app => app.use(router)
