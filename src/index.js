@@ -59,5 +59,6 @@ require('./app/controllers/VacanciesController')(app)
 require('./app/controllers/PostBController')(app)
 require('./app/controllers/CurriculumController')(app)
 require('./app/controllers/RequestsBussines')(app)
+require('./app/controllers/subscriptionController')(app)
 
 server.listen(process.env.PORT || 3000)

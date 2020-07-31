@@ -44,26 +44,6 @@ router.post('/payment-intent/:price', async (req, res) => {
     clientSecret: paymentIntent.client_secret
   });
 })
-router.post('/subscription/user/:id', async (req, res) => {
-  const user = User.findById(req.params.id)
-  const customerId = user.customer
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: [{
-      price: 'price_1H9TF0GHhRYZj7pY5ldEUxGq',
-      quantity: 1,
-    }],
-    subscription_data: {
-      trial_from_plan: true,
-    },
-    customer: customerId,
-    mode: 'subscription',
-    success_url: 'https://light-empregue-me.herokuapp.com/profile',
-    cancel_url: 'https://light-empregue-me.herokuapp.com',
-  });
-
-  res.send(session)
-})
 router.post('/saved_card/intent', async (req, res) => {
   try {
     const customerId = req.body
