@@ -53,7 +53,9 @@ router.post('/subscription/user/:id', async (req, res) => {
       price: 'price_1H9TF0GHhRYZj7pY5ldEUxGq',
       quantity: 1,
     }],
-    trial_period_days: 60,
+    subscription_data: {
+      trial_from_plan: true,
+    },
     customer: customerId,
     mode: 'subscription',
     success_url: 'https://light-empregue-me.herokuapp.com/profile',
