@@ -21,7 +21,7 @@ router.post('/subscription/user/:id', async (req, res) => {
     },
     customer: customerId,
     mode: 'subscription',
-    success_url: 'https://light-empregue-me.herokuapp.com/profile',
+    success_url: `https://light-empregue-me.herokuapp.com/premium/user/${user.id}`,
     cancel_url: 'https://light-empregue-me.herokuapp.com',
   });
 
