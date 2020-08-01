@@ -43,6 +43,7 @@ app.use(bodyParser.urlencoded({
 app.use(routes)
 
 require('./app/controllers/authController')(app)
+require('./app/controllers/ConfirmateEmailController')(app)
 require('./app/controllers/ClassViewController')(app)
 require('./app/controllers/CheckoutController')(app)
 require('./app/controllers/profileController')(app)
@@ -61,6 +62,5 @@ require('./app/controllers/PostBController')(app)
 require('./app/controllers/CurriculumController')(app)
 require('./app/controllers/RequestsBussines')(app)
 require('./app/controllers/subscriptionController')(app)
-require('./app/controllers/ConfirmateEmailController')(app)
 
 server.listen(process.env.PORT || 3000)
