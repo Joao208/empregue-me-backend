@@ -58,7 +58,7 @@ router.post('/addphone', async (req, res) => {
     const smsMessage = new api.SmsMessage();
 
     smsMessage.from = "19981861870";
-    smsMessage.to = phone;
+    smsMessage.to = `+55${phone}`;
     smsMessage.body = `Seu token Empregue.me ${token}`;
 
     const smsApi = new api.SMSApi("contato@empregue-me.page", "9C464B83-44B1-EF54-1630-9C323E042FFC");
