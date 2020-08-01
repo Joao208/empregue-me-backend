@@ -47,6 +47,11 @@ module.exports = {
 
       const {cnpjI,nome} = apiResponse.data;
 
+      if(apiResponse.data.status === 'ERROR')
+        return response.status(400).send({
+          error:'cnpj invalid'
+        })
+
       const bussines = await Bussines.create({
         cnpj,
         email,

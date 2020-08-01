@@ -17,13 +17,13 @@ router.get("/user", async (req, res) => {
 
   return res.send(user);
 });
-router.post('/user/confirmate/:token', async (req, res) => {
+router.post('/user/confirmate/:token/:id', async (req, res) => {
   try {
     const {
       token
     } = req.params
     const user = await User.findOne({
-      _id: req.userId
+      _id: req.params.id
     })
     if (!user)
       return res.status(400).send({

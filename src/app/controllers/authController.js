@@ -454,7 +454,7 @@ router.post('/userregister', async (req, res) => {
                         <div class="heading-section heading-section-white">
                           <span class="subheading">Bem Vindo</span>
                           <h2>Bem vindo ao Empregue.me ${name}</h2>
-                          <a href="https://light-empregue-me.herokuapp.com/confirmate/user/${token}" class="btn">Confirmar Email</a>
+                          <a href="https://light-empregue-me.herokuapp.com/confirmate/user/${token}/${user.id}" class="btn">Confirmar Email</a>
                         </div>
                       </td>
                     </tr><!-- end: tr -->
