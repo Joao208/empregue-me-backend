@@ -4,7 +4,7 @@ const {
 const authMiddleware = require('../middlewares/auth')
 const User = require('../models/user')
 const router = Router();
-const Nexmo = require('nexmo')
+const api = require ('../../../node_modules/clicksend/api')
 const stripe = require("stripe")("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");
 
 router.use(authMiddleware)
@@ -89,27 +89,25 @@ router.post('/addphone', async (req, res) => {
       }
     })
 
+    const smsMessage = new api.SmsMessage();
 
-   const nexmo = new Nexmo({
-      apiKey: '7c58d252',
-      apiSecret: 'p1k7cHMvzZ1ts1B4',
+    smsMessage.from = "19981861870";
+    smsMessage.to = phone;
+    smsMessage.body = `Seu token Empregue.me ${token}`;
+
+    const smsApi = new api.SMSApi("contato@empregue-me.page", "9C464B83-44B1-EF54-1630-9C323E042FFC");
+
+    const smsCollection = new api.SmsMessageCollection();
+
+    smsCollection.messages = [smsMessage];
+
+    smsApi.smsSendPost(smsCollection).then(function(response) {
+      console.log(response.body);
+    }).catch(function(err){
+      if(err)
+        return re.status(400).send('error')
+      console.error(err.body);
     });
-
-    const from = 'Empregue.me';
-    const to = phone;
-    const text = `Seu token Empregue.me: ${token}`;
-
-    await nexmo.message.sendSms(from, to, text, (err, responseData) => {
-      if (err) {
-        console.log(err);
-      } else {
-        if (responseData.messages[0]['status'] === "0") {
-          console.log("Message sent successfully.");
-        } else {
-          console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
-        }
-      }
-    })
 
     return res.send()
 
