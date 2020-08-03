@@ -15,6 +15,11 @@ const {
 
     return res.json(vacancies);
   });
+  router.get("/my/vacancies", async (req, res) => {
+    const vacancies = await Vacancies.find({bussines:req.userId}).populate('bussines');
+
+    return res.json(vacancies);
+  });
   router.post("/vacancies", multer(multerConfig).single("avatar"), async (req, res) => {
     try {
       const {text,title} = req.body

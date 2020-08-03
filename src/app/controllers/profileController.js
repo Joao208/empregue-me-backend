@@ -60,7 +60,7 @@ router.post('/profile', multer(multerConfig).single("avatar"), async (req, res) 
           YouTubeUrl,
           GithubUrl,
           bio,
-          profession:profession.split(',').map(tech => tech.trim()),
+          profession:profession.split(',').map(profession => profession.trim()),
         }
       })
     } else {
