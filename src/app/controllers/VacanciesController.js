@@ -37,7 +37,12 @@ const {
       const bussines = req.userId
 
       const vacancies = await Vacancies.create({
-        text,
+        description,
+        salary,
+        uf,
+        city,
+        cargo,
+        employment,
         title,
         bussines,
         avatar
