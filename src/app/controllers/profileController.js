@@ -142,24 +142,20 @@ router.get("/profilebussinesv", async (req, res) => {
   try {
     const bussines = await Bussines.findById(req.userId)
     const post = await PostB.find({
-      bussines: bussines
+      bussines: bussines.id
     }).sort('-createdAt').populate('post').populate('bussines')
     const profile = await ProfileB.find({
-      bussines: bussines
+      bussines: bussines.id
     }).populate('bussines').populate('profile')
     const add = await Add.find({
-      bbussines: bussines
+      bussines: bussines.id
     }).populate('add').populate('bussines').sort('-createdAt')
-    const vacancies = await Vacancies.find({
-      bussines: bussines
-    }).populate('vacancies')
 
     const profileuser = ({
       bussines,
       post,
       profile,
       add,
-      vacancies,
       followersCount: bussines.followers.length + bussines.followersbussines.length,
       followingCount: bussines.following.length + bussines.followingbussines.length,
     })
