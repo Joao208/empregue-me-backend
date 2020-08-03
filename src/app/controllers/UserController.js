@@ -5,7 +5,7 @@ const authMiddleware = require('../middlewares/auth')
 const User = require('../models/user')
 const router = Router();
 const api = require ('../../../node_modules/clicksend/api')
-const stripe = require("stripe")("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");
+const stripe = require("stripe")(process.env.SECURITY_KEY_STRIPE);
 
 router.use(authMiddleware)
 
@@ -61,7 +61,7 @@ router.post('/addphone', async (req, res) => {
     smsMessage.to = `+55${phone}`;
     smsMessage.body = `Seu token Empregue.me ${token}`;
 
-    const smsApi = new api.SMSApi("contato@empregue-me.page", "9C464B83-44B1-EF54-1630-9C323E042FFC");
+    const smsApi = new api.SMSApi(process.env.EMAIL_USERNAME_CLICKSEND, process.env.CLICKSEND_KEY);
 
     const smsCollection = new api.SmsMessageCollection();
 
@@ -144,7 +144,7 @@ try {
         await user.save()
 
         const sgMail = require('@sendgrid/mail');
-        sgMail.setApiKey('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');
+        sgMail.setApiKey(process.env.KEY_EMAIL_SENDGRID);
         const msg = {
           to: user.email,
           from: 'contato@empregue-me.page',

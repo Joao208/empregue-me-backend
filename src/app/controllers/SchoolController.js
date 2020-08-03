@@ -134,7 +134,7 @@
       const user = await Bussines.findById(req.userId)
 
       const sgMail = require('@sendgrid/mail');
-      sgMail.setApiKey('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');
+      sgMail.setApiKey(process.env.KEY_EMAIL_SENDGRID);
       const msg = {
         to: user.email,
         from: 'contato@empregue-me.page',

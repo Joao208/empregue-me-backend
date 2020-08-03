@@ -64,7 +64,7 @@ router.post('/userregister', async (req, res) => {
     })
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey(process.env.KEY_EMAIL_SENDGRID);
     const msg = {
       to: email,
       from: 'contato@empregue-me.page',
@@ -574,7 +574,7 @@ router.post('/userregister', async (req, res) => {
       // console.log(error.response.body.errors[0].message)
     })
 
-    sgMail.setApiKey('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');
+    sgMail.setApiKey(process.env.KEY_EMAIL_SENDGRID);
     const msgg = {
       to: email,
       from: 'contato@empregue-me.page',
@@ -1051,7 +1051,7 @@ router.post('/forgot_password', async (req, res) => {
 
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey(process.env.KEY_EMAIL_SENDGRID);
     const msg = {
       to: email,
       from: 'contato@empregue-me.page',
@@ -1571,7 +1571,7 @@ router.post('/forgot_password_bussines', async (req, res) => {
 
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey(process.env.KEY_EMAIL_SENDGRID);
     const msg = {
       to: email,
       from: 'contato@empregue-me.page',
@@ -2193,7 +2193,7 @@ router.post('/schoolregister', multer(multerConfig).single("avatar"), async (req
     })
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey(process.env.KEY_EMAIL_SENDGRID);
     const msg = {
       to: email,
       from: 'contato@empregue-me.page',
@@ -2821,7 +2821,7 @@ router.post('/school/forgot_password', async (req, res) => {
 
 
     const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey('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');
+    sgMail.setApiKey(process.env.KEY_EMAIL_SENDGRID);
     const msg = {
       to: 'contato@empregue-me.page',
       from: email,

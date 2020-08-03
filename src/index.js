@@ -41,6 +41,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(routes)
+app.disable('x-powered-by')
 
 require('./app/controllers/authController')(app)
 require('./app/controllers/ConfirmateEmailController')(app)
