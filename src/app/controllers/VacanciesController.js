@@ -6,6 +6,8 @@ const {
   const Vacancies = require('../models/vacancies')
   const authMiddleware = require('../middlewares/auth')
   const Booking = require('../models/booking')
+  const BookingPremium = require('../models/bookingsPremium')
+  const User = require('../models/user')
   const router = Router();
 
   router.use(authMiddleware)
@@ -72,13 +74,24 @@ const {
   });
   router.post("/vacancies/:id/booking", async (req, res) => {
     try {
-      const user = req.userId
+      const user = await User.findById(req.userId)
       const vacancies = req.params.id
+      console.log(req.userId)
+      console.log(user)
+      console.log(user.Premium)
 
-      const booking = await Booking.create({
-        vacancies,
-        user
-      });
+      if(user.Premium){
+      booking = await BookingPremium.create({
+          vacancies,
+          user:user.id
+        });
+      }
+      if(!user.Premium){
+      booking = await Booking.create({
+          vacancies,
+          user:user.id
+        });
+      }
 
       await booking.populate('vacancies').populate('bussines').populate('user').execPopulate();
 

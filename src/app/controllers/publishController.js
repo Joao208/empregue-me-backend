@@ -18,6 +18,7 @@ const User = require('../models/user')
 const Class = require('../models/classrom')
 const Check = require('../models/check')
 const Notification = require('../models/notification')
+const BookingPremium = require('../models/bookingsPremium')
 const router = Router();
 
 router.use(authMiddleware)
@@ -38,7 +39,7 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
       avatar,
       type: mimetype,
     })
-  
+
     if (post.type === 'video/mp4') {
       post.isVideo = true
       await post.save()
@@ -48,7 +49,7 @@ router.post("/posts", multer(multerConfig).single("avatar"), async (req, res) =>
     }
 
     return res.json(post)
-      
+
   } catch (e) {
     console.log(e)
     return res.status(400).send({
@@ -123,7 +124,7 @@ router.post("/add", multer(multerConfig).single("avatar"), async (req, res) => {
       await add.save()
       }
       return res.json(add);
-      
+
 
   } catch (e) {
     console.log(e)
@@ -372,13 +373,21 @@ router.post("/postbussines/coment/:id", async (req, res) => {
 })
 router.post("/vacancies/:id/booking", async (req, res) => {
   try {
-    const user = req.userId
+    const user = await User.findById(req.userId)
     const vacancies = req.params.id
 
-    const booking = await Booking.create({
-      vacancies,
-      user
-    });
+    if(user.Premium){
+    booking = await Booking.create({
+        vacancies,
+        user:user.id
+      });
+    }
+    if(!user.Premium){
+    booking = await BookingPremium.create({
+        vacancies,
+        user:user.id
+      });
+    }
 
     await booking.populate('vacancies').populate('bussines').populate('user').execPopulate();
 
@@ -581,7 +590,7 @@ router.get("/feed", async (req, res) => {
   const postbussines = await PostB.find({
     bussines:{
       $in:[user.id, ...followingbussines]
-    } 
+    }
   }).populate('bussines').populate('comments').sort('-createdAt').limit(30)
   const jobs = await Vacancies.find({}).limit(4).sort('-createdAt').populate('bussines')
 
@@ -785,7 +794,7 @@ router.post('/user/confirmate/:token', async (req, res) => {
 
     return res.send(user)
 } catch (error) {
-    console.log(error);   
+    console.log(error);
   }
 })
 router.post('/school/confirmate/:token', async (req, res) => {
@@ -815,13 +824,13 @@ router.post('/school/confirmate/:token', async (req, res) => {
 
     return res.send(user)
 } catch (error) {
-    console.log(error);   
+    console.log(error);
   }
 })
 router.get('/coments/post/populate/:id', async (req,res) => {
   try {
   const post = await Post.findById(req.params.id).populate('comments').populate('user')
-    
+
   res.send(post)
   } catch (error) {
     console.log(error)
@@ -830,7 +839,7 @@ router.get('/coments/post/populate/:id', async (req,res) => {
 router.get('/coments/add/populate/:id', async (req,res) => {
   try {
   const add = await Add.findById(req.params.id).populate('comments').populate('bussines')
-    
+
   res.send(add)
   } catch (error) {
     console.log(error)
@@ -839,7 +848,7 @@ router.get('/coments/add/populate/:id', async (req,res) => {
 router.get('/coments/postb/populate/:id', async (req,res) => {
   try {
   const postb = await PostB.findById(req.params.id).populate('comments').populate('bussines')
-  
+
   res.send(postb)
   } catch (error) {
     console.log(error)
@@ -872,7 +881,7 @@ router.get("/bussines/feed", async (req, res) => {
   const postbussines = await PostB.find({
     bussines:{
       $in:[user.id, ...followingbussines]
-    } 
+    }
   }).populate('bussines').populate('comments').sort('-createdAt').limit(30)
   const jobs = await Vacancies.find({}).limit(4).sort('-createdAt').populate('bussines')
 
@@ -1083,8 +1092,8 @@ router.get('/notifications', async (req,res) => {
   try{
     const notification = await Notification.findOne({user:req.userId}).populate('user').populate('bookings').sort('-createdAt')
 
-    return res.send(notification) 
-    
+    return res.send(notification)
+
   }catch(e){
     console.log(e)
   }

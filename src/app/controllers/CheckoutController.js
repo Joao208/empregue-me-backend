@@ -12,7 +12,7 @@ router.post('/payment-intent/save_card', async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     customer: customerId,
     setup_future_usage: 'off_session',
-    amount: 70,
+    amount: 5000,
     currency: "brl"
   });
 
@@ -74,7 +74,7 @@ router.post('/saved_card/intent', async (req, res) => {
 })
 router.post('/payment-intent', async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 70,
+    amount: 5000,
     currency: "brl"
   });
   res.send({
