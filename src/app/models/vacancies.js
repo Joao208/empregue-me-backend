@@ -20,7 +20,6 @@ const VacanciesSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Bussines'
   },
-  text: TextSchema,
   avatar:String,
   description:String,
   salary:Number,
