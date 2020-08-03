@@ -10,7 +10,7 @@ router.use(authMiddleware)
 router.post('/subscription/user', async (req, res) => {
   const user = await User.findById(req.userId)
   const customerId = user.customer
-  const sessionId = await stripe.checkout.sessions.create({
+  const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items:[{
       price: 'price_1H9TF0GHhRYZj7pY5ldEUxGq',
@@ -25,7 +25,7 @@ router.post('/subscription/user', async (req, res) => {
     customer: customerId,
   });
 
-  user.sessionId = sessionId.id
+  user.sessionId = session.id
 
   await user.save()
   res.send({
