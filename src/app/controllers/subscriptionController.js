@@ -13,7 +13,7 @@ router.post('/subscription/user', async (req, res) => {
   const sessionId = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: [{
-      price: '{{PRICE_ID}}',
+      price: 'price_1H9TF0GHhRYZj7pY5ldEUxGq',
       quantity: 1,
     }],
     mode: 'subscription',
