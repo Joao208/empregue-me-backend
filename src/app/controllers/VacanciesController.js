@@ -22,7 +22,15 @@ const {
   });
   router.post("/vacancies", multer(multerConfig).single("avatar"), async (req, res) => {
     try {
-      const {text,title} = req.body
+      const {
+        description,
+        salary,
+        uf,
+        city,
+        cargo,
+        employment,
+        title
+    } = req.body
       const {
         location: avatar = ""
       } = req.file

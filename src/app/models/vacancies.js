@@ -8,17 +8,8 @@ const {
 
 const s3 = new aws.S3();
 
-const TextSchema = new mongoose.Schema({
-  description:String,
-  salary:Number,
-  uf:String,
-  city:String,
-  cargo:String,
-  employment:String,
-})
-
 const VacanciesSchema = new mongoose.Schema({
-  approved: Boolean, 
+  approved: Boolean,
   title:String,
   createdAt: {
     type: Date,
@@ -30,7 +21,13 @@ const VacanciesSchema = new mongoose.Schema({
     ref: 'Bussines'
   },
   text: TextSchema,
-  avatar:String
+  avatar:String,
+  description:String,
+  salary:Number,
+  uf:String,
+  city:String,
+  cargo:String,
+  employment:String,
 
 });
 
