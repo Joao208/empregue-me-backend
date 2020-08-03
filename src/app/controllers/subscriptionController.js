@@ -12,14 +12,14 @@ router.post('/subscription/user', async (req, res) => {
   const customerId = user.customer
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    customer: customerId,
-    line_items: [{
+    line_items:[{
       price: 'price_1H9TF0GHhRYZj7pY5ldEUxGq',
-      quantity:1
+      quantity:1,
     }],
     mode: 'subscription',
     success_url: `https://light-empregue-me.herokuapp.com/premium/user/${user.id}`,
     cancel_url: 'https://light-empregue-me.herokuapp.com',
+    customer: customerId,
   });
 
   user.sessionId = session.id
